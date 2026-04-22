@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Direction 10 — Papanek × Haraway × Munari</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,700;9..144,900&family=Space+Mono:wght@400;700&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #F2EAD5;
+    --paper-deep: #E4D8BE;
+    --ink: #2D2417;
+    --ink-soft: #55482E;
+    --ink-muted: #8A7B5E;
+    --olive: #6B7A42;
+    --brick: #B84D28;
+    --ochre: #D99748;
+    --moss: #4B5B2A;
+    --rule: rgba(45, 36, 23, 0.18);
+    --font-display: 'Fraunces', Georgia, serif;
+    --font-mono: 'Space Mono', 'Courier New', monospace;
+    --font-sans: 'Inter', sans-serif;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-display);
+    padding: 60px 50px;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    position: relative;
+  }
+  /* Trame papier artisan */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      radial-gradient(circle at 15% 25%, rgba(45, 36, 23, 0.03) 0.7px, transparent 1px),
+      radial-gradient(circle at 65% 75%, rgba(45, 36, 23, 0.04) 0.7px, transparent 1px);
+    background-size: 4px 4px, 8px 8px;
+    pointer-events: none;
+    z-index: 0;
+  }
+  body > * { position: relative; z-index: 1; }
+
+  .wrapper { max-width: 1240px; margin: 0 auto; }
+
+  .nav { margin-bottom: 40px; }
+  .nav a {
+    color: var(--brick);
+    text-decoration: none;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .masthead {
+    border-top: 3px dashed var(--ink);
+    border-bottom: 1px solid var(--ink);
+    padding: 14px 0;
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    gap: 24px;
+    align-items: baseline;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 0;
+  }
+  .masthead .main {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 900;
+    letter-spacing: -0.01em;
+    text-transform: none;
+    color: var(--ink);
+  }
+  .masthead .main em { color: var(--brick); font-style: italic; font-weight: 700; }
+
+  h1 {
+    font-family: var(--font-display);
+    font-size: 96px;
+    font-weight: 900;
+    letter-spacing: -0.035em;
+    line-height: 0.95;
+    margin: 50px 0 30px;
+  }
+  h1 em {
+    font-style: italic;
+    color: var(--brick);
+    font-weight: 700;
+  }
+  h1 .ochre { color: var(--ochre); font-weight: 900; }
+
+  .opening {
+    max-width: 620px;
+    font-size: 19px;
+    line-height: 1.55;
+    color: var(--ink-soft);
+    font-style: italic;
+    font-family: var(--font-display);
+    margin-bottom: 70px;
+  }
+
+  .pull-quote {
+    border-top: 2px solid var(--ink);
+    border-bottom: 2px solid var(--ink);
+    padding: 50px 40px;
+    margin: 40px 0;
+    background: var(--paper-deep);
+    position: relative;
+  }
+  .pull-quote::before {
+    content: '“';
+    position: absolute;
+    top: 10px;
+    left: 20px;
+    font-size: 120px;
+    line-height: 1;
+    font-family: var(--font-display);
+    color: var(--brick);
+    font-weight: 900;
+  }
+  .pull-quote blockquote {
+    font-family: var(--font-display);
+    font-size: 36px;
+    font-weight: 400;
+    font-style: italic;
+    line-height: 1.25;
+    color: var(--ink);
+    max-width: 880px;
+    padding-left: 60px;
+    margin-bottom: 20px;
+  }
+  .pull-quote cite {
+    font-family: var(--font-mono);
+    font-style: normal;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--brick);
+    display: block;
+    padding-left: 60px;
+    font-weight: 700;
+  }
+
+  /* Sélection */
+  .selection {
+    padding: 50px 0;
+  }
+  .selection-head {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    margin-bottom: 30px;
+  }
+  .selection-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+  }
+  .persons-title {
+    font-family: var(--font-display);
+    font-size: 24px;
+    font-weight: 700;
+    font-style: italic;
+    color: var(--brick);
+    margin-bottom: 24px;
+    border-bottom: 2px solid var(--ink);
+    padding-bottom: 10px;
+  }
+  .person {
+    display: grid;
+    grid-template-columns: 44px 1fr;
+    gap: 14px;
+    padding: 18px 0;
+    border-bottom: 1px dashed var(--rule);
+  }
+  .person-num {
+    font-family: var(--font-display);
+    font-size: 28px;
+    font-weight: 900;
+    font-style: italic;
+    color: var(--brick);
+    line-height: 0.9;
+  }
+  .person-name {
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    margin-bottom: 3px;
+  }
+  .person-role {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--ink-muted);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .person-insight {
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-style: italic;
+    color: var(--ink-soft);
+    line-height: 1.45;
+  }
+
+  /* Sections */
+  .section {
+    padding: 60px 0;
+    border-top: 2px dashed var(--ink);
+  }
+  .section-head {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 30px;
+    margin-bottom: 40px;
+    align-items: baseline;
+  }
+  .section-num {
+    font-family: var(--font-display);
+    font-size: 64px;
+    font-weight: 900;
+    font-style: italic;
+    color: var(--brick);
+    line-height: 1;
+  }
+  .section-title {
+    font-family: var(--font-display);
+    font-size: 40px;
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+  .section-title em { color: var(--brick); font-style: italic; }
+
+  /* Palette */
+  .palette {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 2px;
+    padding: 2px;
+    background: var(--ink);
+  }
+  .swatch {
+    aspect-ratio: 1;
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    font-family: var(--font-mono);
+    font-size: 10px;
+  }
+  .swatch-name {
+    font-family: var(--font-display);
+    font-size: 15px;
+    font-weight: 700;
+    font-style: italic;
+    letter-spacing: -0.01em;
+  }
+  .swatch-hex { letter-spacing: 0.05em; opacity: 0.75; }
+  .swatch-use {
+    font-size: 9px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    opacity: 0.65;
+  }
+
+  /* Typo */
+  .typo-demo { display: grid; gap: 0; }
+  .typo-row {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 30px;
+    padding: 26px 0;
+    border-bottom: 1px dashed var(--rule);
+    align-items: baseline;
+  }
+  .typo-row:last-child { border-bottom: none; }
+  .typo-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--brick);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+  .type-h {
+    font-family: var(--font-display);
+    font-size: 88px;
+    font-weight: 900;
+    letter-spacing: -0.03em;
+    line-height: 0.9;
+  }
+  .type-h em { color: var(--brick); font-style: italic; }
+  .type-i {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-style: italic;
+    color: var(--ink-soft);
+    line-height: 1.4;
+  }
+  .type-m {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--ink);
+    letter-spacing: 0.05em;
+    font-weight: 500;
+  }
+  .type-b {
+    font-family: var(--font-display);
+    font-size: 17px;
+    line-height: 1.65;
+    color: var(--ink-soft);
+    max-width: 600px;
+  }
+
+  /* Icons (drawn) */
+  .icon-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 20px;
+  }
+  .mini-icon {
+    aspect-ratio: 1;
+    border: 1.5px dashed var(--ink);
+    border-radius: 50%;
+    background: var(--paper-deep);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px;
+  }
+  .mini-icon svg {
+    width: 70%;
+    height: 70%;
+    stroke: var(--ink);
+    fill: none;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .mini-icon.brick svg { stroke: var(--brick); }
+  .mini-icon.olive svg { stroke: var(--olive); }
+  .mini-icon.ochre svg { stroke: var(--ochre); }
+
+  /* Themes */
+  .themes {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .theme {
+    padding: 24px;
+    border: 2px solid var(--ink);
+    background: var(--paper-deep);
+    min-height: 160px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .theme-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 14px;
+  }
+  .theme-num {
+    font-family: var(--font-display);
+    font-size: 38px;
+    font-weight: 900;
+    font-style: italic;
+    line-height: 1;
+  }
+  .theme-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: 1.5px dashed var(--ink);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px;
+  }
+  .theme-icon svg {
+    width: 100%;
+    height: 100%;
+    stroke: var(--ink);
+    fill: none;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+  }
+  .theme-name {
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 700;
+    font-style: italic;
+  }
+  .theme-motto {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    margin-top: 8px;
+  }
+
+  /* Cartes */
+  .cards-demo { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+  .card {
+    aspect-ratio: 148/105;
+    background: var(--paper);
+    border: 2px solid var(--ink);
+    padding: 22px 26px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+  }
+  .card::before {
+    content: '';
+    position: absolute;
+    top: -14px;
+    right: -14px;
+    width: 90px;
+    height: 90px;
+    background: var(--ochre);
+    border-radius: 50%;
+    opacity: 0.9;
+    mix-blend-mode: multiply;
+  }
+  .card-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--ink-soft);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 2;
+  }
+  .card-ref { color: var(--brick); font-weight: 700; }
+  .card-theme {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .card-theme-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--brick);
+    border: 1.5px solid var(--ink);
+  }
+  .card-title {
+    font-family: var(--font-display);
+    font-size: 42px;
+    font-weight: 900;
+    font-style: italic;
+    letter-spacing: -0.02em;
+    line-height: 0.95;
+    color: var(--ink);
+    margin-bottom: 4px;
+    position: relative;
+    z-index: 2;
+  }
+  .card-title em { color: var(--brick); }
+  .card-sub {
+    font-family: var(--font-display);
+    font-size: 13px;
+    color: var(--ink-soft);
+    margin-bottom: auto;
+    font-style: italic;
+    position: relative;
+    z-index: 2;
+  }
+  .card-foot {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    color: var(--ink-muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding-top: 12px;
+    border-top: 1px dashed var(--ink);
+    position: relative;
+    z-index: 2;
+  }
+  .card-sig {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--brick);
+    font-weight: 700;
+  }
+  .card-sig .logo {
+    width: 14px;
+    height: 14px;
+    background: var(--brick);
+    mask: url('assets/logo/bleen-icone.svg') center/contain no-repeat;
+    -webkit-mask: url('assets/logo/bleen-icone.svg') center/contain no-repeat;
+  }
+
+  /* Verso */
+  .card-verso { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+  .card-verso::before {
+    background: var(--brick);
+    top: auto;
+    right: auto;
+    bottom: -40px;
+    left: -30px;
+    width: 140px;
+    height: 140px;
+  }
+  .card-verso .card-head { color: rgba(242, 234, 213, 0.6); }
+  .card-verso .card-ref { color: var(--ochre); }
+  .card-verso .card-theme-dot { background: var(--ochre); border-color: var(--paper); }
+  .verso-year {
+    font-family: var(--font-display);
+    font-size: 72px;
+    font-weight: 900;
+    font-style: italic;
+    letter-spacing: -0.04em;
+    line-height: 0.9;
+    color: var(--ochre);
+    margin-bottom: 8px;
+    position: relative;
+    z-index: 2;
+  }
+  .verso-context {
+    font-family: var(--font-display);
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--paper);
+    max-width: 85%;
+    margin-left: auto;
+    text-align: right;
+    margin-bottom: auto;
+    font-weight: 400;
+    position: relative;
+    z-index: 2;
+  }
+  .card-verso .card-foot {
+    border-top-color: rgba(242, 234, 213, 0.25);
+    color: rgba(242, 234, 213, 0.6);
+  }
+  .card-verso .card-sig { color: var(--ochre); }
+  .card-verso .card-sig .logo { background: var(--ochre); }
+
+  /* Signature */
+  .sig-demo {
+    border: 2px solid var(--ink);
+    padding: 36px;
+    background: var(--paper-deep);
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 40px;
+    align-items: center;
+  }
+  .sig-stamp {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 3px solid var(--brick);
+    background: var(--paper);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 900;
+    color: var(--brick);
+    text-align: center;
+    transform: rotate(-4deg);
+  }
+  .sig-stamp .big { font-size: 38px; line-height: 0.9; }
+  .sig-stamp .small {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-style: normal;
+    font-weight: 700;
+    margin-top: 4px;
+  }
+  .sig-main {
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-style: italic;
+  }
+  .sig-main .bleen {
+    width: 80px;
+    height: 26px;
+    background: var(--ink);
+    mask: url('assets/logo/bleen-texte.svg') center/contain no-repeat;
+    -webkit-mask: url('assets/logo/bleen-texte.svg') center/contain no-repeat;
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0 6px;
+  }
+  .sig-meta {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    text-align: right;
+    line-height: 1.8;
+  }
+
+  .note {
+    font-family: var(--font-display);
+    font-size: 15px;
+    line-height: 1.65;
+    color: var(--ink-soft);
+    margin-top: 26px;
+    max-width: 720px;
+    font-style: italic;
+  }
+  .note strong { font-style: normal; color: var(--brick); font-weight: 700; }
+
+  footer {
+    margin-top: 80px;
+    padding: 20px 0;
+    border-top: 3px dashed var(--ink);
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+  }
+  footer .right { text-align: right; }
+  footer .center { text-align: center; font-style: italic; font-family: var(--font-display); text-transform: none; letter-spacing: 0; font-size: 12px; }
+</style>
+</head>
+<body>
+
+<div class="wrapper">
+
+  <nav class="nav"><a href="index.html">← retour aux directions</a></nav>
+
+  <div class="masthead">
+    <span class="main">Fresque Tech <em>— un atelier engagé</em></span>
+    <span>Direction 10</span>
+    <span>V1 · Avril 2026</span>
+  </div>
+
+  <h1>
+    <em>Design</em> is<br>
+    <span class="ochre">what you do</span><br>
+    when you <em>wake up.</em>
+  </h1>
+  <p class="opening">Papanek l'a écrit en 1971 : tout est design. Cette direction reprend le flambeau — une identité artisanale, chaleureuse, militante. Palette terre cuite, illustrations au trait, grilles souples. Pour un atelier qui rassemble, pas un rapport qui classe. Munari pour la pédagogie joyeuse. Haraway pour l'urgence vivante. Alexander pour le langage commun.</p>
+
+  <!-- CITATION -->
+  <div class="pull-quote">
+    <blockquote>We are all chimeras, theorized and fabricated hybrids of <em>machine and organism.</em> We are all cyborgs.</blockquote>
+    <cite>Donna Haraway · A Cyborg Manifesto · 1985</cite>
+  </div>
+
+  <!-- SELECTION -->
+  <section class="selection">
+    <div class="selection-head">00 — Boussoles tirées de l'Atlas</div>
+    <div class="selection-grid">
+
+      <div>
+        <h3 class="persons-title">→ 4 designers engagés</h3>
+        <div class="person">
+          <span class="person-num">1</span>
+          <div>
+            <div class="person-name">Victor Papanek</div>
+            <div class="person-role">1923—98 · Design éthique</div>
+            <div class="person-insight">Design for the Real World — le manifeste de 1971.</div>
+          </div>
+        </div>
+        <div class="person">
+          <span class="person-num">2</span>
+          <div>
+            <div class="person-name">Bruno Munari</div>
+            <div class="person-role">1907—98 · Italie · Pédagogue</div>
+            <div class="person-insight">Le jeu comme méthode, la règle comme tremplin.</div>
+          </div>
+        </div>
+        <div class="person">
+          <span class="person-num">3</span>
+          <div>
+            <div class="person-name">Enzo Mari</div>
+            <div class="person-role">1932—2020 · Italie · Radical</div>
+            <div class="person-insight">Autoprogettazione — apprendre à fabriquer pour désapprendre à consommer.</div>
+          </div>
+        </div>
+        <div class="person">
+          <span class="person-num">4</span>
+          <div>
+            <div class="person-name">Tibor Kalman</div>
+            <div class="person-role">1949—99 · USA · Activisme graphique</div>
+            <div class="person-insight">Colors Magazine — le design comme outil critique.</div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <h3 class="persons-title">→ 3 voix critiques</h3>
+        <div class="person">
+          <span class="person-num">1</span>
+          <div>
+            <div class="person-name">Donna Haraway</div>
+            <div class="person-role">1944— · USA · Cyborg</div>
+            <div class="person-insight">Le cyborg comme hybride, la technique comme parenté.</div>
+          </div>
+        </div>
+        <div class="person">
+          <span class="person-num">2</span>
+          <div>
+            <div class="person-name">Byung-Chul Han</div>
+            <div class="person-role">1959— · Corée · Allemagne</div>
+            <div class="person-insight">La société de la transparence, la fatigue numérique.</div>
+          </div>
+        </div>
+        <div class="person">
+          <span class="person-num">3</span>
+          <div>
+            <div class="person-name">Christopher Alexander</div>
+            <div class="person-role">1936—2022 · UK · Architecture</div>
+            <div class="person-insight">A Pattern Language — les patterns comme langue vivante.</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- PALETTE -->
+  <section class="section">
+    <div class="section-head">
+      <div class="section-num">01</div>
+      <div class="section-title">Palette <em>terre cuite.</em></div>
+    </div>
+    <div class="palette">
+      <div class="swatch" style="background:#F2EAD5; color:#2D2417;">
+        <div>
+          <div class="swatch-name">Papier</div>
+          <div class="swatch-hex">#F2EAD5</div>
+        </div>
+        <div class="swatch-use">Substrat chaud</div>
+      </div>
+      <div class="swatch" style="background:#2D2417; color:#F2EAD5;">
+        <div>
+          <div class="swatch-name">Encre</div>
+          <div class="swatch-hex">#2D2417</div>
+        </div>
+        <div class="swatch-use">Texte · Structure</div>
+      </div>
+      <div class="swatch" style="background:#B84D28; color:#F2EAD5;">
+        <div>
+          <div class="swatch-name">Brique</div>
+          <div class="swatch-hex">#B84D28</div>
+        </div>
+        <div class="swatch-use">Accent · Terre cuite</div>
+      </div>
+      <div class="swatch" style="background:#D99748; color:#2D2417;">
+        <div>
+          <div class="swatch-name">Ocre</div>
+          <div class="swatch-hex">#D99748</div>
+        </div>
+        <div class="swatch-use">Soleil · Pastille</div>
+      </div>
+      <div class="swatch" style="background:#6B7A42; color:#F2EAD5;">
+        <div>
+          <div class="swatch-name">Olive</div>
+          <div class="swatch-hex">#6B7A42</div>
+        </div>
+        <div class="swatch-use">Végétal · Vivant</div>
+      </div>
+    </div>
+    <p class="note">Cinq couleurs <strong>terres</strong>, chaudes, non-saturées. Aucun vrai noir ni blanc — l'encre est brune, le papier est crème. L'atelier se tient près du sol, pas dans une salle de conf stérile. Palette <em>vivable</em> pendant 3 heures de travail collaboratif.</p>
+  </section>
+
+  <!-- TYPO -->
+  <section class="section">
+    <div class="section-head">
+      <div class="section-num">02</div>
+      <div class="section-title">Fraunces <em>italic</em> + Space Mono.</div>
+    </div>
+    <div class="typo-demo">
+      <div class="typo-row">
+        <div class="typo-label">Display · Fraunces 900 italic</div>
+        <div class="type-h">Data <em>centers.</em></div>
+      </div>
+      <div class="typo-row">
+        <div class="typo-label">Meta · Space Mono 700</div>
+        <div class="type-m">LOT.02 · CARTE 14 · ÉCONOMIE · 1950→</div>
+      </div>
+      <div class="typo-row">
+        <div class="typo-label">Citation · Fraunces 400 italic</div>
+        <div class="type-i">« Infrastructures invisibles, conséquences visibles. »</div>
+      </div>
+      <div class="typo-row">
+        <div class="typo-label">Body · Fraunces 400</div>
+        <div class="type-b">Les data centers consomment environ 1 % de l'électricité mondiale. Un chiffre qui double tous les 4 ans, porté par l'explosion de l'IA générative et du streaming 4K.</div>
+      </div>
+    </div>
+    <p class="note"><strong>Fraunces</strong> pour sa chaleur — un serif contemporain avec des italiques <em>dansantes</em>. Space Mono pour les mesures et les étiquettes. Les italiques portent la <em>voix</em>, le romain porte le <em>fait</em>. Munari aurait aimé cette distinction.</p>
+  </section>
+
+  <!-- ICONES DESSINÉES -->
+  <section class="section">
+    <div class="section-head">
+      <div class="section-num">03</div>
+      <div class="section-title">Pictos <em>dessinés main.</em></div>
+    </div>
+    <div class="icon-grid">
+      <div class="mini-icon brick"><svg viewBox="0 0 24 24"><rect x="4" y="9" width="16" height="8" rx="1"/><path d="M8 12 q2 -2 4 0 t4 0"/><circle cx="6.5" cy="11" r="0.5" fill="currentColor"/></svg></div>
+      <div class="mini-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M4 12 q4 -6 8 0 t8 0"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/></svg></div>
+      <div class="mini-icon olive"><svg viewBox="0 0 24 24"><path d="M12 3 q5 4 5 10 a5 5 0 0 1 -10 0 q0 -6 5 -10z"/><path d="M12 14 v6 M9 17 h6"/></svg></div>
+      <div class="mini-icon ochre"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 4 v2 M12 18 v2 M4 12 h2 M18 12 h2 M6 6 l1.5 1.5 M16.5 16.5 l1.5 1.5 M6 18 l1.5 -1.5 M16.5 7.5 l1.5 -1.5"/></svg></div>
+      <div class="mini-icon"><svg viewBox="0 0 24 24"><path d="M4 20 q2 -4 8 -4 t8 4" /><circle cx="12" cy="8" r="4"/></svg></div>
+      <div class="mini-icon brick"><svg viewBox="0 0 24 24"><path d="M3 13 q4 -8 9 -8 t9 8 M3 13 l2 4 M21 13 l-2 4"/><circle cx="12" cy="13" r="2"/></svg></div>
+      <div class="mini-icon"><svg viewBox="0 0 24 24"><circle cx="7" cy="7" r="3"/><circle cx="17" cy="7" r="3"/><circle cx="12" cy="17" r="3"/><path d="M9 9 l2 6 M15 9 l-2 6 M10 7 h4"/></svg></div>
+      <div class="mini-icon olive"><svg viewBox="0 0 24 24"><path d="M4 20 q3 -8 8 -8 t8 8"/><path d="M8 18 q2 -4 4 -4 t4 4"/><circle cx="12" cy="8" r="2"/></svg></div>
+      <div class="mini-icon"><svg viewBox="0 0 24 24"><path d="M12 3 l8 6 v10 h-16 v-10z"/><path d="M9 14 q3 -2 6 0"/><circle cx="9" cy="11" r="0.5" fill="currentColor"/><circle cx="15" cy="11" r="0.5" fill="currentColor"/></svg></div>
+      <div class="mini-icon ochre"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M9 10 q3 -2 6 0 M9 14 q3 2 6 0"/></svg></div>
+      <div class="mini-icon brick"><svg viewBox="0 0 24 24"><path d="M4 18 q4 -10 8 -10 t8 10"/><path d="M4 18 h16" stroke-dasharray="2 3"/></svg></div>
+      <div class="mini-icon"><svg viewBox="0 0 24 24"><path d="M6 4 v16 M6 4 q8 2 12 8 t-12 8"/></svg></div>
+    </div>
+    <p class="note">Icônes <strong>tracées comme au feutre</strong> — arrondies, légèrement irrégulières. Bord en pointillés pour rappeler qu'elles peuvent être annotées. Pas de système strict — chaque picto a sa <em>personnalité</em>, comme dans les livres Munari pour enfants.</p>
+  </section>
+
+  <!-- THEMES -->
+  <section class="section">
+    <div class="section-head">
+      <div class="section-num">04</div>
+      <div class="section-title">Six thèmes, six <em>mottos.</em></div>
+    </div>
+    <div class="themes">
+      <div class="theme">
+        <div>
+          <div class="theme-head">
+            <div class="theme-num" style="color:#6E4BC4;">01</div>
+            <div class="theme-icon"><svg viewBox="0 0 24 24"><path d="M12 3 l8 5 v6 q0 5 -8 7 q-8 -2 -8 -7 v-6z"/></svg></div>
+          </div>
+          <div class="theme-name">Sécurité,<br>vie privée</div>
+        </div>
+        <div class="theme-motto">« qui voit quoi ? »</div>
+      </div>
+      <div class="theme">
+        <div>
+          <div class="theme-head">
+            <div class="theme-num" style="color:#D99748;">02</div>
+            <div class="theme-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 8 v8 M9 10 q3 -2 6 0"/></svg></div>
+          </div>
+          <div class="theme-name">Économie,<br>emploi</div>
+        </div>
+        <div class="theme-motto">« qui gagne, qui perd ? »</div>
+      </div>
+      <div class="theme">
+        <div>
+          <div class="theme-head">
+            <div class="theme-num" style="color:#6B7A42;">03</div>
+            <div class="theme-icon"><svg viewBox="0 0 24 24"><path d="M12 3 q5 4 5 10 a5 5 0 0 1 -10 0 q0 -6 5 -10z"/></svg></div>
+          </div>
+          <div class="theme-name">Santé<br>physique, mentale</div>
+        </div>
+        <div class="theme-motto">« qu'est-ce qu'on ressent ? »</div>
+      </div>
+      <div class="theme">
+        <div>
+          <div class="theme-head">
+            <div class="theme-num" style="color:#B84D28;">04</div>
+            <div class="theme-icon"><svg viewBox="0 0 24 24"><path d="M5 12 l8 -6 v4 h6 v4 h-6 v4z"/></svg></div>
+          </div>
+          <div class="theme-name">Propagande,<br>mobilisation</div>
+        </div>
+        <div class="theme-motto">« qui parle plus fort ? »</div>
+      </div>
+      <div class="theme">
+        <div>
+          <div class="theme-head">
+            <div class="theme-num" style="color:#4B5B2A;">05</div>
+            <div class="theme-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M4 12 h16 M12 4 q5 4 0 16 q-5 -12 0 -16"/></svg></div>
+          </div>
+          <div class="theme-name">Mondialisation,<br>connaissance</div>
+        </div>
+        <div class="theme-motto">« qui partage avec qui ? »</div>
+      </div>
+      <div class="theme">
+        <div>
+          <div class="theme-head">
+            <div class="theme-num" style="color:#2D2417;">06</div>
+            <div class="theme-icon"><svg viewBox="0 0 24 24"><path d="M4 20 q4 -10 8 -10 t8 10"/><path d="M7 20 v-5 M12 20 v-8 M17 20 v-5"/></svg></div>
+          </div>
+          <div class="theme-name">Frontières<br>planétaires</div>
+        </div>
+        <div class="theme-motto">« jusqu'où la terre tient ? »</div>
+      </div>
+    </div>
+    <p class="note">Chaque thème porte un <strong>motto-question</strong> en Space Mono au pied du bloc — rappel que la Fresque Tech est un outil de <em>dialogue</em>, pas de classification. La question est le vrai livrable de l'atelier.</p>
+  </section>
+
+  <!-- CARTES -->
+  <section class="section">
+    <div class="section-head">
+      <div class="section-num">05</div>
+      <div class="section-title">Cartes <em>tactiles.</em></div>
+    </div>
+    <div class="cards-demo">
+      <div class="card">
+        <div class="card-head">
+          <span class="card-ref">LOT.02 · 14</span>
+          <span class="card-theme"><span class="card-theme-dot" style="background:#D99748;"></span>Économie</span>
+        </div>
+        <div class="card-title">Data <em>centers.</em></div>
+        <div class="card-sub">Infrastructures du calcul, <em>1950 →</em></div>
+        <div class="card-foot">
+          <span>FR · 2026</span>
+          <span class="card-sig"><span class="logo"></span>Fresque · Tech</span>
+        </div>
+      </div>
+
+      <div class="card card-verso">
+        <div class="card-head">
+          <span class="card-ref">LOT.02 · 14</span>
+          <span class="card-theme"><span class="card-theme-dot"></span>Verso</span>
+        </div>
+        <div class="verso-year">2024</div>
+        <div class="verso-context">« 1 % de l'électricité mondiale, doublement tous les 4 ans avec l'IA et le streaming 4K. »</div>
+        <div class="card-foot">
+          <span>Q : qui gagne, qui perd ?</span>
+          <span class="card-sig"><span class="logo"></span>→ LOT.03</span>
+        </div>
+      </div>
+    </div>
+    <p class="note">Recto : <strong>pastille ocre</strong> qui dépasse en haut à droite — touche artisanale. Titre en italique chaleureux. Verso : fond encre, <strong>pastille brique</strong> cette fois, année ocre, phrase italienne alignée à droite. Deux faces, deux énergies, le même objet tactile.</p>
+  </section>
+
+  <!-- SIGNATURE -->
+  <section class="section">
+    <div class="section-head">
+      <div class="section-num">06</div>
+      <div class="section-title">Un <em>tampon</em> atelier.</div>
+    </div>
+    <div class="sig-demo">
+      <div class="sig-stamp">
+        <span class="big">V1</span>
+        <span class="small">Avril 2026</span>
+      </div>
+      <div class="sig-main">
+        Un atelier <em>signé</em> <span class="bleen"></span>pour penser la technique <em>ensemble.</em>
+      </div>
+      <div class="sig-meta">
+        68 cartes<br>
+        6 thèmes<br>
+        FR · EN<br>
+        bleen.be/fresque-tech
+      </div>
+    </div>
+    <p class="note"><strong>Tampon rond</strong> comme sur les cartons d'invitation des ateliers Enzo Mari. Slogan manuscrit avec le logo Bleen intégré <em>dans la phrase</em>. Métadonnées sobres à droite. Chaleureux, pas corporate.</p>
+  </section>
+
+  <!-- PRINCIPES -->
+  <section class="section">
+    <div class="section-head">
+      <div class="section-num">07</div>
+      <div class="section-title">Principes de <em>l'atelier.</em></div>
+    </div>
+    <p class="type-b" style="font-style:normal;">
+      · <strong>Palette terre</strong> uniquement — pas de blanc pur, pas de noir absolu<br>
+      · <strong>Fraunces italic</strong> porte la voix, le romain porte le fait<br>
+      · Icônes dessinées main, jamais géométriques pures<br>
+      · Bordures en <em>pointillés</em> pour l'ouvert, pleines pour le fermé<br>
+      · Une pastille de couleur qui dépasse sur chaque carte (signature visuelle)<br>
+      · Chaque thème a son <strong>motto-question</strong> — l'atelier est dialogique<br>
+      · Tampon de signature plutôt que logo classique<br>
+      · Papier texturé (impression sur Munken Pure ou équivalent)
+    </p>
+  </section>
+
+  <footer>
+    <span>Direction 10 · Papanek × Haraway × Munari</span>
+    <span class="center">For the real world, as Papanek would say.</span>
+    <span class="right">Bleen · 2026</span>
+  </footer>
+
+</div>
+
+</body>
+</html>

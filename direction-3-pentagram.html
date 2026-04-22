@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Direction 3 — Pentagram / Vignelli / MIT</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&family=EB+Garamond:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #F2EFE7;
+    --paper-bright: #FAF8F1;
+    --ink: #0F0F0F;
+    --ink-soft: #3D3D3D;
+    --ink-muted: #8A8A8A;
+    --vignelli-red: #E31837;
+    --plan-blue: #003DA5;
+    --signal-yellow: #FFD100;
+    --rule: #0F0F0F;
+    --font-sans: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+    --font-serif: 'EB Garamond', Garamond, serif;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    padding: 0;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Grid 12 colonnes apparente en trame */
+  .wrapper {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 40px;
+    position: relative;
+  }
+  .wrapper::before {
+    content: '';
+    position: absolute;
+    inset: 0 40px;
+    background-image: repeating-linear-gradient(
+      90deg,
+      transparent 0,
+      transparent calc((100% - 11 * 16px) / 12),
+      rgba(15, 15, 15, 0.025) calc((100% - 11 * 16px) / 12),
+      rgba(15, 15, 15, 0.025) calc((100% - 11 * 16px) / 12 + 16px)
+    );
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .nav {
+    padding: 20px 0 10px;
+  }
+  .nav a {
+    color: var(--vignelli-red);
+    text-decoration: none;
+    font-family: var(--font-sans);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .nav a:hover { text-decoration: underline; }
+
+  /* Masthead façon Pentagram */
+  .masthead {
+    border-top: 4px solid var(--ink);
+    border-bottom: 1px solid var(--ink);
+    padding: 16px 0;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    align-items: baseline;
+    gap: 20px;
+    margin-bottom: 0;
+    position: relative;
+    z-index: 1;
+  }
+  .masthead-main {
+    font-family: var(--font-sans);
+    font-size: 22px;
+    font-weight: 900;
+    letter-spacing: -0.02em;
+  }
+  .masthead-main .red { color: var(--vignelli-red); }
+  .masthead-edition, .masthead-meta {
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .masthead-meta { text-align: right; }
+
+  /* Titre énorme à la Vignelli */
+  h1 {
+    font-family: var(--font-sans);
+    font-size: 120px;
+    font-weight: 900;
+    letter-spacing: -0.045em;
+    line-height: 0.88;
+    margin: 40px 0 20px;
+    position: relative;
+    z-index: 1;
+  }
+  h1 .red { color: var(--vignelli-red); }
+  h1 .sub {
+    display: block;
+    font-size: 24px;
+    font-weight: 400;
+    font-family: var(--font-serif);
+    font-style: italic;
+    letter-spacing: 0;
+    color: var(--ink-soft);
+    margin-top: 20px;
+    max-width: 700px;
+  }
+
+  .lede {
+    max-width: 600px;
+    font-size: 17px;
+    line-height: 1.55;
+    color: var(--ink-soft);
+    margin: 30px 0 60px;
+    font-family: var(--font-serif);
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Pull quote */
+  .pull-quote {
+    border-top: 2px solid var(--ink);
+    border-bottom: 2px solid var(--ink);
+    padding: 40px 0;
+    margin: 50px 0;
+    position: relative;
+    z-index: 1;
+  }
+  .pull-quote blockquote {
+    font-family: var(--font-serif);
+    font-size: 42px;
+    font-style: italic;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    max-width: 900px;
+  }
+  .pull-quote cite {
+    font-family: var(--font-sans);
+    font-style: normal;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--vignelli-red);
+    display: block;
+    margin-top: 20px;
+    font-weight: 700;
+  }
+
+  /* Section */
+  .section {
+    padding: 60px 0;
+    border-top: 1px solid var(--ink);
+    position: relative;
+    z-index: 1;
+  }
+  .section-label {
+    display: grid;
+    grid-template-columns: 60px 1fr auto;
+    gap: 24px;
+    align-items: baseline;
+    margin-bottom: 40px;
+  }
+  .section-num {
+    font-family: var(--font-sans);
+    font-size: 48px;
+    font-weight: 900;
+    color: var(--vignelli-red);
+    line-height: 1;
+    letter-spacing: -0.04em;
+  }
+  .section-title {
+    font-family: var(--font-sans);
+    font-size: 32px;
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+  .section-kicker {
+    font-family: var(--font-sans);
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+  }
+
+  /* Palette */
+  .palette {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0;
+    border: 1px solid var(--ink);
+  }
+  .swatch {
+    aspect-ratio: 1;
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-right: 1px solid var(--ink);
+    font-size: 10px;
+    letter-spacing: 0.05em;
+  }
+  .swatch:last-child { border-right: none; }
+  .swatch-name {
+    font-family: var(--font-sans);
+    font-size: 16px;
+    font-weight: 900;
+    letter-spacing: -0.01em;
+  }
+  .swatch-hex { font-family: var(--font-sans); font-weight: 500; opacity: 0.7; }
+
+  /* Typo */
+  .typo-demo {
+    display: grid;
+    gap: 0;
+  }
+  .typo-row {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: 30px;
+    padding: 24px 0;
+    border-bottom: 1px solid rgba(15, 15, 15, 0.1);
+    align-items: baseline;
+  }
+  .typo-row:last-child { border-bottom: none; }
+  .typo-label {
+    font-family: var(--font-sans);
+    font-size: 10px;
+    color: var(--vignelli-red);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+  .type-h {
+    font-family: var(--font-sans);
+    font-size: 96px;
+    font-weight: 900;
+    letter-spacing: -0.04em;
+    line-height: 0.9;
+  }
+  .type-h .red { color: var(--vignelli-red); }
+  .type-i {
+    font-family: var(--font-serif);
+    font-size: 24px;
+    font-style: italic;
+    color: var(--ink-soft);
+    line-height: 1.4;
+  }
+  .type-tag {
+    display: inline-flex;
+    gap: 8px;
+    align-items: center;
+  }
+  .type-tag .tag {
+    font-family: var(--font-sans);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    padding: 3px 10px;
+    border: 1px solid var(--ink);
+    text-transform: uppercase;
+  }
+  .type-tag .tag.red {
+    background: var(--vignelli-red);
+    color: var(--paper);
+    border-color: var(--vignelli-red);
+  }
+  .type-tag .tag.yellow {
+    background: var(--signal-yellow);
+    color: var(--ink);
+    border-color: var(--ink);
+  }
+  .type-tag .tag.blue {
+    background: var(--plan-blue);
+    color: var(--paper);
+    border-color: var(--plan-blue);
+  }
+  .type-b {
+    font-family: var(--font-serif);
+    font-size: 18px;
+    line-height: 1.55;
+    color: var(--ink-soft);
+    max-width: 620px;
+  }
+
+  /* Thèmes */
+  .themes {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 0;
+    border: 1px solid var(--ink);
+  }
+  .theme {
+    padding: 24px 18px;
+    border-right: 1px solid var(--ink);
+    display: flex;
+    flex-direction: column;
+    min-height: 160px;
+  }
+  .theme:last-child { border-right: none; }
+  .theme-num {
+    font-family: var(--font-sans);
+    font-size: 36px;
+    font-weight: 900;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    margin-bottom: 10px;
+  }
+  .theme-name {
+    font-family: var(--font-sans);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    line-height: 1.3;
+    margin-bottom: auto;
+  }
+  .theme-bar {
+    width: 100%;
+    height: 10px;
+    margin-top: 16px;
+  }
+  .theme:nth-child(1) .theme-num { color: #6E4BC4; }
+  .theme:nth-child(2) .theme-num { color: var(--signal-yellow); background: var(--ink); padding: 4px 8px; display: inline-block; line-height: 0.9; }
+  .theme:nth-child(3) .theme-num { color: #2A7F3F; }
+  .theme:nth-child(4) .theme-num { color: var(--vignelli-red); }
+  .theme:nth-child(5) .theme-num { color: var(--plan-blue); }
+  .theme:nth-child(6) .theme-num { color: #1A3D22; }
+
+  /* Cartes */
+  .cards-demo {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+  .card {
+    aspect-ratio: 148/105;
+    background: var(--paper-bright);
+    border: 1.5px solid var(--ink);
+    padding: 22px 24px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+  }
+  .card-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--ink);
+    margin-bottom: 18px;
+  }
+  .card-ref {
+    font-family: var(--font-sans);
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 0;
+  }
+  .card-ref .red { color: var(--vignelli-red); }
+  .card-tag {
+    font-family: var(--font-sans);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 3px 9px;
+    background: var(--ink);
+    color: var(--paper);
+  }
+  .card-tag.yellow { background: var(--signal-yellow); color: var(--ink); }
+  .card-title {
+    font-family: var(--font-sans);
+    font-size: 42px;
+    font-weight: 900;
+    letter-spacing: -0.03em;
+    line-height: 0.9;
+    margin-bottom: 4px;
+  }
+  .card-title .red { color: var(--vignelli-red); }
+  .card-sub {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 13px;
+    color: var(--ink-soft);
+    margin-bottom: auto;
+  }
+  .card-foot {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding-top: 10px;
+    border-top: 1px solid var(--ink);
+    font-family: var(--font-sans);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .card-sig {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--vignelli-red);
+  }
+  .card-sig .logo {
+    width: 14px;
+    height: 14px;
+    background: var(--vignelli-red);
+    mask: url('assets/logo/bleen-icone.svg') center/contain no-repeat;
+    -webkit-mask: url('assets/logo/bleen-icone.svg') center/contain no-repeat;
+  }
+
+  /* Verso */
+  .card-verso { background: var(--ink); color: var(--paper-bright); }
+  .card-verso .card-head { border-bottom-color: var(--paper-bright); }
+  .card-verso .card-ref { color: var(--signal-yellow); }
+  .card-verso .card-ref .red { color: var(--signal-yellow); }
+  .card-verso .card-tag { background: var(--signal-yellow); color: var(--ink); }
+  .verso-year {
+    font-family: var(--font-sans);
+    font-size: 72px;
+    font-weight: 900;
+    letter-spacing: -0.04em;
+    line-height: 0.9;
+    color: var(--signal-yellow);
+    margin-bottom: 10px;
+  }
+  .verso-context {
+    font-family: var(--font-serif);
+    font-size: 14px;
+    line-height: 1.4;
+    color: var(--paper-bright);
+    max-width: 90%;
+    margin-bottom: auto;
+    font-style: italic;
+  }
+  .card-verso .card-foot {
+    border-top-color: rgba(242, 239, 231, 0.25);
+    color: rgba(242, 239, 231, 0.6);
+  }
+  .card-verso .card-sig { color: var(--signal-yellow); }
+  .card-verso .card-sig .logo { background: var(--signal-yellow); }
+
+  /* Citations philosophes */
+  .quotes {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+  }
+  .quote-card {
+    border: 1px solid var(--ink);
+    padding: 28px;
+    background: var(--paper-bright);
+  }
+  .quote-card blockquote {
+    font-family: var(--font-serif);
+    font-size: 22px;
+    font-style: italic;
+    line-height: 1.3;
+    color: var(--ink);
+    margin-bottom: 20px;
+  }
+  .quote-card cite {
+    font-family: var(--font-sans);
+    font-style: normal;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--vignelli-red);
+  }
+  .quote-card cite::before {
+    content: '— ';
+    color: var(--ink-muted);
+  }
+
+  /* Signature */
+  .sig-demo {
+    border: 1px solid var(--ink);
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0;
+  }
+  .sig-col {
+    padding: 24px;
+    border-right: 1px solid var(--ink);
+    font-family: var(--font-sans);
+  }
+  .sig-col:last-child { border-right: none; }
+  .sig-col.red { background: var(--vignelli-red); color: var(--paper); }
+  .sig-col.yellow { background: var(--signal-yellow); }
+  .sig-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    opacity: 0.7;
+  }
+  .sig-value {
+    font-family: var(--font-sans);
+    font-size: 20px;
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .sig-value .bleen {
+    width: 75px;
+    height: 24px;
+    background: var(--paper);
+    mask: url('assets/logo/bleen-texte.svg') center/contain no-repeat;
+    -webkit-mask: url('assets/logo/bleen-texte.svg') center/contain no-repeat;
+  }
+  .sig-col.yellow .sig-value .bleen { background: var(--ink); }
+
+  .note {
+    font-family: var(--font-serif);
+    font-size: 16px;
+    font-style: italic;
+    line-height: 1.65;
+    color: var(--ink-soft);
+    margin-top: 22px;
+    max-width: 720px;
+  }
+  .note strong {
+    font-style: normal;
+    color: var(--vignelli-red);
+    font-family: var(--font-sans);
+    font-weight: 700;
+  }
+
+  footer {
+    border-top: 4px solid var(--ink);
+    padding: 20px 0;
+    margin-top: 80px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    position: relative;
+    z-index: 1;
+  }
+  footer .right { text-align: right; }
+</style>
+</head>
+<body>
+
+<div class="wrapper">
+
+  <nav class="nav"><a href="index.html">← retour aux directions</a></nav>
+
+  <div class="masthead">
+    <div class="masthead-main">Fresque Tech <span class="red">03 /</span> Pentagram × Vignelli × MIT</div>
+    <div class="masthead-edition">Édition V1 · Avril 2026</div>
+    <div class="masthead-meta">68 cartes · 6 thèmes · 1 identité</div>
+  </div>
+
+  <h1>
+    <span class="red">If</span> you can<br>
+    design <span class="red">one</span> thing,<br>
+    you can design <span class="red">everything.</span>
+    <span class="sub">— Massimo Vignelli, cité dans l'Atlas. Pour parler de technique, il faut la traiter avec la même rigueur qu'une identité visuelle, la même exigence qu'un livre, la même clarté qu'un plan.</span>
+  </h1>
+
+  <p class="lede">Cette direction synthétise l'ADN de <em>DesignersAtlas</em> — rigueur suisse (Müller-Brockmann, Hofmann), générosité italienne (Vignelli, Munari, Sottsass), clarté américaine (Rand, Bass, Pentagram), sagesse japonaise (Hara, Tanizaki). Une identité d'<em>éditeur</em>, pas de startup. Une fresque qui respecte la tech en la traitant comme un sujet sérieux.</p>
+
+  <!-- PULL QUOTE PHILOSOPHIQUE -->
+  <div class="pull-quote">
+    <blockquote>Nous ne vivons plus dans une culture de l'écriture,<br>mais dans une culture des <em>images techniques.</em></blockquote>
+    <cite>Vilém Flusser · Pour une philosophie de la photographie · 1983</cite>
+  </div>
+
+  <!-- PALETTE -->
+  <section class="section">
+    <div class="section-label">
+      <div class="section-num">01</div>
+      <div class="section-title">Palette</div>
+      <div class="section-kicker">Vignelli heritage</div>
+    </div>
+    <div class="palette">
+      <div class="swatch" style="background:#F2EFE7; color:#0F0F0F;">
+        <div>
+          <div class="swatch-name">Paper</div>
+          <div class="swatch-hex">#F2EFE7</div>
+        </div>
+        <div style="font-size:9px; letter-spacing:0.1em; text-transform:uppercase; opacity:0.6">Substrate</div>
+      </div>
+      <div class="swatch" style="background:#0F0F0F; color:#F2EFE7;">
+        <div>
+          <div class="swatch-name">Ink</div>
+          <div class="swatch-hex">#0F0F0F</div>
+        </div>
+        <div style="font-size:9px; letter-spacing:0.1em; text-transform:uppercase; opacity:0.6">Primary</div>
+      </div>
+      <div class="swatch" style="background:#E31837; color:#F2EFE7;">
+        <div>
+          <div class="swatch-name">Red</div>
+          <div class="swatch-hex">#E31837</div>
+        </div>
+        <div style="font-size:9px; letter-spacing:0.1em; text-transform:uppercase; opacity:0.6">Vignelli · accent</div>
+      </div>
+      <div class="swatch" style="background:#003DA5; color:#F2EFE7;">
+        <div>
+          <div class="swatch-name">Blue</div>
+          <div class="swatch-hex">#003DA5</div>
+        </div>
+        <div style="font-size:9px; letter-spacing:0.1em; text-transform:uppercase; opacity:0.6">Blueprint</div>
+      </div>
+      <div class="swatch" style="background:#FFD100; color:#0F0F0F;">
+        <div>
+          <div class="swatch-name">Yellow</div>
+          <div class="swatch-hex">#FFD100</div>
+        </div>
+        <div style="font-size:9px; letter-spacing:0.1em; text-transform:uppercase; opacity:0.6">Signal</div>
+      </div>
+    </div>
+    <p class="note">Palette <strong>directement héritée</strong> de Massimo Vignelli (voir son entrée Atlas : #000, #FFF, #E31837, #003DA5, #FFD100). Tirée des livres qu'il a conçus pour Knoll, des posters Unimark, du design system métro de NYC. C'est une palette qui a traversé 60 ans de design graphique sans vieillir.</p>
+  </section>
+
+  <!-- TYPO -->
+  <section class="section">
+    <div class="section-label">
+      <div class="section-num">02</div>
+      <div class="section-title">Typographie</div>
+      <div class="section-kicker">Sans grotesk + Garamond</div>
+    </div>
+    <div class="typo-demo">
+      <div class="typo-row">
+        <div class="typo-label">Display · Inter 900</div>
+        <div class="type-h">Data <span class="red">centers.</span></div>
+      </div>
+      <div class="typo-row">
+        <div class="typo-label">Tags · Inter 700 caps</div>
+        <div class="type-tag">
+          <span class="tag">LOT.02 · 14</span>
+          <span class="tag red">ÉCONOMIE</span>
+          <span class="tag yellow">2024</span>
+          <span class="tag blue">IMPACT</span>
+        </div>
+      </div>
+      <div class="typo-row">
+        <div class="typo-label">Citation · Garamond italic</div>
+        <div class="type-i">« Infrastructures invisibles, conséquences visibles. »</div>
+      </div>
+      <div class="typo-row">
+        <div class="typo-label">Body · Garamond 400</div>
+        <div class="type-b">Les data centers consomment environ 1 % de l'électricité mondiale. Un chiffre qui double tous les 4 ans, porté par l'explosion de l'IA générative et du streaming 4K.</div>
+      </div>
+    </div>
+    <p class="note">Sans grotesk pour l'<strong>architecture</strong> de l'information (titres, tags, méta) — héritage Helvetica/Akzidenz. Garamond pour le <strong>discours</strong> (citations, contexte, body) — héritage des livres d'essai. Jamais les deux mélangés dans un même bloc.</p>
+  </section>
+
+  <!-- PHILOSOPHES -->
+  <section class="section">
+    <div class="section-label">
+      <div class="section-num">03</div>
+      <div class="section-title">Pensées en exergue</div>
+      <div class="section-kicker">4 voix de l'Atlas</div>
+    </div>
+    <div class="quotes">
+      <div class="quote-card">
+        <blockquote>« Weniger, aber besser — <em>less, but better.</em> »</blockquote>
+        <cite>Dieter Rams · 10 principes du bon design</cite>
+      </div>
+      <div class="quote-card">
+        <blockquote>« L'objet technique n'est <em>ni utile ni agréable,</em> il est avant tout <em>intelligible.</em> »</blockquote>
+        <cite>Gilbert Simondon · Du mode d'existence des objets techniques</cite>
+      </div>
+      <div class="quote-card">
+        <blockquote>« Design is what you do when you wake up. <em>Everything is design.</em> »</blockquote>
+        <cite>Victor Papanek · Design for the Real World</cite>
+      </div>
+      <div class="quote-card">
+        <blockquote>« Le vide n'est pas l'absence, il est <em>l'espace de l'imaginaire.</em> »</blockquote>
+        <cite>Kenya Hara · White</cite>
+      </div>
+    </div>
+    <p class="note">La Fresque Tech <strong>cite ses sources</strong>. Chaque lot de cartes ouvre sur un exergue d'un penseur de ton Atlas. Ce n'est pas décoratif — c'est la <em>colonne vertébrale intellectuelle</em> de l'atelier.</p>
+  </section>
+
+  <!-- THÈMES -->
+  <section class="section">
+    <div class="section-label">
+      <div class="section-num">04</div>
+      <div class="section-title">Six thèmes</div>
+      <div class="section-kicker">Classement Vignelli</div>
+    </div>
+    <div class="themes">
+      <div class="theme">
+        <span class="theme-num">01</span>
+        <span class="theme-name">Sécurité<br>vie privée</span>
+        <div class="theme-bar" style="background:#6E4BC4"></div>
+      </div>
+      <div class="theme" style="background:var(--ink); color:var(--signal-yellow);">
+        <span class="theme-num">02</span>
+        <span class="theme-name">Économie<br>emploi</span>
+        <div class="theme-bar" style="background:var(--signal-yellow)"></div>
+      </div>
+      <div class="theme">
+        <span class="theme-num">03</span>
+        <span class="theme-name">Santé<br>physique</span>
+        <div class="theme-bar" style="background:#2A7F3F"></div>
+      </div>
+      <div class="theme" style="background:var(--vignelli-red); color:var(--paper);">
+        <span class="theme-num" style="color:var(--paper);">04</span>
+        <span class="theme-name">Propagande<br>mobilisation</span>
+        <div class="theme-bar" style="background:var(--paper)"></div>
+      </div>
+      <div class="theme" style="background:var(--plan-blue); color:var(--paper);">
+        <span class="theme-num" style="color:var(--paper);">05</span>
+        <span class="theme-name">Mondialisation<br>connaissance</span>
+        <div class="theme-bar" style="background:var(--paper)"></div>
+      </div>
+      <div class="theme">
+        <span class="theme-num">06</span>
+        <span class="theme-name">Frontières<br>planétaires</span>
+        <div class="theme-bar" style="background:#1A3D22"></div>
+      </div>
+    </div>
+    <p class="note">Les 6 thèmes ne sont plus des pastilles — ce sont des <strong>blocs</strong>. Certains sont positifs (papier + numéro coloré), d'autres inversés en aplat (thème 02 en noir/jaune = le seul à porter le jaune signal, thème 04 en rouge Vignelli = alerte mobilisation, thème 05 en bleu = connaissance / planification).</p>
+  </section>
+
+  <!-- CARTES -->
+  <section class="section">
+    <div class="section-label">
+      <div class="section-num">05</div>
+      <div class="section-title">Cartes · recto / verso</div>
+      <div class="section-kicker">A6 · 148×105mm</div>
+    </div>
+    <div class="cards-demo">
+      <div class="card">
+        <div class="card-head">
+          <span class="card-ref"><span class="red">LOT.02</span> · 14</span>
+          <span class="card-tag yellow">ÉCONOMIE · 02</span>
+        </div>
+        <div class="card-title">Data<br><span class="red">centers.</span></div>
+        <div class="card-sub">Infrastructures du calcul, 1950—</div>
+        <div class="card-foot">
+          <span>FR · 2026 · V1</span>
+          <span class="card-sig"><span class="logo"></span>Fresque·Tech</span>
+        </div>
+      </div>
+
+      <div class="card card-verso">
+        <div class="card-head">
+          <span class="card-ref"><span class="red">LOT.02</span> · 14</span>
+          <span class="card-tag">VERSO</span>
+        </div>
+        <div class="verso-year">2024</div>
+        <div class="verso-context">« 1 % de l'électricité mondiale. Doublement tous les 4 ans avec l'IA générative et le streaming 4K. »</div>
+        <div class="card-foot">
+          <span>Q : OÙ TRACER LA LIMITE ?</span>
+          <span class="card-sig"><span class="logo"></span>→ LOT.03</span>
+        </div>
+      </div>
+    </div>
+    <p class="note">Recto : <strong>mini-affiche Vignelli</strong>. Titre massif Inter 900, bande noire en tête, tag de thème en aplat. Verso : fond noir, année en jaune signal énorme, citation en italique Garamond — <em>on lit le verso comme une double page d'essai.</em></p>
+  </section>
+
+  <!-- CARTES INTRO 00 + 01 -->
+  <section class="section">
+    <div class="section-label">
+      <div class="section-num">06</div>
+      <div class="section-title">Cartes 00 + 01 · couverture & intro</div>
+      <div class="section-kicker">A6 · 148×105mm</div>
+    </div>
+    <div class="cards-demo">
+      <div class="card">
+        <div class="card-head">
+          <span class="card-ref"><span class="red">CARTE</span> · 00</span>
+          <span class="card-tag yellow">COUVERTURE</span>
+        </div>
+        <div class="card-title" style="font-size: 36px;">Fresque<br>de la <span class="red">tech.</span></div>
+        <div style="display:inline-flex; align-items:center; gap:8px; font-family:'EB Garamond',serif; font-style:italic; font-size:18px; color:var(--vignelli-red); margin-top:6px; margin-bottom:auto;">publiée par <span style="width:56px; height:18px; background:var(--ink); mask:url('assets/logo/bleen-texte.svg') center/contain no-repeat; -webkit-mask:url('assets/logo/bleen-texte.svg') center/contain no-repeat;"></span></div>
+        <div class="card-foot">
+          <span style="font-family:'EB Garamond',serif; font-style:italic; font-size:11px; font-weight:400; letter-spacing:0; text-transform:none; color:var(--ink-soft);">De l'imprimerie à l'IA, une histoire du progrès.</span>
+          <span class="card-sig"><span class="logo"></span>bleen.be</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-head">
+          <span class="card-ref"><span class="red">CARTE</span> · 01</span>
+          <span class="card-tag">INTRODUCTION</span>
+        </div>
+        <div class="card-title" style="font-size: 28px; margin-bottom: 8px;">Introduction.</div>
+        <ul style="list-style: none; display: grid; gap: 4px; font-family:'EB Garamond',serif; font-size: 10px; line-height: 1.35; color: var(--ink); padding-left: 0; margin-bottom: auto;">
+          <li style="padding-left: 14px; position: relative;"><span style="position:absolute; left:4px; top:5px; width:6px; height:6px; background:var(--vignelli-red);"></span><strong>Tour de table</strong> : nom, rôle et que veut dire le progrès pour vous ?</li>
+          <li style="padding-left: 14px; position: relative;"><span style="position:absolute; left:4px; top:5px; width:6px; height:6px; background:var(--vignelli-red);"></span><strong>La fresque de la tech</strong> est un atelier basé sur l'intelligence collective pour recontextualiser les innovations et relativiser la notion de progrès.</li>
+          <li style="padding-left: 14px; position: relative;"><span style="position:absolute; left:4px; top:5px; width:6px; height:6px; background:var(--vignelli-red);"></span><strong>Principes</strong> de l'intelligence collective et rôle de l'animateurice.</li>
+          <li style="padding-left: 14px; position: relative;"><span style="position:absolute; left:4px; top:5px; width:6px; height:6px; background:var(--vignelli-red);"></span><strong>Atelier créé par Bleen en 2025.</strong> Conseil en transition écologique (Bruxelles).</li>
+          <li style="padding-left: 14px; position: relative;"><span style="position:absolute; left:4px; top:5px; width:6px; height:6px; background:var(--vignelli-red);"></span><strong>Déroulé</strong> V1 : 3 h, 2 parties — recontextualisation (6 lots) + projection.</li>
+        </ul>
+        <div class="card-foot">
+          <span>www.bleen.be</span>
+          <span class="card-sig"><span class="logo"></span>CC·BY-NC-ND</span>
+        </div>
+      </div>
+    </div>
+    <p class="note">Cartes 00 (couverture) et 01 (introduction) au format A6 paysage. Même traitement typographique que les cartes jeu : <strong>Inter 900</strong> pour le titre, Garamond italic pour la voix Bleen, puces rouge Vignelli pour les items d'intro.</p>
+  </section>
+
+  <!-- SIGNATURE -->
+  <section class="section">
+    <div class="section-label">
+      <div class="section-num">06</div>
+      <div class="section-title">Signature</div>
+      <div class="section-kicker">Colophon</div>
+    </div>
+    <div class="sig-demo">
+      <div class="sig-col">
+        <div class="sig-label">Publié par</div>
+        <div class="sig-value" style="color:var(--ink);">
+          <span class="bleen" style="background:var(--ink);"></span>
+        </div>
+      </div>
+      <div class="sig-col red">
+        <div class="sig-label">Référence</div>
+        <div class="sig-value">bleen.be<br>/fresque·tech</div>
+      </div>
+      <div class="sig-col yellow">
+        <div class="sig-label" style="color:var(--ink);">Édition</div>
+        <div class="sig-value" style="color:var(--ink);">V1 · 2026</div>
+      </div>
+    </div>
+    <p class="note">Le logo Bleen reste en <strong>encre noire</strong> (sa vraie forme). Il occupe une colonne sur trois. Les deux autres colonnes en aplat rouge et jaune signent la Fresque Tech elle-même. <em>Comme une 4e de couverture de livre Penguin.</em></p>
+  </section>
+
+  <!-- PRINCIPES -->
+  <section class="section">
+    <div class="section-label">
+      <div class="section-num">07</div>
+      <div class="section-title">Principes</div>
+      <div class="section-kicker">Règles V1</div>
+    </div>
+    <p class="type-b" style="max-width:720px; font-style:normal;">
+      · Grille <strong style="color:var(--vignelli-red); font-style:normal; font-family:var(--font-sans);">12 colonnes</strong> apparente en trame papier<br>
+      · <strong style="color:var(--vignelli-red); font-style:normal; font-family:var(--font-sans);">Inter 900</strong> pour tous les titres, jamais autre chose<br>
+      · <strong style="color:var(--vignelli-red); font-style:normal; font-family:var(--font-sans);">Garamond italic</strong> uniquement pour les citations et le body<br>
+      · Filets noirs 1.5px pour les têtes et pieds, 4px pour les mastheads<br>
+      · <strong style="color:var(--vignelli-red); font-style:normal; font-family:var(--font-sans);">Rouge Vignelli</strong> = accent typographique (mots-clés, numéros de lot)<br>
+      · <strong style="color:var(--vignelli-red); font-style:normal; font-family:var(--font-sans);">Jaune signal</strong> = chiffres clés, dates, avertissements<br>
+      · <strong style="color:var(--vignelli-red); font-style:normal; font-family:var(--font-sans);">Bleu plan</strong> = liens, références, connaissance<br>
+      · Chaque lot s'ouvre sur une citation d'un penseur de l'Atlas<br>
+      · Pas de gradients, pas d'ombres, pas d'arrondis
+    </p>
+  </section>
+
+  <footer>
+    <span>Fresque Tech — Direction 03</span>
+    <span style="text-align:center;">Inspired by DesignersAtlas</span>
+    <span class="right">Avril 2026 · Bleen</span>
+  </footer>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Direction 1 — Terminal / Data</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0a0a0a;
+    --paper: #f5f3ef;
+    --phosphor: #00ff88;
+    --phosphor-dim: #0a5c3a;
+    --alert: #ff3e00;
+    --grey: #999;
+    --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+    --font-display: 'Space Grotesk', -apple-system, sans-serif;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--ink);
+    color: var(--paper);
+    font-family: var(--font-mono);
+    padding: 60px 40px;
+    min-height: 100vh;
+  }
+  .nav {
+    max-width: 1200px;
+    margin: 0 auto 40px;
+  }
+  .nav a {
+    color: var(--phosphor);
+    text-decoration: none;
+    font-size: 13px;
+    letter-spacing: 0.05em;
+  }
+  .nav a:hover { text-decoration: underline; }
+  h1 {
+    font-family: var(--font-display);
+    font-size: 52px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    max-width: 1200px;
+    margin: 0 auto 10px;
+    line-height: 1.05;
+  }
+  h1 .accent { color: var(--phosphor); }
+  .sub {
+    max-width: 1200px;
+    margin: 0 auto 60px;
+    color: var(--grey);
+    font-size: 14px;
+    max-width: 720px;
+  }
+  .section {
+    max-width: 1200px;
+    margin: 0 auto 60px;
+    border-top: 1px solid #222;
+    padding-top: 40px;
+  }
+  .section-label {
+    font-size: 11px;
+    color: var(--phosphor-dim);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+  .section-label::before { content: '[ '; }
+  .section-label::after { content: ' ]'; }
+
+  /* Palette */
+  .palette {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+  .swatch {
+    aspect-ratio: 1;
+    border-radius: 4px;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    font-size: 11px;
+  }
+  .swatch-name { font-weight: 700; }
+  .swatch-hex { opacity: 0.7; }
+
+  /* Typo demo */
+  .typo-demo { display: grid; gap: 24px; }
+  .type-h {
+    font-family: var(--font-display);
+    font-size: 72px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: var(--paper);
+  }
+  .type-m {
+    font-family: var(--font-mono);
+    font-size: 16px;
+    color: var(--phosphor);
+  }
+  .type-b {
+    font-family: var(--font-display);
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--grey);
+    max-width: 600px;
+  }
+
+  /* Carte demo */
+  .cards-demo {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+  .card {
+    aspect-ratio: 148/105;
+    background: var(--ink);
+    border: 1px solid #222;
+    border-radius: 8px;
+    padding: 24px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,255,136,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,255,136,0.03) 1px, transparent 1px);
+    background-size: 20px 20px;
+    pointer-events: none;
+  }
+  .card-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    font-size: 10px;
+    color: var(--phosphor-dim);
+    letter-spacing: 0.1em;
+    margin-bottom: 20px;
+  }
+  .card-head .tag {
+    color: var(--phosphor);
+  }
+  .card-icon {
+    width: 48px;
+    height: 48px;
+    border: 1.5px solid var(--phosphor);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--phosphor);
+    font-size: 22px;
+    margin-bottom: 16px;
+  }
+  .card-title {
+    font-family: var(--font-display);
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    line-height: 1;
+    margin-bottom: auto;
+  }
+  .card-foot {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    font-size: 10px;
+    color: var(--grey);
+  }
+  .card-sig {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--phosphor);
+  }
+  .card-sig .logo {
+    width: 14px;
+    height: 14px;
+    background: var(--phosphor);
+    mask: url('assets/logo/bleen-icone.svg') center/contain no-repeat;
+    -webkit-mask: url('assets/logo/bleen-icone.svg') center/contain no-repeat;
+  }
+
+  /* Verso */
+  .card-verso {
+    background: var(--phosphor);
+    color: var(--ink);
+  }
+  .card-verso::before { display: none; }
+  .verso-head {
+    display: flex;
+    justify-content: space-between;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    margin-bottom: 16px;
+  }
+  .verso-year {
+    font-family: var(--font-display);
+    font-size: 56px;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    margin-bottom: 12px;
+  }
+  .verso-context {
+    font-family: var(--font-display);
+    font-size: 12px;
+    line-height: 1.45;
+    color: var(--ink);
+    max-width: 90%;
+    margin-bottom: auto;
+  }
+  .verso-foot {
+    display: flex;
+    justify-content: space-between;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+  }
+
+  /* Icons mini */
+  .icon-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 12px;
+  }
+  .mini-icon {
+    aspect-ratio: 1;
+    border: 1px solid #222;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--phosphor);
+    font-size: 20px;
+    font-family: var(--font-mono);
+  }
+
+  /* Signature logo */
+  .sig-demo {
+    display: flex;
+    gap: 60px;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 30px 24px;
+    background: #111;
+    border-radius: 8px;
+  }
+  .sig-block {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--grey);
+    font-size: 12px;
+  }
+  .sig-block .sep {
+    width: 1px;
+    height: 20px;
+    background: #333;
+  }
+  .sig-block .bleen {
+    width: 60px;
+    height: 18px;
+    background: var(--phosphor);
+    mask: url('assets/logo/bleen-texte.svg') center/contain no-repeat;
+    -webkit-mask: url('assets/logo/bleen-texte.svg') center/contain no-repeat;
+  }
+
+  .note {
+    font-size: 12px;
+    color: var(--grey);
+    line-height: 1.6;
+    margin-top: 16px;
+  }
+</style>
+</head>
+<body>
+  <nav class="nav"><a href="index.html">← retour aux 3 directions</a></nav>
+
+  <h1>Direction 01<br><span class="accent">Terminal / Data</span></h1>
+  <p class="sub">Le numérique parle son propre langage : code, console, grille monospace. Une identité qui assume le sujet sans en faire un cauchemar dystopique — plutôt un outil de démystification. Punk un peu, rigoureux beaucoup.</p>
+
+  <!-- PALETTE -->
+  <section class="section">
+    <div class="section-label">palette</div>
+    <div class="palette">
+      <div class="swatch" style="background:#0a0a0a; color:#f5f3ef; border:1px solid #222;">
+        <div class="swatch-name">Ink</div>
+        <div class="swatch-hex">#0A0A0A</div>
+      </div>
+      <div class="swatch" style="background:#00ff88; color:#0a0a0a;">
+        <div class="swatch-name">Phosphor</div>
+        <div class="swatch-hex">#00FF88</div>
+      </div>
+      <div class="swatch" style="background:#f5f3ef; color:#0a0a0a;">
+        <div class="swatch-name">Paper</div>
+        <div class="swatch-hex">#F5F3EF</div>
+      </div>
+      <div class="swatch" style="background:#ff3e00; color:#f5f3ef;">
+        <div class="swatch-name">Alert</div>
+        <div class="swatch-hex">#FF3E00</div>
+      </div>
+    </div>
+    <p class="note">Noir profond pour le fond, vert phosphore pour accents et infos critiques. Le "Paper" sert de respiration et pour l'impression versos. Alert rouge pour les cartes "conséquences" fortes.</p>
+  </section>
+
+  <!-- TYPO -->
+  <section class="section">
+    <div class="section-label">typographie</div>
+    <div class="typo-demo">
+      <div class="type-m">// display — Space Grotesk 800</div>
+      <div class="type-h">Data centers.</div>
+      <div class="type-m">// mono — JetBrains Mono 500</div>
+      <div class="type-b" style="font-family:var(--font-mono); color:var(--phosphor)">LOT_02 / CARTE_14 — impact_energie</div>
+      <div class="type-m">// body — Space Grotesk 400</div>
+      <div class="type-b">Les data centers consomment environ 1% de l'électricité mondiale. Un chiffre qui double tous les 4 ans, porté par l'explosion de l'IA générative et du streaming.</div>
+    </div>
+  </section>
+
+  <!-- CARTES -->
+  <section class="section">
+    <div class="section-label">cartes — recto / verso</div>
+    <div class="cards-demo">
+      <div class="card">
+        <div class="card-head">
+          <span class="tag">LOT_02 · CARTE_14</span>
+          <span>IMPACT_ENERGIE</span>
+        </div>
+        <div class="card-icon">⚡</div>
+        <div class="card-title">Data<br>centers</div>
+        <div class="card-foot">
+          <span>v.FR / 2026</span>
+          <span class="card-sig"><span class="logo"></span>FRESQUE_TECH</span>
+        </div>
+      </div>
+
+      <div class="card card-verso">
+        <div class="verso-head">
+          <span>LOT_02 · CARTE_14</span>
+          <span>/ verso</span>
+        </div>
+        <div class="verso-year">2024</div>
+        <div class="verso-context">1 % de l'électricité mondiale consommée par les data centers. Doublement prévu tous les 4 ans avec l'essor de l'IA générative.</div>
+        <div class="verso-foot">
+          <span>Q: où tracer la limite ?</span>
+          <span>→ reliez à Lot_03</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CARTES INTRO 00 + 01 -->
+  <section class="section">
+    <div class="section-label">cartes 00 + 01 · couverture & introduction</div>
+    <div class="cards-demo">
+      <div class="card" style="padding: 26px 32px;">
+        <div class="card-head">
+          <span class="tag">CARTE_00 / COUVERTURE</span>
+          <span>FR · 2026</span>
+        </div>
+        <div class="card-title" style="font-size: 38px; margin-top: 20px;">fresque<br>de la <span style="color:var(--phosphor)">tech</span></div>
+        <div style="font-family: var(--font-mono); color: var(--phosphor); font-size: 16px; margin-top: 14px; margin-bottom: auto;">&gt; by_bleen</div>
+        <div style="height: 1px; background: var(--phosphor); opacity: 0.4; margin: 14px 0 10px;"></div>
+        <div style="font-family: var(--font-mono); font-size: 11px; color: var(--grey); line-height: 1.5; margin-bottom: 6px;">De l'imprimerie à l'IA,<br>une histoire du progrès technologique.</div>
+        <div class="card-foot">
+          <span>www.bleen.be</span>
+          <span class="card-sig"><span class="logo"></span>FRESQUE_TECH</span>
+        </div>
+      </div>
+
+      <div class="card" style="padding: 26px 32px;">
+        <div class="card-head">
+          <span class="tag">CARTE_01 / INTRODUCTION</span>
+          <span>/ atelier</span>
+        </div>
+        <div class="card-title" style="font-size: 28px; margin-bottom: 12px;">&gt; introduction</div>
+        <ul style="list-style: none; display: grid; gap: 5px; font-family: var(--font-display); font-size: 9px; line-height: 1.35; color: var(--paper); margin-bottom: auto; padding-left: 0;">
+          <li style="padding-left: 14px; position: relative;"><span style="position:absolute; left:0; color:var(--phosphor); font-family:var(--font-mono); font-weight:700;">&gt;</span>Tour de table : nom, rôle et que veut dire le progrès pour vous ?</li>
+          <li style="padding-left: 14px; position: relative;"><span style="position:absolute; left:0; color:var(--phosphor); font-family:var(--font-mono); font-weight:700;">&gt;</span>La fresque de la tech est un atelier de sensibilisation basé sur l'intelligence collective pour recontextualiser les innovations technologiques et relativiser la notion de progrès technique.</li>
+          <li style="padding-left: 14px; position: relative;"><span style="position:absolute; left:0; color:var(--phosphor); font-family:var(--font-mono); font-weight:700;">&gt;</span>Principes de l'intelligence collective et rôle de l'animateurice.</li>
+          <li style="padding-left: 14px; position: relative;"><span style="position:absolute; left:0; color:var(--phosphor); font-family:var(--font-mono); font-weight:700;">&gt;</span>Atelier créé par Bleen en 2025. Cabinet de conseil en transition écologique (Bruxelles).</li>
+          <li style="padding-left: 14px; position: relative;"><span style="position:absolute; left:0; color:var(--phosphor); font-family:var(--font-mono); font-weight:700;">&gt;</span>Déroulé V1 : 3 h, 2 parties — recontextualisation (6 lots) + projection (exercice créatif).</li>
+        </ul>
+        <div class="card-foot" style="margin-top: 10px;">
+          <span>www.bleen.be</span>
+          <span class="card-sig">[CC_BY-NC-ND]</span>
+        </div>
+      </div>
+    </div>
+    <p class="note" style="font-size: 12px; color: var(--grey); margin-top: 16px;">Cartes 00 (couverture) et 01 (introduction), A6 paysage — même format que les 68 cartes de jeu. Texte repris de la version Canva V01, habillé dans l'identité terminal.</p>
+  </section>
+
+  <!-- ICONES -->
+  <section class="section">
+    <div class="section-label">système d'icônes</div>
+    <div class="icon-grid">
+      <div class="mini-icon">&gt;_</div>
+      <div class="mini-icon">⚡</div>
+      <div class="mini-icon">◉</div>
+      <div class="mini-icon">⌬</div>
+      <div class="mini-icon">▲</div>
+      <div class="mini-icon">◇</div>
+      <div class="mini-icon">⬡</div>
+      <div class="mini-icon">◎</div>
+      <div class="mini-icon">⊞</div>
+      <div class="mini-icon">↯</div>
+      <div class="mini-icon">∞</div>
+      <div class="mini-icon">⇌</div>
+    </div>
+    <p class="note">Pictogrammes géométriques monoligne, grille 24×24, trait 1.5px. Style console : symboles unicode, glyphes abstraits, pas d'illustrations figuratives.</p>
+  </section>
+
+  <!-- SIGNATURE BLEEN -->
+  <section class="section">
+    <div class="section-label">signature bleen</div>
+    <div class="sig-demo">
+      <div class="sig-block">
+        <span>Une fresque par</span>
+        <span class="bleen"></span>
+      </div>
+      <div class="sig-block">
+        <span style="color:var(--phosphor)">// bleen.tech</span>
+      </div>
+      <div class="sig-block">
+        <span>v.2026.04</span>
+      </div>
+    </div>
+    <p class="note">Le logo Bleen apparaît en signature sobre, recoloré en phosphor. Pas de prise de pouvoir visuel, juste une caution. La Fresque Tech a sa propre personnalité.</p>
+  </section>
+
+  <!-- GUIDELINES -->
+  <section class="section">
+    <div class="section-label">principes</div>
+    <p class="type-b" style="color:var(--grey); font-family:var(--font-display)">
+      · Grille 24×24 partout (pixelart latent)<br>
+      · Pas d'ombres, pas de gradients<br>
+      · Monospace pour les métadonnées (lots, numéros, dates)<br>
+      · Space Grotesk pour les titres et le body<br>
+      · Phosphor uniquement en accent, jamais en fond principal<br>
+      · Alert rouge réservé aux cartes "conséquences critiques"
+    </p>
+  </section>
+
+</body>
+</html>

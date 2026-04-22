@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Direction 8 — Hara × Tanizaki × Muji</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;700;900&family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #F8F5EF;
+    --paper-soft: #EEE9DC;
+    --sumi: #1A1A1A;
+    --sumi-soft: #4A4A4A;
+    --sumi-muted: #999991;
+    --indigo: #26384F;
+    --vermilion: #B8453A;
+    --gold: #AC8D45;
+    --rule: rgba(26, 26, 26, 0.15);
+    --font-serif: 'Noto Serif JP', 'Hiragino Mincho ProN', serif;
+    --font-sans: 'Inter', 'Helvetica Neue', sans-serif;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--paper);
+    color: var(--sumi);
+    font-family: var(--font-serif);
+    padding: 80px 60px;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    font-weight: 300;
+  }
+
+  .wrapper { max-width: 1100px; margin: 0 auto; }
+
+  .nav {
+    padding-bottom: 60px;
+  }
+  .nav a {
+    color: var(--indigo);
+    text-decoration: none;
+    font-family: var(--font-sans);
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  .folio {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 14px;
+    border-bottom: 0.5px solid var(--sumi);
+    margin-bottom: 80px;
+    font-family: var(--font-sans);
+    font-size: 10px;
+    color: var(--sumi-muted);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  h1 {
+    font-family: var(--font-serif);
+    font-size: 92px;
+    font-weight: 300;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    margin-bottom: 30px;
+  }
+  h1 .kanji {
+    color: var(--vermilion);
+    font-weight: 700;
+    margin-right: 20px;
+  }
+  .opening {
+    max-width: 480px;
+    font-family: var(--font-serif);
+    font-size: 18px;
+    font-weight: 300;
+    line-height: 1.8;
+    color: var(--sumi-soft);
+    margin-bottom: 100px;
+  }
+
+  .pull-quote {
+    text-align: center;
+    padding: 80px 0;
+    margin: 60px 0 100px;
+    border-top: 0.5px solid var(--sumi);
+    border-bottom: 0.5px solid var(--sumi);
+  }
+  .pull-quote blockquote {
+    font-family: var(--font-serif);
+    font-size: 36px;
+    font-weight: 300;
+    font-style: italic;
+    line-height: 1.5;
+    color: var(--sumi);
+    max-width: 720px;
+    margin: 0 auto 30px;
+    letter-spacing: -0.01em;
+  }
+  .pull-quote cite {
+    font-family: var(--font-sans);
+    font-style: normal;
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--vermilion);
+  }
+
+  /* Sélection designers/philosophes */
+  .selection {
+    margin-bottom: 100px;
+  }
+  .selection-label {
+    font-family: var(--font-sans);
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--sumi-muted);
+    margin-bottom: 20px;
+  }
+  .selection-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    margin-top: 30px;
+  }
+  .persons-list {
+    display: grid;
+    gap: 20px;
+  }
+  .person {
+    display: grid;
+    grid-template-columns: 30px 1fr;
+    gap: 16px;
+    padding-bottom: 16px;
+    border-bottom: 0.5px solid var(--rule);
+    align-items: baseline;
+  }
+  .person-num {
+    font-family: var(--font-sans);
+    font-size: 11px;
+    color: var(--vermilion);
+    letter-spacing: 0.1em;
+  }
+  .person-name {
+    font-family: var(--font-serif);
+    font-size: 22px;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    margin-bottom: 4px;
+  }
+  .person-role {
+    font-family: var(--font-sans);
+    font-size: 11px;
+    color: var(--sumi-muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .person-insight {
+    font-family: var(--font-serif);
+    font-size: 13px;
+    color: var(--sumi-soft);
+    font-style: italic;
+    line-height: 1.5;
+  }
+
+  /* Section */
+  .section {
+    padding: 80px 0;
+    border-top: 0.5px solid var(--sumi);
+  }
+  .section-head {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 60px;
+    margin-bottom: 50px;
+    align-items: baseline;
+  }
+  .section-num {
+    font-family: var(--font-sans);
+    font-size: 11px;
+    color: var(--vermilion);
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+  }
+  .section-title {
+    font-family: var(--font-serif);
+    font-size: 42px;
+    font-weight: 300;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+  }
+
+  /* Palette */
+  .palette {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 2px;
+  }
+  .swatch {
+    aspect-ratio: 1;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    font-family: var(--font-sans);
+    font-size: 10px;
+  }
+  .swatch-name {
+    font-family: var(--font-serif);
+    font-size: 15px;
+    font-weight: 400;
+  }
+  .swatch-hex { letter-spacing: 0.08em; opacity: 0.6; }
+  .swatch-kanji {
+    font-family: var(--font-serif);
+    font-size: 22px;
+    font-weight: 300;
+  }
+
+  /* Typo */
+  .typo-demo {
+    display: grid;
+    gap: 0;
+  }
+  .typo-row {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    gap: 40px;
+    padding: 30px 0;
+    border-bottom: 0.5px solid var(--rule);
+    align-items: baseline;
+  }
+  .typo-row:last-child { border-bottom: none; }
+  .typo-label {
+    font-family: var(--font-sans);
+    font-size: 10px;
+    color: var(--sumi-muted);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+  .type-h {
+    font-family: var(--font-serif);
+    font-size: 72px;
+    font-weight: 300;
+    letter-spacing: -0.025em;
+    line-height: 1;
+  }
+  .type-h .vermilion { color: var(--vermilion); }
+  .type-i {
+    font-family: var(--font-serif);
+    font-size: 22px;
+    font-style: italic;
+    color: var(--sumi-soft);
+    line-height: 1.4;
+    font-weight: 300;
+  }
+  .type-m {
+    font-family: var(--font-sans);
+    font-size: 12px;
+    color: var(--sumi);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  .type-b {
+    font-family: var(--font-serif);
+    font-size: 17px;
+    line-height: 1.8;
+    color: var(--sumi-soft);
+    max-width: 560px;
+    font-weight: 300;
+  }
+
+  /* Themes */
+  .themes {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 0;
+    border-top: 0.5px solid var(--sumi);
+    border-bottom: 0.5px solid var(--sumi);
+  }
+  .theme {
+    padding: 36px 18px;
+    border-right: 0.5px solid var(--rule);
+    text-align: center;
+    min-height: 220px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .theme:last-child { border-right: none; }
+  .theme-kanji {
+    font-family: var(--font-serif);
+    font-size: 42px;
+    font-weight: 300;
+    color: var(--vermilion);
+    line-height: 1;
+    margin-bottom: 14px;
+  }
+  .theme-num {
+    font-family: var(--font-sans);
+    font-size: 10px;
+    color: var(--sumi-muted);
+    letter-spacing: 0.3em;
+    margin-bottom: 20px;
+  }
+  .theme-name {
+    font-family: var(--font-serif);
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.4;
+    color: var(--sumi);
+  }
+
+  /* Cartes */
+  .cards-demo {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+  .card {
+    aspect-ratio: 148/105;
+    background: var(--paper-soft);
+    padding: 28px 32px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    border: 0.5px solid var(--sumi);
+  }
+  .card-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-family: var(--font-sans);
+    font-size: 9px;
+    color: var(--sumi-muted);
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    margin-bottom: 32px;
+  }
+  .card-ref { color: var(--vermilion); }
+  .card-title {
+    font-family: var(--font-serif);
+    font-size: 40px;
+    font-weight: 300;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    color: var(--sumi);
+    margin-bottom: 8px;
+  }
+  .card-kanji {
+    font-family: var(--font-serif);
+    font-size: 18px;
+    color: var(--vermilion);
+    margin-bottom: 16px;
+  }
+  .card-sub {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 13px;
+    color: var(--sumi-soft);
+    margin-bottom: auto;
+    font-weight: 300;
+  }
+  .card-foot {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    font-family: var(--font-sans);
+    font-size: 9px;
+    color: var(--sumi-muted);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding-top: 12px;
+    border-top: 0.5px solid var(--rule);
+  }
+  .card-sig {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--vermilion);
+  }
+  .card-sig .logo {
+    width: 14px;
+    height: 14px;
+    background: var(--vermilion);
+    mask: url('assets/logo/bleen-icone.svg') center/contain no-repeat;
+    -webkit-mask: url('assets/logo/bleen-icone.svg') center/contain no-repeat;
+  }
+
+  /* Verso */
+  .card-verso { background: var(--sumi); color: var(--paper); border-color: var(--sumi); }
+  .card-verso .card-head { color: rgba(248, 245, 239, 0.5); }
+  .card-verso .card-ref { color: var(--vermilion); }
+  .verso-year {
+    font-family: var(--font-serif);
+    font-size: 72px;
+    font-weight: 300;
+    letter-spacing: -0.04em;
+    line-height: 0.9;
+    color: var(--paper);
+    margin-bottom: 8px;
+  }
+  .verso-year .vermilion { color: var(--vermilion); }
+  .verso-context {
+    font-family: var(--font-serif);
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--paper);
+    max-width: 80%;
+    margin-bottom: auto;
+    font-weight: 300;
+    font-style: italic;
+  }
+  .card-verso .card-foot {
+    border-top-color: rgba(248, 245, 239, 0.15);
+    color: rgba(248, 245, 239, 0.5);
+  }
+  .card-verso .card-sig { color: var(--vermilion); }
+
+  /* Signature */
+  .sig-demo {
+    padding: 50px 0;
+    border-top: 0.5px solid var(--sumi);
+    border-bottom: 0.5px solid var(--sumi);
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 60px;
+    align-items: center;
+  }
+  .sig-block {
+    text-align: center;
+  }
+  .sig-label {
+    font-family: var(--font-sans);
+    font-size: 9px;
+    color: var(--sumi-muted);
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  .sig-value {
+    font-family: var(--font-serif);
+    font-size: 20px;
+    font-weight: 300;
+    color: var(--sumi);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+  }
+  .sig-value .bleen {
+    width: 70px;
+    height: 22px;
+    background: var(--sumi);
+    mask: url('assets/logo/bleen-texte.svg') center/contain no-repeat;
+    -webkit-mask: url('assets/logo/bleen-texte.svg') center/contain no-repeat;
+  }
+  .sig-center {
+    font-family: var(--font-serif);
+    font-size: 56px;
+    font-weight: 300;
+    color: var(--vermilion);
+    line-height: 1;
+  }
+
+  .note {
+    font-family: var(--font-serif);
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--sumi-soft);
+    margin-top: 30px;
+    max-width: 680px;
+    font-weight: 300;
+  }
+  .note em { color: var(--vermilion); font-style: italic; }
+  .note strong { color: var(--sumi); font-weight: 400; }
+
+  footer {
+    margin-top: 120px;
+    padding-top: 30px;
+    border-top: 0.5px solid var(--sumi);
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--font-sans);
+    font-size: 10px;
+    color: var(--sumi-muted);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+
+<div class="wrapper">
+
+  <nav class="nav"><a href="index.html">← retour aux directions</a></nav>
+
+  <div class="folio">
+    <span>Direction 08</span>
+    <span>白 — Fresque Tech</span>
+    <span>Hara × Tanizaki × Muji</span>
+  </div>
+
+  <h1><span class="kanji">白</span>Le vide<br>comme espace.</h1>
+  <p class="opening">Une identité fondée sur l'esthétique japonaise du <em>ma</em> — l'intervalle, le silence entre les choses. La tech ne s'impose pas ; elle se pose discrètement, comme un objet Muji sur une étagère. On respire entre les cartes. Le blanc n'est pas l'absence — il est l'espace où la pensée se dépose.</p>
+
+  <!-- CITATION CLEF -->
+  <div class="pull-quote">
+    <blockquote>« Were it not for shadows, there would be no beauty. »</blockquote>
+    <cite>Jun'ichirō Tanizaki · In Praise of Shadows · 1933</cite>
+  </div>
+
+  <!-- SELECTION -->
+  <section class="selection">
+    <div class="selection-label">00 — Sélection depuis l'Atlas</div>
+    <div class="selection-grid">
+
+      <div>
+        <h3 style="font-family:var(--font-sans); font-size:12px; letter-spacing:0.25em; text-transform:uppercase; color:var(--vermilion); margin-bottom:24px;">Designers · Boussole visuelle</h3>
+        <div class="persons-list">
+          <div class="person">
+            <span class="person-num">01</span>
+            <div>
+              <div class="person-name">Kenya Hara</div>
+              <div class="person-role">Art Director · Muji · Japon</div>
+              <div class="person-insight">Le blanc comme infrastructure mentale. White Paper (2009).</div>
+            </div>
+          </div>
+          <div class="person">
+            <span class="person-num">02</span>
+            <div>
+              <div class="person-name">Naoto Fukasawa</div>
+              <div class="person-role">Product Design · Super Normal</div>
+              <div class="person-insight">« Design that dissolves into behavior. »</div>
+            </div>
+          </div>
+          <div class="person">
+            <span class="person-num">03</span>
+            <div>
+              <div class="person-name">Jasper Morrison</div>
+              <div class="person-role">Product Design · UK</div>
+              <div class="person-insight">Super Normal Object — l'ordinaire rehaussé.</div>
+            </div>
+          </div>
+          <div class="person">
+            <span class="person-num">04</span>
+            <div>
+              <div class="person-name">Bruno Munari</div>
+              <div class="person-role">Designer · Pédagogue · Italie</div>
+              <div class="person-insight">Le design comme jeu, comme pédagogie.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <h3 style="font-family:var(--font-sans); font-size:12px; letter-spacing:0.25em; text-transform:uppercase; color:var(--vermilion); margin-bottom:24px;">Philosophes · Boussole intellectuelle</h3>
+        <div class="persons-list">
+          <div class="person">
+            <span class="person-num">01</span>
+            <div>
+              <div class="person-name">Jun'ichirō Tanizaki</div>
+              <div class="person-role">1886—1965 · Japon</div>
+              <div class="person-insight">L'Éloge de l'ombre — la beauté du discret.</div>
+            </div>
+          </div>
+          <div class="person">
+            <span class="person-num">02</span>
+            <div>
+              <div class="person-name">Okakura Kakuzō</div>
+              <div class="person-role">1862—1913 · Japon</div>
+              <div class="person-insight">Le Livre du thé — économie et rituel.</div>
+            </div>
+          </div>
+          <div class="person">
+            <span class="person-num">03</span>
+            <div>
+              <div class="person-name">Kūkai (Kōbō Daishi)</div>
+              <div class="person-role">774—835 · Japon</div>
+              <div class="person-insight">Les six éléments, la résonance.</div>
+            </div>
+          </div>
+          <div class="person">
+            <span class="person-num">04</span>
+            <div>
+              <div class="person-name">Zhuangzi</div>
+              <div class="person-role">~IVe s. av. JC · Chine</div>
+              <div class="person-insight">L'utile de l'inutile, le vide du vase.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- PALETTE -->
+  <section class="section">
+    <div class="section-head">
+      <div class="section-num">01 — Palette</div>
+      <div class="section-title">Cinq encres, quatre saisons.</div>
+    </div>
+    <div class="palette">
+      <div class="swatch" style="background:#F8F5EF; color:#1A1A1A;">
+        <div class="swatch-kanji">白</div>
+        <div>
+          <div class="swatch-name">Shiro / Blanc</div>
+          <div class="swatch-hex">#F8F5EF</div>
+        </div>
+      </div>
+      <div class="swatch" style="background:#EEE9DC; color:#1A1A1A;">
+        <div class="swatch-kanji">生成</div>
+        <div>
+          <div class="swatch-name">Kinari / Écru</div>
+          <div class="swatch-hex">#EEE9DC</div>
+        </div>
+      </div>
+      <div class="swatch" style="background:#1A1A1A; color:#F8F5EF;">
+        <div class="swatch-kanji">墨</div>
+        <div>
+          <div class="swatch-name">Sumi / Encre</div>
+          <div class="swatch-hex">#1A1A1A</div>
+        </div>
+      </div>
+      <div class="swatch" style="background:#26384F; color:#F8F5EF;">
+        <div class="swatch-kanji">藍</div>
+        <div>
+          <div class="swatch-name">Ai / Indigo</div>
+          <div class="swatch-hex">#26384F</div>
+        </div>
+      </div>
+      <div class="swatch" style="background:#B8453A; color:#F8F5EF;">
+        <div class="swatch-kanji">朱</div>
+        <div>
+          <div class="swatch-name">Shu / Vermillon</div>
+          <div class="swatch-hex">#B8453A</div>
+        </div>
+      </div>
+    </div>
+    <p class="note">Cinq encres traditionnelles japonaises, nommées par leur <em>kanji</em>. Le papier <strong>shiro</strong> domine — 80 % de chaque carte est vide. <strong>Sumi</strong> pour l'écriture. <strong>Ai</strong> pour la profondeur (verso, indigo traditionnel du washi). <strong>Shu</strong> uniquement pour les sceaux, les numéros, les accents — jamais en aplat.</p>
+  </section>
+
+  <!-- TYPO -->
+  <section class="section">
+    <div class="section-head">
+      <div class="section-num">02 — Typographie</div>
+      <div class="section-title">Un serif qui respire, un sans qui compte.</div>
+    </div>
+    <div class="typo-demo">
+      <div class="typo-row">
+        <div class="typo-label">Display · Noto Serif JP 300</div>
+        <div class="type-h">Data <span class="vermilion">centers.</span></div>
+      </div>
+      <div class="typo-row">
+        <div class="typo-label">Meta · Inter 500 uppercase</div>
+        <div class="type-m">LOT.02 · 14 · IMPACT · ÉNERGIE</div>
+      </div>
+      <div class="typo-row">
+        <div class="typo-label">Citation · Noto Serif italic</div>
+        <div class="type-i">« Infrastructures invisibles, conséquences visibles. »</div>
+      </div>
+      <div class="typo-row">
+        <div class="typo-label">Body · Noto Serif 300</div>
+        <div class="type-b">Les data centers consomment environ 1 % de l'électricité mondiale. Un chiffre qui double tous les 4 ans, porté par l'explosion de l'IA générative et du streaming.</div>
+      </div>
+    </div>
+    <p class="note">Noto Serif JP en poids <strong>300 uniquement</strong> — aucun gras. La typographie doit respirer, ne jamais crier. Inter pour tout ce qui est mesure, index, navigation — factuel, silencieux. L'<em>interlignage est large</em> (1.8), comme dans un livre d'essai japonais.</p>
+  </section>
+
+  <!-- PHILOSOPHIE -->
+  <section class="section">
+    <div class="section-head">
+      <div class="section-num">03 — Voix en exergue</div>
+      <div class="section-title">Ce qui traverse la Fresque.</div>
+    </div>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:50px;">
+      <div>
+        <blockquote style="font-family:var(--font-serif); font-size:20px; font-weight:300; font-style:italic; line-height:1.5; color:var(--sumi); margin-bottom:16px;">« L'utilité du vase vient de son vide. »</blockquote>
+        <cite style="font-family:var(--font-sans); font-size:10px; font-style:normal; color:var(--vermilion); letter-spacing:0.2em; text-transform:uppercase;">Laozi · Tao Te Ching · Chap. 11</cite>
+      </div>
+      <div>
+        <blockquote style="font-family:var(--font-serif); font-size:20px; font-weight:300; font-style:italic; line-height:1.5; color:var(--sumi); margin-bottom:16px;">« Design is making things intelligible, not making them more. »</blockquote>
+        <cite style="font-family:var(--font-sans); font-size:10px; font-style:normal; color:var(--vermilion); letter-spacing:0.2em; text-transform:uppercase;">Kenya Hara · White · 2009</cite>
+      </div>
+    </div>
+  </section>
+
+  <!-- THEMES -->
+  <section class="section">
+    <div class="section-head">
+      <div class="section-num">04 — Six thèmes</div>
+      <div class="section-title">Nommés, numérotés, silencieux.</div>
+    </div>
+    <div class="themes">
+      <div class="theme">
+        <div>
+          <div class="theme-kanji">安</div>
+          <div class="theme-num">01</div>
+        </div>
+        <div class="theme-name">Sécurité<br>Vie privée</div>
+      </div>
+      <div class="theme">
+        <div>
+          <div class="theme-kanji">商</div>
+          <div class="theme-num">02</div>
+        </div>
+        <div class="theme-name">Économie<br>Emploi</div>
+      </div>
+      <div class="theme">
+        <div>
+          <div class="theme-kanji">命</div>
+          <div class="theme-num">03</div>
+        </div>
+        <div class="theme-name">Santé<br>Corps & esprit</div>
+      </div>
+      <div class="theme">
+        <div>
+          <div class="theme-kanji">声</div>
+          <div class="theme-num">04</div>
+        </div>
+        <div class="theme-name">Propagande<br>Mobilisation</div>
+      </div>
+      <div class="theme">
+        <div>
+          <div class="theme-kanji">世</div>
+          <div class="theme-num">05</div>
+        </div>
+        <div class="theme-name">Mondialisation<br>Connaissance</div>
+      </div>
+      <div class="theme">
+        <div>
+          <div class="theme-kanji">界</div>
+          <div class="theme-num">06</div>
+        </div>
+        <div class="theme-name">Frontières<br>Planétaires</div>
+      </div>
+    </div>
+    <p class="note">Chaque thème est incarné par un <em>kanji</em> vermillon — <strong>un seul caractère</strong>. 安 sécurité, 商 commerce, 命 vie, 声 voix, 世 monde, 界 limite. Lecture visuelle instantanée pour l'animatrice, mais silencieuse — n'occupe que 2 % de la carte.</p>
+  </section>
+
+  <!-- CARTES -->
+  <section class="section">
+    <div class="section-head">
+      <div class="section-num">05 — Cartes</div>
+      <div class="section-title">Papier, encre, vide.</div>
+    </div>
+    <div class="cards-demo">
+      <div class="card">
+        <div class="card-head">
+          <span class="card-ref">LOT.02 · 14</span>
+          <span>商 · ÉCONOMIE</span>
+        </div>
+        <div class="card-title">Data centers</div>
+        <div class="card-kanji">算</div>
+        <div class="card-sub">Infrastructures du calcul, 1950—</div>
+        <div class="card-foot">
+          <span>FR · 2026</span>
+          <span class="card-sig"><span class="logo"></span>Fresque · Tech</span>
+        </div>
+      </div>
+
+      <div class="card card-verso">
+        <div class="card-head">
+          <span class="card-ref">LOT.02 · 14</span>
+          <span>verso</span>
+        </div>
+        <div class="verso-year">20<span class="vermilion">24</span></div>
+        <div class="verso-context">« 1 % de l'électricité mondiale. Doublement tous les 4 ans avec l'IA générative et le streaming 4K. »</div>
+        <div class="card-foot">
+          <span>Q · 限界は</span>
+          <span class="card-sig"><span class="logo"></span>→ 03</span>
+        </div>
+      </div>
+    </div>
+    <p class="note">Recto : <strong>silence typographique.</strong> Le titre flotte, entouré de vide. Le <em>kanji</em> central (算 = calcul) agit comme un sceau japonais. Verso : fond sumi, année en corps énorme avec les deux derniers chiffres en vermillon — comme si le présent était <em>souligné à l'encre rouge.</em></p>
+  </section>
+
+  <!-- SIGNATURE -->
+  <section class="section">
+    <div class="section-head">
+      <div class="section-num">06 — Signature</div>
+      <div class="section-title">Un sceau discret.</div>
+    </div>
+    <div class="sig-demo">
+      <div class="sig-block">
+        <div class="sig-label">Composé par</div>
+        <div class="sig-value"><span class="bleen"></span></div>
+      </div>
+      <div class="sig-center">印</div>
+      <div class="sig-block">
+        <div class="sig-label">Édition</div>
+        <div class="sig-value">V1 · 2026</div>
+      </div>
+    </div>
+    <p class="note">Le logo Bleen en encre sumi, à gauche. Le <em>kanji</em> 印 (<em>in</em> = sceau) au centre, vermillon — comme le sceau du calligraphe au bas de l'œuvre. L'édition à droite, sobrement datée.</p>
+  </section>
+
+  <!-- PRINCIPES -->
+  <section class="section">
+    <div class="section-head">
+      <div class="section-num">07 — Principes</div>
+      <div class="section-title">Ce qui fait la forme.</div>
+    </div>
+    <p class="type-b" style="max-width:700px; font-style:normal;">
+      · <strong>80 % de vide</strong> sur chaque carte — le papier est un matériau, pas un fond<br>
+      · <em>Noto Serif JP light</em> uniquement — aucun gras, aucune graisse supérieure à 400<br>
+      · <em>Inter</em> uniquement pour la mesure, jamais pour le discours<br>
+      · Chaque thème = un <em>kanji</em>, chaque carte = un <em>kanji</em> secondaire<br>
+      · Vermillon 朱 uniquement en accent (sceau, numéro, date-clé)<br>
+      · Indigo 藍 réservé aux versos et aux schémas<br>
+      · Filets 0.5px, jamais plus épais<br>
+      · Interlignage 1.8 minimum — l'air doit passer entre les phrases<br>
+      · Aucune ombre, aucun gradient, aucun arrondi
+    </p>
+  </section>
+
+  <footer>
+    <span>Direction 08 · Hara × Tanizaki</span>
+    <span>Bleen · 2026</span>
+  </footer>
+
+</div>
+
+</body>
+</html>

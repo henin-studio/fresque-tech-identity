@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Direction 3 — Circuits / Blueprint</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;700;900&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --midnight: #0c1e3a;
+    --midnight-deep: #060f20;
+    --cyan: #06b6d4;
+    --cyan-dim: #0e7490;
+    --amber: #fbbf24;
+    --mist: #e2e8f0;
+    --steel: #64748b;
+    --font-display: 'Archivo', -apple-system, sans-serif;
+    --font-mono: 'IBM Plex Mono', 'Courier New', monospace;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--midnight);
+    color: var(--mist);
+    font-family: var(--font-display);
+    padding: 60px 40px;
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  /* Grille blueprint globale */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(6, 182, 212, 0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(6, 182, 212, 0.06) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 1;
+  }
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(ellipse at top, transparent 0%, var(--midnight-deep) 100%);
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.7;
+  }
+  body > * { position: relative; z-index: 2; }
+
+  .nav {
+    max-width: 1200px;
+    margin: 0 auto 40px;
+  }
+  .nav a {
+    color: var(--cyan);
+    text-decoration: none;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    letter-spacing: 0.05em;
+  }
+  .nav a:hover { text-decoration: underline; }
+
+  h1 {
+    font-family: var(--font-display);
+    font-size: 58px;
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    max-width: 1200px;
+    margin: 0 auto 14px;
+    line-height: 1;
+  }
+  h1 .cyan {
+    background: linear-gradient(180deg, var(--cyan) 0%, var(--cyan-dim) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  h1 .amber { color: var(--amber); }
+
+  .sub {
+    max-width: 680px;
+    margin: 0 auto 70px;
+    font-size: 17px;
+    line-height: 1.55;
+    color: var(--steel);
+    margin-left: max(40px, calc((100vw - 1200px) / 2));
+  }
+
+  .section {
+    max-width: 1200px;
+    margin: 0 auto 70px;
+    padding-top: 44px;
+    position: relative;
+  }
+  .section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 80px;
+    height: 2px;
+    background: var(--cyan);
+  }
+  .section-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--cyan);
+    margin-bottom: 28px;
+  }
+  .section-label::before {
+    content: '◇ ';
+    color: var(--amber);
+  }
+
+  /* Palette */
+  .palette {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+  .swatch {
+    aspect-ratio: 1;
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-radius: 6px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    position: relative;
+    overflow: hidden;
+  }
+  .swatch::before {
+    content: '';
+    position: absolute;
+    inset: 6px;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 3px;
+    pointer-events: none;
+  }
+  .swatch-name { font-weight: 700; font-size: 14px; font-family: var(--font-display); }
+  .swatch-hex { opacity: 0.8; }
+
+  /* Typo */
+  .typo-demo { display: grid; gap: 28px; }
+  .type-h {
+    font-family: var(--font-display);
+    font-size: 84px;
+    font-weight: 900;
+    letter-spacing: -0.03em;
+    color: var(--mist);
+    line-height: 0.95;
+  }
+  .type-h .cyan { color: var(--cyan); }
+  .type-m {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--amber);
+    letter-spacing: 0.08em;
+  }
+  .type-b {
+    font-family: var(--font-display);
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--steel);
+    max-width: 620px;
+  }
+
+  /* Cartes */
+  .cards-demo {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+  }
+  .card {
+    aspect-ratio: 148/105;
+    background: var(--midnight-deep);
+    border: 1px solid rgba(6, 182, 212, 0.3);
+    border-radius: 10px;
+    padding: 22px 24px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  /* SVG circuit decoratif */
+  .card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(6, 182, 212, 0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(6, 182, 212, 0.04) 1px, transparent 1px);
+    background-size: 20px 20px;
+    pointer-events: none;
+  }
+  .card::after {
+    content: '';
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    border: 1px solid var(--cyan);
+    opacity: 0.25;
+    border-radius: 50%;
+    top: -60px;
+    right: -60px;
+    pointer-events: none;
+  }
+  .card-head {
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--cyan);
+    letter-spacing: 0.12em;
+    margin-bottom: 18px;
+    position: relative;
+    z-index: 2;
+  }
+  .card-head .dot {
+    width: 6px;
+    height: 6px;
+    background: var(--amber);
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 8px;
+    box-shadow: 0 0 8px var(--amber);
+  }
+  .card-tag {
+    display: flex;
+    align-items: center;
+  }
+  .card-icon {
+    width: 56px;
+    height: 56px;
+    margin-bottom: 14px;
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .card-icon svg {
+    width: 100%;
+    height: 100%;
+  }
+  .card-title {
+    font-family: var(--font-display);
+    font-size: 32px;
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    color: var(--mist);
+    margin-bottom: auto;
+    position: relative;
+    z-index: 2;
+  }
+  .card-title .accent { color: var(--cyan); }
+  .card-foot {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--steel);
+    letter-spacing: 0.08em;
+    position: relative;
+    z-index: 2;
+  }
+  .card-sig {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--cyan);
+  }
+  .card-sig .logo {
+    width: 16px;
+    height: 16px;
+    background: var(--cyan);
+    mask: url('assets/logo/bleen-icone.svg') center/contain no-repeat;
+    -webkit-mask: url('assets/logo/bleen-icone.svg') center/contain no-repeat;
+  }
+
+  /* Verso */
+  .card-verso {
+    background: linear-gradient(135deg, #0c1e3a 0%, #1e3a5f 100%);
+  }
+  .card-verso::after {
+    top: auto;
+    right: auto;
+    bottom: -80px;
+    left: -60px;
+    border-color: var(--amber);
+    opacity: 0.3;
+  }
+  .verso-year {
+    font-family: var(--font-display);
+    font-size: 72px;
+    font-weight: 900;
+    letter-spacing: -0.04em;
+    line-height: 1;
+    color: var(--amber);
+    margin-bottom: 10px;
+    position: relative;
+    z-index: 2;
+    text-shadow: 0 0 20px rgba(251, 191, 36, 0.4);
+  }
+  .verso-context {
+    font-family: var(--font-display);
+    font-size: 13px;
+    line-height: 1.45;
+    color: var(--mist);
+    max-width: 85%;
+    margin-bottom: auto;
+    position: relative;
+    z-index: 2;
+  }
+
+  /* Icons circuit */
+  .icon-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 14px;
+  }
+  .mini-icon {
+    aspect-ratio: 1;
+    border: 1px solid var(--cyan-dim);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--cyan);
+    background: var(--midnight-deep);
+    position: relative;
+    overflow: hidden;
+  }
+  .mini-icon::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(6, 182, 212, 0.08) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(6, 182, 212, 0.08) 1px, transparent 1px);
+    background-size: 8px 8px;
+  }
+  .mini-icon svg {
+    width: 50%;
+    height: 50%;
+    position: relative;
+    z-index: 2;
+    stroke: var(--cyan);
+    fill: none;
+    stroke-width: 1.5;
+  }
+
+  /* Signature */
+  .sig-demo {
+    display: flex;
+    gap: 60px;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 32px 28px;
+    background: var(--midnight-deep);
+    border: 1px solid rgba(6, 182, 212, 0.2);
+    border-radius: 10px;
+  }
+  .sig-block {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-family: var(--font-display);
+    font-size: 15px;
+    color: var(--steel);
+  }
+  .sig-block .bleen {
+    width: 75px;
+    height: 22px;
+    background: var(--cyan);
+    mask: url('assets/logo/bleen-texte.svg') center/contain no-repeat;
+    -webkit-mask: url('assets/logo/bleen-texte.svg') center/contain no-repeat;
+  }
+  .sig-block code {
+    font-family: var(--font-mono);
+    color: var(--amber);
+    font-size: 13px;
+  }
+
+  .note {
+    font-family: var(--font-display);
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--steel);
+    margin-top: 18px;
+    max-width: 720px;
+  }
+
+  /* Circuit decoratif SVG */
+  .bg-circuit {
+    position: absolute;
+    top: 40px;
+    right: 40px;
+    width: 200px;
+    height: 200px;
+    opacity: 0.25;
+    z-index: 0;
+  }
+
+</style>
+</head>
+<body>
+  <nav class="nav"><a href="index.html">← retour aux 3 directions</a></nav>
+
+  <svg class="bg-circuit" viewBox="0 0 200 200" fill="none" stroke="#06b6d4" stroke-width="0.8">
+    <circle cx="100" cy="100" r="80"/>
+    <circle cx="100" cy="100" r="60"/>
+    <circle cx="100" cy="100" r="40" stroke="#fbbf24"/>
+    <circle cx="100" cy="100" r="4" fill="#fbbf24" stroke="none"/>
+    <line x1="20" y1="100" x2="60" y2="100"/>
+    <line x1="140" y1="100" x2="180" y2="100"/>
+    <line x1="100" y1="20" x2="100" y2="60"/>
+    <line x1="100" y1="140" x2="100" y2="180"/>
+    <circle cx="20" cy="100" r="3" fill="#06b6d4" stroke="none"/>
+    <circle cx="180" cy="100" r="3" fill="#06b6d4" stroke="none"/>
+    <circle cx="100" cy="20" r="3" fill="#06b6d4" stroke="none"/>
+    <circle cx="100" cy="180" r="3" fill="#06b6d4" stroke="none"/>
+  </svg>
+
+  <h1>Direction 03<br><span class="cyan">Circuits</span> <span class="amber">/</span> Blueprint</h1>
+  <p class="sub">Inspiré des schémas PCB, des plans techniques, des dashboards d'ingénieur. Grille bleue, néons contenus, typo Archivo condensée. Élégant, sérieux, un peu sci-fi — pour un public B2B qui veut comprendre la tech sous le capot.</p>
+
+  <!-- PALETTE -->
+  <section class="section">
+    <div class="section-label">palette — blueprint</div>
+    <div class="palette">
+      <div class="swatch" style="background:#0c1e3a; color:#e2e8f0;">
+        <div class="swatch-name">Midnight</div>
+        <div class="swatch-hex">#0C1E3A</div>
+      </div>
+      <div class="swatch" style="background:#06b6d4; color:#0c1e3a;">
+        <div class="swatch-name">Cyan</div>
+        <div class="swatch-hex">#06B6D4</div>
+      </div>
+      <div class="swatch" style="background:#fbbf24; color:#0c1e3a;">
+        <div class="swatch-name">Amber</div>
+        <div class="swatch-hex">#FBBF24</div>
+      </div>
+      <div class="swatch" style="background:#e2e8f0; color:#0c1e3a;">
+        <div class="swatch-name">Mist</div>
+        <div class="swatch-hex">#E2E8F0</div>
+      </div>
+    </div>
+    <p class="note">Midnight en fond absolu. Cyan pour la structure (grilles, traits, icônes). Amber pour l'attention (alertes, chiffres-clés). Mist pour le texte courant. Palette ingénieur, pas startup.</p>
+  </section>
+
+  <!-- TYPO -->
+  <section class="section">
+    <div class="section-label">typographie</div>
+    <div class="typo-demo">
+      <div class="type-m">◇ DISPLAY — Archivo 900</div>
+      <div class="type-h">Data <span class="cyan">centers.</span></div>
+      <div class="type-m">◇ MONO — IBM Plex Mono 500</div>
+      <div class="type-b" style="font-family:var(--font-mono); color:var(--amber)">[LOT_02 · 14] IMPACT_ENERGY · v2026.04</div>
+      <div class="type-m">◇ BODY — Archivo 400</div>
+      <div class="type-b">Les data centers consomment environ 1 % de l'électricité mondiale. Un chiffre qui double tous les 4 ans, porté par l'explosion de l'IA générative et du streaming.</div>
+    </div>
+  </section>
+
+  <!-- CARTES -->
+  <section class="section">
+    <div class="section-label">cartes — recto / verso</div>
+    <div class="cards-demo">
+      <div class="card">
+        <div class="card-head">
+          <span class="card-tag"><span class="dot"></span>LOT_02 · 14</span>
+          <span>IMPACT_ENERGY</span>
+        </div>
+        <div class="card-icon">
+          <svg viewBox="0 0 48 48" fill="none" stroke="#06b6d4" stroke-width="1.5">
+            <rect x="8" y="14" width="32" height="20" rx="2"/>
+            <line x1="8" y1="20" x2="40" y2="20"/>
+            <line x1="8" y1="28" x2="40" y2="28"/>
+            <circle cx="14" cy="17" r="1" fill="#fbbf24" stroke="none"/>
+            <circle cx="14" cy="24" r="1" fill="#06b6d4" stroke="none"/>
+            <circle cx="14" cy="31" r="1" fill="#06b6d4" stroke="none"/>
+          </svg>
+        </div>
+        <div class="card-title">Data<br><span class="accent">centers</span></div>
+        <div class="card-foot">
+          <span>FR · 2026</span>
+          <span class="card-sig"><span class="logo"></span>FRESQUE_TECH</span>
+        </div>
+      </div>
+
+      <div class="card card-verso">
+        <div class="card-head">
+          <span class="card-tag"><span class="dot"></span>LOT_02 · 14 / VERSO</span>
+          <span>→ LOT_03</span>
+        </div>
+        <div class="verso-year">2024</div>
+        <div class="verso-context">1 % de l'électricité mondiale consommée. Doublement tous les 4 ans avec l'IA générative et le streaming 4K.</div>
+        <div class="card-foot">
+          <span style="color:var(--amber)">Q: où tracer la limite ?</span>
+          <span class="card-sig"><span class="logo"></span></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ICONES -->
+  <section class="section">
+    <div class="section-label">système d'icônes — circuits</div>
+    <div class="icon-grid">
+      <div class="mini-icon">
+        <svg viewBox="0 0 24 24"><rect x="4" y="8" width="16" height="8" rx="1"/><circle cx="7" cy="12" r="1" fill="#fbbf24" stroke="none"/></svg>
+      </div>
+      <div class="mini-icon">
+        <svg viewBox="0 0 24 24"><path d="M12 3 L12 21 M3 12 L21 12"/><circle cx="12" cy="12" r="4"/></svg>
+      </div>
+      <div class="mini-icon">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3" fill="#06b6d4" stroke="none"/></svg>
+      </div>
+      <div class="mini-icon">
+        <svg viewBox="0 0 24 24"><polyline points="3,17 9,11 13,15 21,7"/><polyline points="21,7 21,13"/><polyline points="21,7 15,7"/></svg>
+      </div>
+      <div class="mini-icon">
+        <svg viewBox="0 0 24 24"><polygon points="12,3 21,20 3,20"/></svg>
+      </div>
+      <div class="mini-icon">
+        <svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="12" y1="4" x2="12" y2="20"/></svg>
+      </div>
+      <div class="mini-icon">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="9" stroke-dasharray="2 2"/></svg>
+      </div>
+      <div class="mini-icon">
+        <svg viewBox="0 0 24 24"><path d="M4 12 Q8 4 12 12 T20 12"/></svg>
+      </div>
+      <div class="mini-icon">
+        <svg viewBox="0 0 24 24"><path d="M6 4 L18 4 L18 20 L6 20 Z"/><circle cx="12" cy="17" r="1" fill="#06b6d4" stroke="none"/></svg>
+      </div>
+      <div class="mini-icon">
+        <svg viewBox="0 0 24 24"><line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/><circle cx="12" cy="12" r="3"/></svg>
+      </div>
+      <div class="mini-icon">
+        <svg viewBox="0 0 24 24"><circle cx="8" cy="8" r="3"/><circle cx="16" cy="16" r="3"/><line x1="11" y1="8" x2="13" y2="8"/><line x1="11" y1="16" x2="13" y2="16"/></svg>
+      </div>
+      <div class="mini-icon">
+        <svg viewBox="0 0 24 24"><path d="M12 3 L20 8 L20 16 L12 21 L4 16 L4 8 Z"/></svg>
+      </div>
+    </div>
+    <p class="note">Pictogrammes vectoriels monoligne, trait cyan 1.5px. Esprit schéma technique, composants électroniques, topologies réseau. Tout tient sur une grille 24×24.</p>
+  </section>
+
+  <!-- SIGNATURE -->
+  <section class="section">
+    <div class="section-label">signature bleen</div>
+    <div class="sig-demo">
+      <div class="sig-block">
+        <span>An initiative by</span>
+        <span class="bleen"></span>
+      </div>
+      <div class="sig-block">
+        <code>bleen.be/fresque-tech</code>
+      </div>
+      <div class="sig-block">
+        <code style="color:var(--steel)">v.2026.04</code>
+      </div>
+    </div>
+    <p class="note">Logo Bleen vire cyan pour s'inscrire dans le système. Proportions réduites — c'est une caution, pas le sujet.</p>
+  </section>
+
+  <!-- PRINCIPES -->
+  <section class="section">
+    <div class="section-label">principes</div>
+    <p class="type-b">
+      ◇ Fond midnight uniquement, jamais de blanc<br>
+      ◇ Grille 20×20 apparente partout<br>
+      ◇ Cyan pour la structure, amber uniquement pour les alertes<br>
+      ◇ Pas d'illustrations figuratives — icônes techniques uniquement<br>
+      ◇ Métadonnées en code monospace<br>
+      ◇ Effet glow subtil sur les chiffres clés
+    </p>
+  </section>
+
+</body>
+</html>

@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Fresque Tech — Explorations d'identité</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f5f3ef;
+    --ink: #1a1a1a;
+    --ink-soft: #555;
+    --ink-muted: #888;
+    --accent: #C72030;
+    --rule: rgba(26, 26, 26, 0.12);
+    --font-sans: 'Inter', -apple-system, 'Helvetica Neue', sans-serif;
+    --font-mono: 'Space Mono', monospace;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: var(--font-sans);
+    background: var(--bg);
+    color: var(--ink);
+    padding: 60px 40px;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+  header {
+    max-width: 1400px;
+    margin: 0 auto 50px;
+    border-bottom: 2px solid var(--ink);
+    padding-bottom: 30px;
+  }
+  .kicker {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 14px;
+    font-weight: 500;
+  }
+  h1 {
+    font-size: 48px;
+    font-weight: 900;
+    letter-spacing: -0.025em;
+    margin-bottom: 14px;
+    line-height: 1.05;
+  }
+  p.lead {
+    font-size: 17px;
+    color: var(--ink-soft);
+    max-width: 760px;
+    line-height: 1.55;
+  }
+  .meta {
+    display: grid;
+    grid-template-columns: repeat(4, auto);
+    gap: 40px;
+    margin-top: 24px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--ink-muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .meta strong {
+    color: var(--ink);
+    font-weight: 700;
+    display: block;
+    margin-top: 4px;
+    font-size: 14px;
+    letter-spacing: 0;
+    text-transform: none;
+    font-family: var(--font-sans);
+  }
+
+  .section-label {
+    max-width: 1400px;
+    margin: 40px auto 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--ink);
+  }
+  .section-title {
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+  .section-count {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--ink-muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .grid {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  .card {
+    background: #fff;
+    border: 1px solid var(--rule);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s;
+    display: flex;
+    flex-direction: column;
+  }
+  .card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06), 0 18px 40px rgba(0,0,0,0.08);
+    border-color: var(--ink);
+  }
+  .preview {
+    aspect-ratio: 16/10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 22px;
+    position: relative;
+    overflow: hidden;
+  }
+  .info {
+    padding: 22px 24px 24px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+  .num {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .title {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.015em;
+    margin-bottom: 10px;
+    line-height: 1.15;
+  }
+  .desc {
+    color: var(--ink-soft);
+    line-height: 1.5;
+    font-size: 13.5px;
+    margin-bottom: 14px;
+  }
+  .sources {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.05em;
+    color: var(--ink-muted);
+    margin-bottom: 14px;
+    line-height: 1.6;
+    padding: 8px 0;
+    border-top: 1px dashed var(--rule);
+  }
+  .sources strong {
+    color: var(--ink);
+    font-weight: 700;
+  }
+  .swatches {
+    display: flex;
+    gap: 5px;
+    margin-bottom: 18px;
+  }
+  .sw {
+    width: 24px;
+    height: 24px;
+    border-radius: 5px;
+    border: 1px solid rgba(0,0,0,0.08);
+  }
+  a.btn {
+    display: inline-block;
+    padding: 9px 16px;
+    background: var(--ink);
+    color: #fff;
+    text-decoration: none;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    transition: background 0.15s;
+    margin-top: auto;
+    align-self: flex-start;
+  }
+  a.btn:hover { background: var(--accent); }
+
+  /* Previews propres à chaque direction retenue */
+  .p1 {
+    background: #0a0a0a;
+    color: #00ff88;
+    font-family: 'Courier New', monospace;
+  }
+  .p2 {
+    background: #f4e8d6;
+    color: #1e3a8a;
+    font-family: Georgia, serif;
+    font-style: italic;
+    position: relative;
+  }
+  .p2::after {
+    content: '';
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    background: #ff6b5c;
+    border-radius: 50%;
+    top: 10px;
+    right: 15px;
+    mix-blend-mode: multiply;
+    opacity: 0.85;
+  }
+  .p3 {
+    background: #F2EFE7;
+    color: #0F0F0F;
+    font-family: var(--font-sans);
+    font-weight: 900;
+    letter-spacing: -0.03em;
+    font-size: 34px;
+  }
+  .p3 .red { color: #E31837; }
+  .p4 {
+    background: #FFFFFF;
+    color: #000000;
+    font-family: var(--font-sans);
+    font-weight: 900;
+    letter-spacing: -0.04em;
+    font-size: 36px;
+    border: 2px solid #000;
+    position: relative;
+  }
+  .p4 .red { color: #C72030; }
+  .p5 {
+    background: #FFF8EB;
+    color: #1A1A1A;
+    font-family: 'Archivo Black', Impact, sans-serif;
+    font-size: 36px;
+    letter-spacing: -0.04em;
+    position: relative;
+  }
+  .p5 .pink { color: #FF5CA8; }
+  .p5 .yellow { background: #FFCB2E; padding: 0 8px; display: inline-block; transform: rotate(-2deg); }
+  .p5::after {
+    content: '';
+    position: absolute;
+    width: 60px; height: 60px;
+    background: #3DB8F5;
+    border-radius: 50%;
+    bottom: 10px;
+    left: 15px;
+  }
+  .p6 {
+    background: #F5F1EC;
+    color: #0A0A0A;
+    font-family: 'Anton', Impact, sans-serif;
+    font-size: 46px;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+    line-height: 0.9;
+    border-top: 10px solid #0A0A0A;
+  }
+  .p6 .acid { background: #D4FF00; padding: 0 4px; }
+  .p6 .blood { color: #D1002E; }
+  .p7 {
+    background: #F5F2E9;
+    color: #111;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 900;
+    font-size: 30px;
+    letter-spacing: -0.04em;
+    text-transform: lowercase;
+    position: relative;
+  }
+  .p7::before {
+    content: '';
+    position: absolute;
+    width: 50px; height: 50px;
+    border-radius: 50%;
+    background: #E23E3E;
+    top: 14px; left: 14px;
+  }
+  .p7::after {
+    content: '';
+    position: absolute;
+    width: 0; height: 0;
+    border-left: 25px solid transparent;
+    border-right: 25px solid transparent;
+    border-bottom: 44px solid #1959C7;
+    bottom: 14px; right: 14px;
+  }
+  .p8 {
+    background: #FBF8EF;
+    color: #0E0E0E;
+    font-family: 'Bebas Neue', Impact, sans-serif;
+    font-size: 62px;
+    letter-spacing: 0;
+    text-transform: uppercase;
+    line-height: 0.9;
+  }
+  .p8 .cyan { color: #00B0E8; }
+  .p8 .mg { color: #FF2E7E; }
+  .p8 .yw { background: #FFE400; padding: 0 6px; }
+
+  /* Flag Atlas */
+  .flag-atlas {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 4px 9px;
+    background: rgba(255, 255, 255, 0.9);
+    color: var(--ink);
+    border-radius: 4px;
+    font-weight: 700;
+    z-index: 2;
+  }
+
+  footer {
+    max-width: 1400px;
+    margin: 80px auto 0;
+    padding-top: 30px;
+    border-top: 1px solid var(--ink);
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 20px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--ink-muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+  <header>
+    <div class="kicker">Fresque Tech Bleen · Identité · Shortlist</div>
+    <h1>8 directions retenues.</h1>
+    <p class="lead">Shortlist de 8 pistes visuelles pour la Fresque Tech — déclinaison de la Fresque du Numérique. Les 2 premières sont des intuitions libres. Les 6 suivantes sont <strong>fondées sur une curation de DesignersAtlas</strong> (608 designers, 135 philosophes) — chaque direction part d'une shortlist de designers + philosophes dont l'esthétique et la pensée dérivent l'identité.</p>
+    <div class="meta">
+      <div>Shortlist<strong>8 directions retenues</strong></div>
+      <div>Format cartes<strong>A6 paysage · 148×105 mm</strong></div>
+      <div>Volume<strong>68 cartes · 6 thèmes · FR + EN</strong></div>
+      <div>Livraison<strong>Design Canva · Édition V1 · 2026</strong></div>
+    </div>
+  </header>
+
+  <div class="section-label">
+    <div class="section-title">Shortlist — directions à arbitrer</div>
+    <div class="section-count">01 — 08 · 8 directions</div>
+  </div>
+  <div class="grid">
+
+    <article class="card">
+      <div class="preview p1">&lt;/&gt; terminal</div>
+      <div class="info">
+        <div class="num">01 — Direction</div>
+        <h2 class="title">Terminal / Data</h2>
+        <p class="desc">Numérique assumé, codes dev, grille monospace, esthétique console. Parle de la tech avec son propre vocabulaire.</p>
+        <div class="swatches">
+          <div class="sw" style="background:#0a0a0a"></div>
+          <div class="sw" style="background:#00ff88"></div>
+          <div class="sw" style="background:#f5f3ef"></div>
+          <div class="sw" style="background:#ff3e00"></div>
+        </div>
+        <a class="btn" href="direction-1-terminal.html" target="_blank">Ouvrir →</a>
+      </div>
+    </article>
+
+    <article class="card">
+      <div class="preview p2">Risographie</div>
+      <div class="info">
+        <div class="num">02 — Direction</div>
+        <h2 class="title">Riso / Papier</h2>
+        <p class="desc">Artisanal, grain papier, 2-3 encres imprimées. Tactile, humain, dédramatise la tech. Esprit fanzine pédago.</p>
+        <div class="swatches">
+          <div class="sw" style="background:#f4e8d6"></div>
+          <div class="sw" style="background:#1e3a8a"></div>
+          <div class="sw" style="background:#ff6b5c"></div>
+          <div class="sw" style="background:#2d2d2d"></div>
+        </div>
+        <a class="btn" href="direction-2-riso.html" target="_blank">Ouvrir →</a>
+      </div>
+    </article>
+
+    <article class="card">
+      <div class="preview p3">
+        <span class="flag-atlas">◆ Atlas · curation</span>
+        Data <span class="red">centers.</span>
+      </div>
+      <div class="info">
+        <div class="num">03 — Direction</div>
+        <h2 class="title">Pentagram × Vignelli × MIT</h2>
+        <p class="desc">Rigueur Vignelli, palette noir/rouge/jaune/bleu, Inter + Garamond. Mini-affiches éditoriales qui citent les penseurs.</p>
+        <div class="sources"><strong>Designers :</strong> Vignelli · Rand · Munari · Cooper · Hara · Papanek<br><strong>Philosophes :</strong> Flusser · Simondon · Latour · Rams</div>
+        <div class="swatches">
+          <div class="sw" style="background:#F2EFE7"></div>
+          <div class="sw" style="background:#0F0F0F"></div>
+          <div class="sw" style="background:#E31837"></div>
+          <div class="sw" style="background:#003DA5"></div>
+          <div class="sw" style="background:#FFD100"></div>
+        </div>
+        <a class="btn" href="direction-3-pentagram.html" target="_blank">Ouvrir →</a>
+      </div>
+    </article>
+
+    <article class="card">
+      <div class="preview p4">
+        <span class="flag-atlas">◆ Atlas · curation</span>
+        Tech<span class="red">.</span>
+      </div>
+      <div class="info">
+        <div class="num">04 — Direction</div>
+        <h2 class="title">Flusser × Simondon × Suisse</h2>
+        <p class="desc">École suisse + philosophes de la technique. Grille 8 colonnes, Inter 900, diagrammes Simondoniens. Austère, analytique, traité illustré.</p>
+        <div class="sources"><strong>Designers :</strong> Müller-Brockmann · Hofmann · Crouwel · Muriel Cooper<br><strong>Philosophes :</strong> Flusser · Simondon · Latour</div>
+        <div class="swatches">
+          <div class="sw" style="background:#FFFFFF; border-color:#000;"></div>
+          <div class="sw" style="background:#000000"></div>
+          <div class="sw" style="background:#C72030"></div>
+          <div class="sw" style="background:#0047AB"></div>
+        </div>
+        <a class="btn" href="direction-4-swiss.html" target="_blank">Ouvrir →</a>
+      </div>
+    </article>
+
+    <article class="card">
+      <div class="preview p5">
+        <span class="flag-atlas">◆ Atlas · curation</span>
+        <span class="pink">Pop</span> <span class="yellow">×</span> 05
+      </div>
+      <div class="info">
+        <div class="num">05 — Direction</div>
+        <h2 class="title">Sottsass × Memphis × Postmoderne</h2>
+        <p class="desc">Joyeux, radical, critique. Formes primaires, 6 couleurs saturées, Archivo Black + VT323 pixel. Hommage au Memphis Group de Milan 1981.</p>
+        <div class="sources"><strong>Designers :</strong> Sottsass · Mendini · Branzi · Gae Aulenti · Karim Rashid<br><strong>Philosophes :</strong> Baudrillard · Barthes</div>
+        <div class="swatches">
+          <div class="sw" style="background:#FFF8EB"></div>
+          <div class="sw" style="background:#FF5CA8"></div>
+          <div class="sw" style="background:#3DB8F5"></div>
+          <div class="sw" style="background:#FFCB2E"></div>
+          <div class="sw" style="background:#16C7A9"></div>
+          <div class="sw" style="background:#7B4BDC"></div>
+        </div>
+        <a class="btn" href="direction-5-memphis.html" target="_blank">Ouvrir →</a>
+      </div>
+    </article>
+
+    <article class="card">
+      <div class="preview p6">
+        <span class="flag-atlas">◆ Atlas · curation</span>
+        Tech <span class="acid">is</span><br><span class="blood">NOT</span> neutral
+      </div>
+      <div class="info">
+        <div class="num">06 — Direction</div>
+        <h2 class="title">Brody × Carson × Punk éditorial</h2>
+        <p class="desc">Éditorial punk années 80-90. Typo cassée, strike-through, contrastes brutaux. Pour un atelier qui assume sa position critique.</p>
+        <div class="sources"><strong>Designers :</strong> Neville Brody · David Carson · Paula Scher · Sagmeister · Saville<br><strong>Philosophes :</strong> Byung-Chul Han · Žižek</div>
+        <div class="swatches">
+          <div class="sw" style="background:#F5F1EC"></div>
+          <div class="sw" style="background:#0A0A0A"></div>
+          <div class="sw" style="background:#D4FF00"></div>
+          <div class="sw" style="background:#D1002E"></div>
+          <div class="sw" style="background:#FF2E92"></div>
+        </div>
+        <a class="btn" href="direction-6-brody.html" target="_blank">Ouvrir →</a>
+      </div>
+    </article>
+
+    <article class="card">
+      <div class="preview p7">
+        <span class="flag-atlas">◆ Atlas · curation</span>
+        bauhaus
+      </div>
+      <div class="info">
+        <div class="num">07 — Direction</div>
+        <h2 class="title">Bauhaus × Albers × Moderniste</h2>
+        <p class="desc">Retour à l'école. Trois formes primaires (cercle, carré, triangle), 3 couleurs (rouge, jaune, bleu), tout en bas de casse. Pédagogique et universel.</p>
+        <div class="sources"><strong>Designers :</strong> Anni & Josef Albers · Moholy-Nagy · Herbert Bayer · Breuer<br><strong>Philosophes :</strong> Walter Benjamin · Adorno</div>
+        <div class="swatches">
+          <div class="sw" style="background:#F5F2E9"></div>
+          <div class="sw" style="background:#111"></div>
+          <div class="sw" style="background:#E23E3E"></div>
+          <div class="sw" style="background:#FFCF3A"></div>
+          <div class="sw" style="background:#1959C7"></div>
+        </div>
+        <a class="btn" href="direction-7-bauhaus.html" target="_blank">Ouvrir →</a>
+      </div>
+    </article>
+
+    <article class="card">
+      <div class="preview p8">
+        <span class="flag-atlas">◆ Atlas · curation</span>
+        <span class="cyan">Pop</span> <span class="mg">pop</span> <span class="yw">POP</span>
+      </div>
+      <div class="info">
+        <div class="num">08 — Direction</div>
+        <h2 class="title">Warhol × Hockney × Pop critique</h2>
+        <p class="desc">Usine Warhol pour la tech. CMYK poussé, tramage Ben-Day, répétitions saturées, Bebas Neue. L'ironie visuelle comme méthode critique.</p>
+        <div class="sources"><strong>Artistes :</strong> Warhol · Hockney · Glaser · Saul Bass · Chwast<br><strong>Philosophes :</strong> Susan Sontag · Baudrillard</div>
+        <div class="swatches">
+          <div class="sw" style="background:#FBF8EF"></div>
+          <div class="sw" style="background:#0E0E0E"></div>
+          <div class="sw" style="background:#00B0E8"></div>
+          <div class="sw" style="background:#FF2E7E"></div>
+          <div class="sw" style="background:#FFE400"></div>
+          <div class="sw" style="background:#FF6B35"></div>
+        </div>
+        <a class="btn" href="direction-8-warhol.html" target="_blank">Ouvrir →</a>
+      </div>
+    </article>
+
+  </div>
+
+  <footer>
+    <span>Fresque Tech · Bleen · Avril 2026 · Shortlist V1</span>
+    <span>7 directions écartées dans <code>_archives/</code></span>
+  </footer>
+</body>
+</html>

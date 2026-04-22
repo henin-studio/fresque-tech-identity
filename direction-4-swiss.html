@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Direction 4 — Flusser × Simondon × Suisse</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Helvetica+Neue&family=Inter:wght@400;500;600;700;900&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --white: #FFFFFF;
+    --off-white: #F7F7F5;
+    --black: #000000;
+    --black-soft: #2A2A2A;
+    --grey: #707070;
+    --grey-light: #B8B8B8;
+    --grey-faint: #E4E4E1;
+    --red: #C72030;
+    --blue: #0047AB;
+    --font-sans: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+    --font-mono: 'IBM Plex Mono', 'Courier New', monospace;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--white);
+    color: var(--black);
+    font-family: var(--font-sans);
+    padding: 0;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .grid-bg {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background-image:
+      linear-gradient(to right, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
+    background-size: calc((100vw - 80px) / 8) 100%;
+    margin-left: 40px;
+    margin-right: 40px;
+  }
+
+  .wrapper {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 40px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .nav {
+    margin-bottom: 40px;
+  }
+  .nav a {
+    color: var(--red);
+    text-decoration: none;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .masthead {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 16px;
+    padding: 16px 0;
+    border-top: 6px solid var(--black);
+    border-bottom: 1px solid var(--black);
+    margin-bottom: 0;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .masthead > span:nth-child(1) { grid-column: span 3; font-weight: 700; font-size: 13px; letter-spacing: 0; text-transform: none; font-family: var(--font-sans); }
+  .masthead > span:nth-child(2) { grid-column: span 3; color: var(--grey); }
+  .masthead > span:nth-child(3) { grid-column: span 2; text-align: right; color: var(--grey); }
+
+  h1 {
+    font-family: var(--font-sans);
+    font-size: 88px;
+    font-weight: 900;
+    letter-spacing: -0.045em;
+    line-height: 0.88;
+    margin: 40px 0 0;
+    grid-column: 1 / span 8;
+  }
+  h1 .red { color: var(--red); }
+
+  .hero {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 16px;
+    padding: 0 0 60px;
+    border-bottom: 1px solid var(--black);
+  }
+  .hero .lede {
+    grid-column: 4 / span 5;
+    font-family: var(--font-sans);
+    font-size: 17px;
+    line-height: 1.55;
+    color: var(--black-soft);
+    margin-top: 30px;
+  }
+  .hero .meta {
+    grid-column: 1 / span 3;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--grey);
+    letter-spacing: 0.1em;
+    margin-top: 30px;
+    text-transform: uppercase;
+    line-height: 1.8;
+  }
+
+  /* Citation key */
+  .pull-quote {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 16px;
+    padding: 80px 0;
+    border-bottom: 1px solid var(--black);
+  }
+  .pull-quote blockquote {
+    grid-column: 1 / span 6;
+    font-family: var(--font-sans);
+    font-size: 44px;
+    font-weight: 500;
+    line-height: 1.15;
+    letter-spacing: -0.025em;
+    color: var(--black);
+  }
+  .pull-quote blockquote::before {
+    content: '»';
+    color: var(--red);
+    margin-right: 12px;
+    font-weight: 900;
+  }
+  .pull-quote cite {
+    grid-column: 7 / span 2;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-style: normal;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--red);
+    align-self: end;
+    line-height: 1.5;
+  }
+
+  /* Sélection Atlas */
+  .selection {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 16px;
+    padding: 60px 0;
+    border-bottom: 1px solid var(--black);
+  }
+  .selection h3 {
+    grid-column: 1 / span 2;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--red);
+    font-weight: 500;
+  }
+  .selection .list {
+    grid-column: 3 / span 6;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+  .person {
+    display: grid;
+    grid-template-columns: 36px 1fr;
+    gap: 12px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--grey-faint);
+  }
+  .person-num {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--red);
+    font-weight: 500;
+  }
+  .person-name {
+    font-family: var(--font-sans);
+    font-size: 17px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+    margin-bottom: 3px;
+  }
+  .person-role {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    color: var(--grey);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .person-insight {
+    font-family: var(--font-sans);
+    font-size: 12px;
+    color: var(--black-soft);
+    line-height: 1.4;
+  }
+
+  .section {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 16px;
+    padding: 60px 0;
+    border-bottom: 1px solid var(--black);
+  }
+  .section-label {
+    grid-column: 1 / span 2;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--red);
+    font-weight: 500;
+  }
+  .section-title {
+    grid-column: 3 / span 6;
+    font-family: var(--font-sans);
+    font-size: 42px;
+    font-weight: 900;
+    letter-spacing: -0.025em;
+    line-height: 1;
+    margin-bottom: 40px;
+  }
+  .section-body {
+    grid-column: 3 / span 6;
+  }
+
+  /* Palette */
+  .palette {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    border: 1px solid var(--black);
+  }
+  .swatch {
+    aspect-ratio: 1;
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-right: 1px solid var(--black);
+    font-family: var(--font-mono);
+    font-size: 10px;
+  }
+  .swatch:last-child { border-right: none; }
+  .swatch-name {
+    font-family: var(--font-sans);
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+  .swatch-hex { letter-spacing: 0.05em; opacity: 0.7; }
+
+  /* Typo */
+  .typo-demo { display: grid; gap: 0; }
+  .typo-row {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: 30px;
+    padding: 22px 0;
+    border-bottom: 1px solid var(--grey-faint);
+    align-items: baseline;
+  }
+  .typo-row:last-child { border-bottom: none; }
+  .typo-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--red);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  .type-h {
+    font-family: var(--font-sans);
+    font-size: 88px;
+    font-weight: 900;
+    letter-spacing: -0.04em;
+    line-height: 0.9;
+  }
+  .type-h .red { color: var(--red); }
+  .type-m {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--black);
+    letter-spacing: 0.05em;
+  }
+  .type-b {
+    font-family: var(--font-sans);
+    font-size: 16px;
+    line-height: 1.55;
+    color: var(--black-soft);
+    max-width: 560px;
+  }
+
+  /* Diagramme technique (Simondon style) */
+  .diagram {
+    background: var(--off-white);
+    padding: 40px;
+    border: 1px solid var(--black);
+    margin-top: 20px;
+  }
+  .diagram svg { width: 100%; height: auto; max-height: 280px; }
+
+  /* Themes */
+  .themes {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 0;
+    border: 1px solid var(--black);
+  }
+  .theme {
+    padding: 20px 16px;
+    border-right: 1px solid var(--black);
+    min-height: 180px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .theme:last-child { border-right: none; }
+  .theme-num {
+    font-family: var(--font-sans);
+    font-size: 44px;
+    font-weight: 900;
+    letter-spacing: -0.04em;
+    line-height: 0.9;
+    margin-bottom: 12px;
+  }
+  .theme-bar {
+    height: 10px;
+    background: var(--black);
+    margin-bottom: 14px;
+  }
+  .theme-name {
+    font-family: var(--font-sans);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    line-height: 1.3;
+    text-transform: uppercase;
+  }
+  .theme-desc {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    color: var(--grey);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
+
+  /* Cartes */
+  .cards-demo { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .card {
+    aspect-ratio: 148/105;
+    background: var(--white);
+    border: 1px solid var(--black);
+    padding: 22px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+  .card-band {
+    height: 8px;
+    background: var(--black);
+    margin: -22px -22px 18px;
+  }
+  .card-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--black);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .card-ref {
+    font-weight: 500;
+  }
+  .card-ref .red { color: var(--red); font-weight: 700; }
+  .card-tag {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    background: var(--black);
+    color: var(--white);
+    padding: 3px 8px;
+    letter-spacing: 0.1em;
+  }
+  .card-title {
+    font-family: var(--font-sans);
+    font-size: 38px;
+    font-weight: 900;
+    letter-spacing: -0.035em;
+    line-height: 0.95;
+    color: var(--black);
+    margin-bottom: 6px;
+  }
+  .card-title .red { color: var(--red); }
+  .card-sub {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--grey);
+    letter-spacing: 0.05em;
+    margin-bottom: auto;
+    text-transform: uppercase;
+  }
+  .card-foot {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    color: var(--grey);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border-top: 1px solid var(--black);
+    padding-top: 10px;
+  }
+  .card-sig {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--red);
+    font-weight: 500;
+  }
+  .card-sig .logo {
+    width: 13px;
+    height: 13px;
+    background: var(--red);
+    mask: url('assets/logo/bleen-icone.svg') center/contain no-repeat;
+    -webkit-mask: url('assets/logo/bleen-icone.svg') center/contain no-repeat;
+  }
+
+  /* Verso */
+  .card-verso { background: var(--black); color: var(--white); }
+  .card-verso .card-band { background: var(--red); }
+  .card-verso .card-head { color: var(--white); }
+  .card-verso .card-ref .red { color: var(--red); }
+  .card-verso .card-tag { background: var(--red); color: var(--white); }
+  .verso-year {
+    font-family: var(--font-sans);
+    font-size: 80px;
+    font-weight: 900;
+    letter-spacing: -0.045em;
+    line-height: 0.9;
+    color: var(--red);
+    margin-bottom: 10px;
+  }
+  .verso-context {
+    font-family: var(--font-sans);
+    font-size: 14px;
+    line-height: 1.45;
+    color: var(--white);
+    max-width: 90%;
+    margin-bottom: auto;
+    font-weight: 400;
+  }
+  .card-verso .card-foot {
+    border-top-color: var(--white);
+    color: var(--grey-light);
+  }
+  .card-verso .card-sig { color: var(--red); }
+
+  /* Signature */
+  .sig-demo {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 0;
+    border: 1px solid var(--black);
+  }
+  .sig-col {
+    padding: 22px;
+    border-right: 1px solid var(--black);
+  }
+  .sig-col:last-child { border-right: none; }
+  .sig-label {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--grey);
+    margin-bottom: 8px;
+  }
+  .sig-value {
+    font-family: var(--font-sans);
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    line-height: 1.1;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .sig-value .bleen {
+    width: 68px;
+    height: 22px;
+    background: var(--black);
+    mask: url('assets/logo/bleen-texte.svg') center/contain no-repeat;
+    -webkit-mask: url('assets/logo/bleen-texte.svg') center/contain no-repeat;
+  }
+  .sig-col.alt { background: var(--black); color: var(--white); }
+  .sig-col.alt .sig-label { color: var(--grey-light); }
+  .sig-col.red { background: var(--red); color: var(--white); }
+  .sig-col.red .sig-label { color: rgba(255,255,255,0.7); }
+
+  .note {
+    font-family: var(--font-sans);
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--black-soft);
+    margin-top: 24px;
+    max-width: 680px;
+  }
+  .note strong { color: var(--red); font-weight: 700; }
+  .note code { font-family: var(--font-mono); font-size: 13px; background: var(--grey-faint); padding: 1px 6px; }
+
+  footer {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 16px;
+    padding: 20px 0;
+    border-top: 6px solid var(--black);
+    margin-top: 60px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--grey);
+  }
+  footer span:nth-child(1) { grid-column: 1 / span 3; }
+  footer span:nth-child(2) { grid-column: 4 / span 3; text-align: center; }
+  footer span:nth-child(3) { grid-column: 7 / span 2; text-align: right; }
+</style>
+</head>
+<body>
+
+<div class="grid-bg"></div>
+<div class="wrapper">
+
+  <nav class="nav"><a href="index.html">← retour aux directions</a></nav>
+
+  <div class="masthead">
+    <span>Fresque Tech / Direction 04</span>
+    <span>Flusser × Simondon × École suisse</span>
+    <span>V1 · Avril 2026</span>
+  </div>
+
+  <div class="hero">
+    <h1>Pour une <span class="red">philosophie</span><br>de la <span class="red">technique.</span></h1>
+    <div class="meta">
+      Approche<br>
+      rationnelle /<br>
+      analytique /<br>
+      suisse<br><br>
+      Grille 8 col.<br>
+      Helvetica Neue<br>
+      Noir + rouge +<br>
+      bleu diagramme
+    </div>
+    <div class="lede">
+      École suisse + penseurs de la technique. Müller-Brockmann pour la grille, Hofmann pour la clarté, Crouwel pour la rigueur typographique. Flusser, Simondon et Latour pour comprendre ce que <em>fait</em> un objet technique. Une fresque comme un <em>traité illustré</em> — pas comme une brochure.
+    </div>
+  </div>
+
+  <!-- CITATION CLEF -->
+  <div class="pull-quote">
+    <blockquote>L'objet technique n'est ni utile ni agréable. Il est avant tout <span style="color:var(--red)">intelligible.</span></blockquote>
+    <cite>Gilbert Simondon<br>Du mode d'existence<br>des objets techniques<br>1958</cite>
+  </div>
+
+  <!-- SELECTION -->
+  <section class="selection">
+    <h3>00 · Sélection<br>depuis l'Atlas</h3>
+    <div class="list">
+      <div>
+        <div style="font-family:var(--font-mono); font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:var(--grey); margin-bottom:14px;">→ Designers</div>
+        <div class="person">
+          <span class="person-num">01</span>
+          <div>
+            <div class="person-name">Josef Müller-Brockmann</div>
+            <div class="person-role">Graphic · Zurich · 1914—96</div>
+            <div class="person-insight">La grille comme philosophie, pas comme outil.</div>
+          </div>
+        </div>
+        <div class="person">
+          <span class="person-num">02</span>
+          <div>
+            <div class="person-name">Armin Hofmann</div>
+            <div class="person-role">Graphic · Bâle · 1920—2020</div>
+            <div class="person-insight">Basel School — forme pure, contraste total.</div>
+          </div>
+        </div>
+        <div class="person">
+          <span class="person-num">03</span>
+          <div>
+            <div class="person-name">Wim Crouwel</div>
+            <div class="person-role">Graphic · Pays-Bas · 1928—2019</div>
+            <div class="person-insight">Typographie modulaire, systèmes visuels.</div>
+          </div>
+        </div>
+        <div class="person">
+          <span class="person-num">04</span>
+          <div>
+            <div class="person-name">Muriel Cooper</div>
+            <div class="person-role">MIT Media Lab · 1925—94</div>
+            <div class="person-insight">Pionnière du design d'interface.</div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div style="font-family:var(--font-mono); font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:var(--grey); margin-bottom:14px;">→ Philosophes</div>
+        <div class="person">
+          <span class="person-num">01</span>
+          <div>
+            <div class="person-name">Vilém Flusser</div>
+            <div class="person-role">1920—91 · Tchécoslovaquie</div>
+            <div class="person-insight">La technique comme nouvelle écriture.</div>
+          </div>
+        </div>
+        <div class="person">
+          <span class="person-num">02</span>
+          <div>
+            <div class="person-name">Gilbert Simondon</div>
+            <div class="person-role">1924—89 · France</div>
+            <div class="person-insight">Mode d'existence des objets techniques.</div>
+          </div>
+        </div>
+        <div class="person">
+          <span class="person-num">03</span>
+          <div>
+            <div class="person-name">Bruno Latour</div>
+            <div class="person-role">1947—2022 · France</div>
+            <div class="person-insight">Sociologie de l'acteur-réseau.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PALETTE -->
+  <section class="section">
+    <div class="section-label">01 · Palette</div>
+    <h2 class="section-title">Quatre valeurs. Aucune hésitation.</h2>
+    <div class="section-body">
+      <div class="palette">
+        <div class="swatch" style="background:#FFFFFF; color:#000000; border-right:1px solid #000;">
+          <div>
+            <div class="swatch-name">Papier</div>
+            <div class="swatch-hex">#FFFFFF</div>
+          </div>
+          <div style="font-size:9px; letter-spacing:0.1em; text-transform:uppercase; opacity:0.6;">Substrat</div>
+        </div>
+        <div class="swatch" style="background:#000000; color:#FFFFFF;">
+          <div>
+            <div class="swatch-name">Encre</div>
+            <div class="swatch-hex">#000000</div>
+          </div>
+          <div style="font-size:9px; letter-spacing:0.1em; text-transform:uppercase; opacity:0.6;">Texte · Structure</div>
+        </div>
+        <div class="swatch" style="background:#C72030; color:#FFFFFF;">
+          <div>
+            <div class="swatch-name">Rouge</div>
+            <div class="swatch-hex">#C72030</div>
+          </div>
+          <div style="font-size:9px; letter-spacing:0.1em; text-transform:uppercase; opacity:0.8;">Accent · Pivot</div>
+        </div>
+        <div class="swatch" style="background:#0047AB; color:#FFFFFF;">
+          <div>
+            <div class="swatch-name">Bleu</div>
+            <div class="swatch-hex">#0047AB</div>
+          </div>
+          <div style="font-size:9px; letter-spacing:0.1em; text-transform:uppercase; opacity:0.8;">Diagramme</div>
+        </div>
+      </div>
+      <p class="note">Palette <strong>École suisse</strong> — blanc + noir comme axe vertical, <strong>rouge</strong> comme seul accent de hiérarchie, <strong>bleu</strong> réservé aux diagrammes techniques (vecteurs, schémas d'interactions, plans). Pas de nuances, pas de dégradés. La forme porte le sens.</p>
+    </div>
+  </section>
+
+  <!-- TYPO -->
+  <section class="section">
+    <div class="section-label">02 · Typographie</div>
+    <h2 class="section-title">Helvetica Neue<br>+ IBM Plex Mono.</h2>
+    <div class="section-body">
+      <div class="typo-demo">
+        <div class="typo-row">
+          <div class="typo-label">→ DISPLAY · Inter 900</div>
+          <div class="type-h">Data <span class="red">centers.</span></div>
+        </div>
+        <div class="typo-row">
+          <div class="typo-label">→ META · Plex Mono 500</div>
+          <div class="type-m">LOT.02 · CARTE 14 / CAT: IMPACT · ÉNERGIE</div>
+        </div>
+        <div class="typo-row">
+          <div class="typo-label">→ BODY · Inter 400</div>
+          <div class="type-b">Les data centers consomment environ 1 % de l'électricité mondiale. Un chiffre qui double tous les 4 ans, porté par l'explosion de l'IA générative et du streaming 4K.</div>
+        </div>
+      </div>
+      <p class="note">Inter (substitut moderne d'Helvetica Neue) pour tout ce qui <strong>structure</strong>. IBM Plex Mono pour les <strong>références, codes, coordonnées</strong>. Aucune autre typo. Aucune italique. La rigueur naît de la <em>répétition</em>.</p>
+    </div>
+  </section>
+
+  <!-- DIAGRAMME (Simondon) -->
+  <section class="section">
+    <div class="section-label">03 · Diagramme</div>
+    <h2 class="section-title">Le fait technique<br>schématisé.</h2>
+    <div class="section-body">
+      <div class="diagram">
+        <svg viewBox="0 0 600 280" xmlns="http://www.w3.org/2000/svg">
+          <!-- Schéma façon Simondon : relations entre éléments techniques -->
+          <circle cx="80" cy="140" r="36" fill="none" stroke="#000" stroke-width="1.5"/>
+          <text x="80" y="146" text-anchor="middle" font-family="Inter" font-size="12" font-weight="700">OBJET</text>
+          <circle cx="300" cy="60" r="30" fill="#C72030" stroke="#000" stroke-width="1.5"/>
+          <text x="300" y="66" text-anchor="middle" font-family="Inter" font-size="11" font-weight="700" fill="#fff">USAGE</text>
+          <circle cx="300" cy="220" r="30" fill="#0047AB" stroke="#000" stroke-width="1.5"/>
+          <text x="300" y="226" text-anchor="middle" font-family="Inter" font-size="11" font-weight="700" fill="#fff">MILIEU</text>
+          <circle cx="520" cy="140" r="40" fill="none" stroke="#000" stroke-width="1.5"/>
+          <text x="520" y="146" text-anchor="middle" font-family="Inter" font-size="12" font-weight="700">SYSTÈME</text>
+          <line x1="116" y1="128" x2="270" y2="78" stroke="#000" stroke-width="1"/>
+          <line x1="116" y1="152" x2="270" y2="202" stroke="#000" stroke-width="1"/>
+          <line x1="330" y1="76" x2="480" y2="128" stroke="#000" stroke-width="1"/>
+          <line x1="330" y1="204" x2="480" y2="152" stroke="#000" stroke-width="1"/>
+          <line x1="300" y1="90" x2="300" y2="190" stroke="#000" stroke-width="1" stroke-dasharray="3,3"/>
+          <text x="195" y="100" font-family="IBM Plex Mono" font-size="9" fill="#707070">↗ finalité</text>
+          <text x="195" y="200" font-family="IBM Plex Mono" font-size="9" fill="#707070">↘ écologie</text>
+          <text x="400" y="100" font-family="IBM Plex Mono" font-size="9" fill="#707070">→ réseau</text>
+          <text x="400" y="200" font-family="IBM Plex Mono" font-size="9" fill="#707070">→ impact</text>
+        </svg>
+      </div>
+      <p class="note">Chaque carte de la Fresque Tech <strong>peut être lue comme un nœud</strong> dans un diagramme Simondonien. Les relations entre cartes forment le vrai sujet. Le graphisme rappelle les schémas d'ingénieur des années 60 — la <em>clarté de la pensée se fait graphique.</em></p>
+    </div>
+  </section>
+
+  <!-- THEMES -->
+  <section class="section">
+    <div class="section-label">04 · Six thèmes</div>
+    <h2 class="section-title">Taxonomie sans couleur.</h2>
+    <div class="section-body">
+      <div class="themes">
+        <div class="theme">
+          <div>
+            <div class="theme-num">01</div>
+            <div class="theme-bar" style="background:#000;"></div>
+          </div>
+          <div>
+            <div class="theme-name">Sécurité</div>
+            <div class="theme-desc">vie privée</div>
+          </div>
+        </div>
+        <div class="theme">
+          <div>
+            <div class="theme-num">02</div>
+            <div class="theme-bar" style="background:#C72030;"></div>
+          </div>
+          <div>
+            <div class="theme-name">Économie</div>
+            <div class="theme-desc">emploi</div>
+          </div>
+        </div>
+        <div class="theme">
+          <div>
+            <div class="theme-num">03</div>
+            <div class="theme-bar" style="background:#0047AB;"></div>
+          </div>
+          <div>
+            <div class="theme-name">Santé</div>
+            <div class="theme-desc">physique · mentale</div>
+          </div>
+        </div>
+        <div class="theme">
+          <div>
+            <div class="theme-num">04</div>
+            <div class="theme-bar" style="background:#000; height:16px;"></div>
+          </div>
+          <div>
+            <div class="theme-name">Propagande</div>
+            <div class="theme-desc">mobilisation</div>
+          </div>
+        </div>
+        <div class="theme">
+          <div>
+            <div class="theme-num">05</div>
+            <div class="theme-bar" style="background:#0047AB; height:16px;"></div>
+          </div>
+          <div>
+            <div class="theme-name">Mondialisation</div>
+            <div class="theme-desc">connaissance</div>
+          </div>
+        </div>
+        <div class="theme">
+          <div>
+            <div class="theme-num">06</div>
+            <div class="theme-bar" style="background:#C72030; height:16px;"></div>
+          </div>
+          <div>
+            <div class="theme-name">Frontières</div>
+            <div class="theme-desc">planétaires</div>
+          </div>
+        </div>
+      </div>
+      <p class="note">Les thèmes sont <strong>distingués par la typographie et la longueur/couleur de la barre</strong>, pas par des aplats pastels. <code>01-03</code> = barre fine, <code>04-06</code> = barre épaisse (thèmes systémiques). Noir, bleu, rouge uniquement. Exception au système : pas d'exception.</p>
+    </div>
+  </section>
+
+  <!-- CARTES -->
+  <section class="section">
+    <div class="section-label">05 · Cartes</div>
+    <h2 class="section-title">Mini-traités <br>illustrés.</h2>
+    <div class="section-body">
+      <div class="cards-demo">
+        <div class="card">
+          <div class="card-band"></div>
+          <div class="card-head">
+            <span class="card-ref"><span class="red">LOT.02</span> · 14</span>
+            <span class="card-tag">02 · ÉCONOMIE</span>
+          </div>
+          <div class="card-title">Data <span class="red">centers.</span></div>
+          <div class="card-sub">Infrastructure · 1950 →</div>
+          <div class="card-foot">
+            <span>FR · 2026 · V1</span>
+            <span class="card-sig"><span class="logo"></span>FRESQUE·TECH</span>
+          </div>
+        </div>
+
+        <div class="card card-verso">
+          <div class="card-band"></div>
+          <div class="card-head">
+            <span class="card-ref"><span class="red">LOT.02</span> · 14</span>
+            <span class="card-tag">VERSO</span>
+          </div>
+          <div class="verso-year">2024</div>
+          <div class="verso-context">1 % de l'électricité mondiale. Doublement tous les 4 ans (IA, streaming 4K).</div>
+          <div class="card-foot">
+            <span>Q · OÙ EST LA LIMITE ?</span>
+            <span class="card-sig"><span class="logo"></span>→ LOT.03</span>
+          </div>
+        </div>
+      </div>
+      <p class="note">Recto : <strong>mini-traité graphique suisse</strong>. Bande noire en tête (bande rouge au verso). Titre Inter 900, sous-titre mono. Zero décoration. Tout est fonctionnel. Verso en noir, année en rouge Vignelli — c'est le <em>fait observé</em>, souligné.</p>
+    </div>
+  </section>
+
+  <!-- CARTES INTRO 00 + 01 -->
+  <section class="section">
+    <div class="section-label">06 · Cartes intro</div>
+    <h2 class="section-title">Cartes 00 + 01 —<br>ouverture du deck.</h2>
+    <div class="section-body">
+      <div class="cards-demo">
+        <div class="card">
+          <div class="card-band"></div>
+          <div class="card-head">
+            <span class="card-ref"><span class="red">CARTE</span> · 00</span>
+            <span class="card-tag">COUVERTURE</span>
+          </div>
+          <div class="card-title" style="font-size: 34px;">Fresque<br>de la <span class="red">tech.</span></div>
+          <div style="display:inline-flex; align-items:center; gap:10px; font-family:var(--font-mono); font-size:11px; color:var(--red); font-weight:500; letter-spacing:0.05em; margin-top:6px; margin-bottom:auto;">publiée par <span style="width:50px; height:16px; background:var(--black); mask:url('assets/logo/bleen-texte.svg') center/contain no-repeat; -webkit-mask:url('assets/logo/bleen-texte.svg') center/contain no-repeat;"></span></div>
+          <div class="card-foot">
+            <span>De l'imprimerie à l'IA — histoire du progrès.</span>
+            <span class="card-sig"><span class="logo"></span>bleen.be</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-band"></div>
+          <div class="card-head">
+            <span class="card-ref"><span class="red">CARTE</span> · 01</span>
+            <span class="card-tag">INTRODUCTION</span>
+          </div>
+          <div class="card-title" style="font-size: 28px; margin-bottom: 8px;">Introduction.</div>
+          <ul style="list-style: none; display: grid; gap: 4px; font-family:var(--font-sans); font-size: 10px; line-height: 1.35; color: var(--black); padding-left: 0; margin-bottom: auto;">
+            <li style="padding-left: 14px; position: relative;"><span style="position:absolute; left:0; top:6px; width:8px; height:1px; background:var(--black);"></span>Tour de table : nom, rôle et que veut dire le progrès pour vous ?</li>
+            <li style="padding-left: 14px; position: relative;"><span style="position:absolute; left:0; top:6px; width:8px; height:1px; background:var(--black);"></span>La fresque de la tech est un atelier d'intelligence collective pour recontextualiser les innovations et relativiser la notion de progrès technique.</li>
+            <li style="padding-left: 14px; position: relative;"><span style="position:absolute; left:0; top:6px; width:8px; height:1px; background:var(--black);"></span>Principes de l'intelligence collective et rôle de l'animateurice.</li>
+            <li style="padding-left: 14px; position: relative;"><span style="position:absolute; left:0; top:6px; width:8px; height:1px; background:var(--black);"></span>Atelier créé par Bleen en 2025 — conseil en transition écologique (Bruxelles).</li>
+            <li style="padding-left: 14px; position: relative;"><span style="position:absolute; left:0; top:6px; width:8px; height:1px; background:var(--black);"></span>Déroulé V1 : 3 h, 2 parties — recontextualisation (6 lots) + projection créative.</li>
+          </ul>
+          <div class="card-foot">
+            <span>FR · 2026 · V1</span>
+            <span class="card-sig"><span class="logo"></span>CC BY-NC-ND</span>
+          </div>
+        </div>
+      </div>
+      <p class="note">Cartes 00 (couverture) et 01 (introduction), A6 paysage — ouverture du deck avant les 68 cartes jeu. <strong>Grille stricte</strong>, titre Inter 900, filets noirs 1.5px, rouge accent uniquement. Pas de dérogation au système.</p>
+    </div>
+  </section>
+
+  <!-- SIGNATURE -->
+  <section class="section">
+    <div class="section-label">06 · Signature</div>
+    <h2 class="section-title">Quatre champs. Rien d'autre.</h2>
+    <div class="section-body">
+      <div class="sig-demo">
+        <div class="sig-col">
+          <div class="sig-label">Publié par</div>
+          <div class="sig-value"><span class="bleen"></span></div>
+        </div>
+        <div class="sig-col alt">
+          <div class="sig-label">Web</div>
+          <div class="sig-value" style="font-family:var(--font-mono); font-size:12px; color:#fff;">bleen.be<br>/fresque-tech</div>
+        </div>
+        <div class="sig-col red">
+          <div class="sig-label">Édition</div>
+          <div class="sig-value">V1 · 2026</div>
+        </div>
+        <div class="sig-col">
+          <div class="sig-label">Cartes</div>
+          <div class="sig-value">68</div>
+        </div>
+      </div>
+      <p class="note">Un colophon <strong>grille 4 colonnes</strong>. Logo Bleen en noir (fidèle), web en mono sur noir, édition en rouge, total en blanc. Lecture verticale instantanée — on <em>sait en 3 secondes</em> ce qu'on a en main.</p>
+    </div>
+  </section>
+
+  <!-- PRINCIPES -->
+  <section class="section">
+    <div class="section-label">07 · Principes</div>
+    <h2 class="section-title">Règles de l'école.</h2>
+    <div class="section-body">
+      <p class="type-b">
+        · <strong>Grille 8 colonnes</strong> partout, toujours visible<br>
+        · <strong>Inter 900</strong> pour les titres, <strong>Inter 400</strong> pour le body, <strong>Plex Mono</strong> pour les méta<br>
+        · Pas d'italique, pas de small caps, pas de fioriture<br>
+        · Noir pour la structure, <strong>rouge</strong> pour l'accent, <strong>bleu</strong> pour les schémas<br>
+        · Tous les éléments alignés sur la grille — alignements baseline stricts<br>
+        · Filets 1px noirs, bandes 6-8px pour la hiérarchie<br>
+        · Diagrammes Simondoniens obligatoires pour les cartes systémiques<br>
+        · Aucune image décorative, aucun ornement, aucune ombre
+      </p>
+    </div>
+  </section>
+
+  <footer>
+    <span>Direction 04 · Swiss</span>
+    <span>Inspired by DesignersAtlas</span>
+    <span>Bleen · 2026</span>
+  </footer>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Direction 5 — Éditorial papier</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ivory: #F3EFE6;
+    --ivory-warm: #EBE5D7;
+    --ink: #17161C;
+    --ink-soft: #3B3A42;
+    --ink-muted: #76747C;
+    --ochre: #C8681C;
+    --ochre-deep: #9A4B0E;
+    --rule: rgba(23, 22, 28, 0.12);
+    --font-display: 'PT Serif', Georgia, serif;
+    --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--ivory);
+    color: var(--ink);
+    font-family: var(--font-display);
+    padding: 60px 40px;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .nav {
+    max-width: 1200px;
+    margin: 0 auto 40px;
+  }
+  .nav a {
+    color: var(--ochre);
+    text-decoration: none;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.05em;
+  }
+  .nav a:hover { text-decoration: underline; }
+
+  .folio {
+    max-width: 1200px;
+    margin: 0 auto 0;
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--ink-muted);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--ink);
+    margin-bottom: 30px;
+  }
+  .folio span:nth-child(2) {
+    font-style: italic;
+    font-family: var(--font-display);
+    text-transform: none;
+    letter-spacing: 0;
+  }
+
+  h1 {
+    font-family: var(--font-display);
+    font-size: 92px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    max-width: 1200px;
+    margin: 0 auto 6px;
+    line-height: 0.95;
+  }
+  h1 em {
+    font-style: italic;
+    color: var(--ochre);
+    font-weight: 700;
+  }
+  .sub {
+    max-width: 680px;
+    margin: 0 auto 80px;
+    font-size: 19px;
+    line-height: 1.5;
+    color: var(--ink-soft);
+    margin-left: max(40px, calc((100vw - 1200px) / 2));
+    font-style: italic;
+  }
+  .lead-drop::first-letter {
+    float: left;
+    font-size: 72px;
+    line-height: 0.85;
+    padding: 4px 8px 0 0;
+    font-weight: 700;
+    font-style: normal;
+    color: var(--ochre);
+  }
+
+  .section {
+    max-width: 1200px;
+    margin: 0 auto 80px;
+    border-top: 1px solid var(--rule);
+    padding-top: 50px;
+  }
+  .section-head {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: 40px;
+    margin-bottom: 40px;
+    align-items: start;
+  }
+  .section-num {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--ochre);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding-top: 6px;
+  }
+  .section-num::before {
+    content: '§ ';
+    color: var(--ink-muted);
+  }
+  .section-title {
+    font-family: var(--font-display);
+    font-size: 28px;
+    font-weight: 700;
+    font-style: italic;
+    color: var(--ink);
+    line-height: 1.2;
+  }
+
+  /* Palette */
+  .palette {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+  }
+  .swatch {
+    aspect-ratio: 1;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border: 1px solid var(--ink);
+    font-family: var(--font-mono);
+    font-size: 10px;
+  }
+  .swatch-name {
+    font-weight: 700;
+    font-size: 14px;
+    font-family: var(--font-display);
+    font-style: italic;
+  }
+  .swatch-hex { letter-spacing: 0.05em; }
+
+  /* Typo */
+  .typo-demo {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: 40px;
+    align-items: baseline;
+  }
+  .typo-row {
+    display: contents;
+  }
+  .typo-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--ink-muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding-top: 14px;
+  }
+  .typo-sample {
+    margin-bottom: 28px;
+  }
+  .type-h {
+    font-family: var(--font-display);
+    font-size: 96px;
+    font-weight: 700;
+    letter-spacing: -0.035em;
+    color: var(--ink);
+    line-height: 0.9;
+  }
+  .type-h em { color: var(--ochre); }
+  .type-m {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--ochre);
+    letter-spacing: 0.08em;
+  }
+  .type-i {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-style: italic;
+    color: var(--ink-soft);
+    line-height: 1.4;
+  }
+  .type-b {
+    font-family: var(--font-display);
+    font-size: 17px;
+    line-height: 1.65;
+    color: var(--ink-soft);
+    max-width: 600px;
+  }
+  .type-b .smallcaps {
+    font-variant: small-caps;
+    letter-spacing: 0.08em;
+    font-weight: 700;
+  }
+
+  /* Cartes */
+  .cards-demo {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+  }
+  .card {
+    aspect-ratio: 148/105;
+    background: var(--ivory);
+    border: 1.5px solid var(--ink);
+    padding: 22px 24px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+  .card-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--ink-muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--ink);
+    margin-bottom: 18px;
+  }
+  .card-ref { color: var(--ochre); font-weight: 700; }
+  .card-theme {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 11px;
+    letter-spacing: 0;
+    text-transform: none;
+    color: var(--ink);
+  }
+  .card-theme::before {
+    content: '◆ ';
+    color: var(--ochre);
+  }
+  .card-title {
+    font-family: var(--font-display);
+    font-size: 42px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 0.95;
+    color: var(--ink);
+    margin-bottom: 10px;
+  }
+  .card-title em { color: var(--ochre); }
+  .card-sub {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 13px;
+    color: var(--ink-muted);
+    margin-bottom: auto;
+  }
+  .card-foot {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding-top: 10px;
+    border-top: 1px solid var(--ink);
+    font-family: var(--font-mono);
+    font-size: 9px;
+    color: var(--ink-muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .card-sig {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--ochre);
+  }
+  .card-sig .logo {
+    width: 14px;
+    height: 14px;
+    background: var(--ochre);
+    mask: url('assets/logo/bleen-icone.svg') center/contain no-repeat;
+    -webkit-mask: url('assets/logo/bleen-icone.svg') center/contain no-repeat;
+  }
+
+  /* Verso */
+  .card-verso {
+    background: var(--ink);
+    color: var(--ivory);
+    border-color: var(--ink);
+  }
+  .card-verso .card-head {
+    color: rgba(243, 239, 230, 0.5);
+    border-bottom-color: var(--ivory);
+  }
+  .card-verso .card-ref { color: var(--ochre); }
+  .card-verso .card-theme { color: var(--ivory); }
+  .verso-year {
+    font-family: var(--font-display);
+    font-size: 72px;
+    font-weight: 700;
+    font-style: italic;
+    letter-spacing: -0.035em;
+    line-height: 0.9;
+    color: var(--ochre);
+    margin-bottom: 10px;
+  }
+  .verso-context {
+    font-family: var(--font-display);
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--ivory);
+    max-width: 90%;
+    margin-bottom: auto;
+  }
+  .verso-context .smallcaps {
+    font-variant: small-caps;
+    letter-spacing: 0.08em;
+  }
+  .card-verso .card-foot {
+    border-top-color: rgba(243, 239, 230, 0.2);
+    color: rgba(243, 239, 230, 0.6);
+  }
+  .card-verso .card-sig { color: var(--ochre); }
+  .card-verso .card-sig .logo { background: var(--ochre); }
+
+  /* Thèmes 6 couleurs */
+  .themes {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 8px;
+  }
+  .theme {
+    padding: 18px 12px;
+    border: 1px solid var(--ink);
+    text-align: center;
+    font-family: var(--font-display);
+    font-size: 12px;
+    font-style: italic;
+    background: var(--ivory);
+  }
+  .theme-num {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--ochre);
+    letter-spacing: 0.1em;
+    font-style: normal;
+    margin-bottom: 6px;
+    display: block;
+  }
+  .theme-bar {
+    width: 32px;
+    height: 3px;
+    margin: 10px auto 0;
+  }
+
+  /* Icons type gravure */
+  .icon-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 12px;
+  }
+  .mini-icon {
+    aspect-ratio: 1;
+    border: 1px solid var(--ink);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--ivory);
+  }
+  .mini-icon svg {
+    width: 50%;
+    height: 50%;
+    stroke: var(--ink);
+    fill: none;
+    stroke-width: 1;
+  }
+  .mini-icon.warm svg { stroke: var(--ochre); }
+
+  /* Signature */
+  .sig-demo {
+    padding: 32px 28px;
+    background: var(--ivory-warm);
+    border: 1.5px solid var(--ink);
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    gap: 40px;
+    align-items: center;
+  }
+  .sig-block {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-family: var(--font-display);
+    font-size: 15px;
+    font-style: italic;
+    color: var(--ink);
+  }
+  .sig-block .bleen {
+    width: 70px;
+    height: 22px;
+    background: var(--ink);
+    mask: url('assets/logo/bleen-texte.svg') center/contain no-repeat;
+    -webkit-mask: url('assets/logo/bleen-texte.svg') center/contain no-repeat;
+  }
+  .sig-block code {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--ochre);
+    letter-spacing: 0.05em;
+  }
+
+  .note {
+    font-family: var(--font-display);
+    font-size: 15px;
+    line-height: 1.65;
+    color: var(--ink-soft);
+    margin-top: 20px;
+    max-width: 720px;
+  }
+  .note em { color: var(--ochre); }
+</style>
+</head>
+<body>
+  <nav class="nav"><a href="index.html">← retour aux directions</a></nav>
+
+  <div class="folio">
+    <span>Direction · 05</span>
+    <span>La Fresque Tech — un manuel</span>
+    <span>Éditorial · Papier</span>
+  </div>
+
+  <h1>De la <em>technique</em><br>comme objet<br>de <em>pensée.</em></h1>
+  <p class="sub">Esthétique de manuel, fiche encyclopédique, presse éditoriale. Le numérique traité avec le sérieux d'un ouvrage de référence — pas d'effets, pas de néons, juste de la typographie qui respire. Pour un public qui lit et qui veut comprendre.</p>
+
+  <!-- PALETTE -->
+  <section class="section">
+    <div class="section-head">
+      <div class="section-num">01 — Palette</div>
+      <div class="section-title">Ivoire, encre, ocre.</div>
+    </div>
+    <div class="palette">
+      <div class="swatch" style="background:#F3EFE6; color:#17161C;">
+        <div class="swatch-name">Ivoire</div>
+        <div class="swatch-hex">#F3EFE6</div>
+      </div>
+      <div class="swatch" style="background:#EBE5D7; color:#17161C;">
+        <div class="swatch-name">Ivoire chaud</div>
+        <div class="swatch-hex">#EBE5D7</div>
+      </div>
+      <div class="swatch" style="background:#17161C; color:#F3EFE6;">
+        <div class="swatch-name">Encre</div>
+        <div class="swatch-hex">#17161C</div>
+      </div>
+      <div class="swatch" style="background:#C8681C; color:#F3EFE6;">
+        <div class="swatch-name">Ocre</div>
+        <div class="swatch-hex">#C8681C</div>
+      </div>
+      <div class="swatch" style="background:#76747C; color:#F3EFE6;">
+        <div class="swatch-name">Ardoise</div>
+        <div class="swatch-hex">#76747C</div>
+      </div>
+    </div>
+    <p class="note">Trois valeurs principales : <em>ivoire</em> pour la page, <em>encre</em> pour le texte, <em>ocre</em> pour l'accent éditorial (titres saillants, chiffres-clés, liens). L'ivoire chaud sert aux surfaces secondaires. Pas de vert, pas de bleu, pas de cyan — tech traité par la typographie, pas par la couleur.</p>
+  </section>
+
+  <!-- TYPO -->
+  <section class="section">
+    <div class="section-head">
+      <div class="section-num">02 — Typographie</div>
+      <div class="section-title">Un serif pour penser, un mono pour tracer.</div>
+    </div>
+    <div class="typo-demo">
+      <div class="typo-row">
+        <div class="typo-label">Display · PT Serif 700</div>
+        <div class="typo-sample"><div class="type-h">Data <em>centers.</em></div></div>
+      </div>
+      <div class="typo-row">
+        <div class="typo-label">Mono · JetBrains 500</div>
+        <div class="typo-sample"><div class="type-m">LOT.02 / N°14 · IMPACT — ÉNERGIE</div></div>
+      </div>
+      <div class="typo-row">
+        <div class="typo-label">Italic · PT Serif italic</div>
+        <div class="typo-sample"><div class="type-i">Infrastructures invisibles, conséquences visibles.</div></div>
+      </div>
+      <div class="typo-row">
+        <div class="typo-label">Body · PT Serif 400</div>
+        <div class="typo-sample"><div class="type-b lead-drop">Les <span class="smallcaps">data centers</span> consomment environ 1 % de l'électricité mondiale. Un chiffre qui double tous les 4 ans, porté par l'explosion de l'IA générative et du streaming 4K.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- THÈMES -->
+  <section class="section">
+    <div class="section-head">
+      <div class="section-num">03 — Thèmes</div>
+      <div class="section-title">Six chapitres, six barres.</div>
+    </div>
+    <div class="themes">
+      <div class="theme">
+        <span class="theme-num">I</span>
+        Sécurité
+        <div class="theme-bar" style="background:#9B7DB0"></div>
+      </div>
+      <div class="theme">
+        <span class="theme-num">II</span>
+        Économie
+        <div class="theme-bar" style="background:#C8681C"></div>
+      </div>
+      <div class="theme">
+        <span class="theme-num">III</span>
+        Santé
+        <div class="theme-bar" style="background:#6B8E3D"></div>
+      </div>
+      <div class="theme">
+        <span class="theme-num">IV</span>
+        Propagande
+        <div class="theme-bar" style="background:#A84233"></div>
+      </div>
+      <div class="theme">
+        <span class="theme-num">V</span>
+        Mondialisation
+        <div class="theme-bar" style="background:#3D7A7A"></div>
+      </div>
+      <div class="theme">
+        <span class="theme-num">VI</span>
+        Frontières
+        <div class="theme-bar" style="background:#2F5236"></div>
+      </div>
+    </div>
+    <p class="note">Six thèmes numérotés en chiffres romains, chacun signalé par une <em>barre de couleur</em> discrète au lieu d'un point. Palette inspirée des encres typographiques anciennes — profondes, terreuses, jamais saturées.</p>
+  </section>
+
+  <!-- CARTES -->
+  <section class="section">
+    <div class="section-head">
+      <div class="section-num">04 — Cartes</div>
+      <div class="section-title">Chaque carte est une fiche.</div>
+    </div>
+    <div class="cards-demo">
+      <div class="card">
+        <div class="card-head">
+          <span class="card-ref">LOT.02 / N°14</span>
+          <span class="card-theme">Économie</span>
+        </div>
+        <div class="card-title">Data <em>centers.</em></div>
+        <div class="card-sub">Infrastructures physiques du numérique, 1950—</div>
+        <div class="card-foot">
+          <span>FR · 2026</span>
+          <span class="card-sig"><span class="logo"></span>FRESQUE · TECH</span>
+        </div>
+      </div>
+
+      <div class="card card-verso">
+        <div class="card-head">
+          <span class="card-ref">LOT.02 / N°14</span>
+          <span class="card-theme">Verso</span>
+        </div>
+        <div class="verso-year">2024</div>
+        <div class="verso-context">1 % de l'électricité mondiale. Doublement tous les 4 ans avec l'<span class="smallcaps">ia générative</span> et le streaming 4K.</div>
+        <div class="card-foot">
+          <span>Q : où tracer la limite ?</span>
+          <span class="card-sig"><span class="logo"></span>→ LOT.03</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ICONES -->
+  <section class="section">
+    <div class="section-head">
+      <div class="section-num">05 — Icônes</div>
+      <div class="section-title">Gravures au trait, petites vignettes.</div>
+    </div>
+    <div class="icon-grid">
+      <div class="mini-icon"><svg viewBox="0 0 24 24"><rect x="5" y="9" width="14" height="9"/><line x1="5" y1="13" x2="19" y2="13"/><circle cx="8" cy="11" r="0.5" fill="currentColor"/></svg></div>
+      <div class="mini-icon warm"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><line x1="4" y1="12" x2="20" y2="12"/><ellipse cx="12" cy="12" rx="3" ry="8"/></svg></div>
+      <div class="mini-icon"><svg viewBox="0 0 24 24"><path d="M12 3 L20 8 L20 16 L12 21 L4 16 L4 8 Z"/></svg></div>
+      <div class="mini-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 3 V6 M12 18 V21 M3 12 H6 M18 12 H21 M5.6 5.6 L7.8 7.8 M16.2 16.2 L18.4 18.4"/></svg></div>
+      <div class="mini-icon warm"><svg viewBox="0 0 24 24"><path d="M4 12 Q8 4 12 12 T20 12"/></svg></div>
+      <div class="mini-icon"><svg viewBox="0 0 24 24"><path d="M4 20 L4 14 L10 14 L10 8 L16 8 L16 4 L22 4"/></svg></div>
+      <div class="mini-icon"><svg viewBox="0 0 24 24"><polygon points="12,3 21,12 12,21 3,12"/></svg></div>
+      <div class="mini-icon warm"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20 Q4 14 12 14 Q20 14 20 20"/></svg></div>
+      <div class="mini-icon"><svg viewBox="0 0 24 24"><circle cx="6" cy="6" r="2.5"/><circle cx="18" cy="6" r="2.5"/><circle cx="12" cy="18" r="2.5"/><path d="M8 8 L10 16 M16 8 L14 16 M9 6 H15"/></svg></div>
+      <div class="mini-icon"><svg viewBox="0 0 24 24"><path d="M4 20 L12 4 L20 20 Z"/><line x1="8" y1="14" x2="16" y2="14"/></svg></div>
+      <div class="mini-icon"><svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18"/><line x1="5" y1="8" x2="19" y2="8"/><line x1="8" y1="12" x2="14" y2="12"/><line x1="8" y1="16" x2="16" y2="16"/></svg></div>
+      <div class="mini-icon warm"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12 Q12 8 16 12 Q12 16 8 12"/><circle cx="12" cy="12" r="2" fill="currentColor"/></svg></div>
+    </div>
+    <p class="note">Pictogrammes au trait fin (1px), style gravure manuelle ou encyclopédique. Quelques-uns vivent en ocre pour signaler les sous-thèmes. L'ensemble ressemble à une <em>planche de spécimens</em> d'un livre ancien.</p>
+  </section>
+
+  <!-- SIGNATURE -->
+  <section class="section">
+    <div class="section-head">
+      <div class="section-num">06 — Signature</div>
+      <div class="section-title">Édité par Bleen.</div>
+    </div>
+    <div class="sig-demo">
+      <div class="sig-block">
+        <span>Publié par</span>
+        <span class="bleen"></span>
+      </div>
+      <div class="sig-block">
+        <code>bleen.be · fresque·tech · V1.2026</code>
+      </div>
+      <div class="sig-block">
+        <span style="font-size:12px; color:var(--ink-muted)">68 cartes · 1 manuel · 0 watt</span>
+      </div>
+    </div>
+    <p class="note">Le logo vire <em>encre</em>, dans le corps du texte. Formulation "Publié par" plutôt que "par" — on s'inscrit dans une tradition éditoriale. La ligne du bas évoque la sobriété numérique comme une <em>ligne éditoriale</em>, pas une promesse marketing.</p>
+  </section>
+
+  <!-- PRINCIPES -->
+  <section class="section">
+    <div class="section-head">
+      <div class="section-num">07 — Principes</div>
+      <div class="section-title">Ce qu'on fait, ce qu'on ne fait jamais.</div>
+    </div>
+    <p class="type-b">
+      · Typographie sérif pour tout ce qui se lit, mono uniquement pour les méta<br>
+      · Italiques et <em>ocre</em> pour la hiérarchie, jamais le gras seul<br>
+      · Chiffres romains pour les numéros de thèmes<br>
+      · Small caps pour les termes techniques dans le corps du texte<br>
+      · Lettrines décoratives au début des paragraphes longs<br>
+      · Filets 1px, noirs, jamais d'ombre ni de gradient<br>
+      · Pas de vert Bleen, pas de cyan tech, pas d'effet de glow
+    </p>
+  </section>
+
+</body>
+</html>

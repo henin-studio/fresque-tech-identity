@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Direction 2 — Risographie / Papier</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700;9..144,900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #f4e8d6;
+    --cream-dark: #e8d9bf;
+    --ink: #1a1612;
+    --blue: #1e3a8a;
+    --blue-light: #4060c8;
+    --coral: #ff6b5c;
+    --coral-deep: #d94a3c;
+    --grey: #6d6459;
+    --font-display: 'Fraunces', 'Times New Roman', serif;
+    --font-mono: 'DM Mono', 'Courier New', monospace;
+    --font-body: 'Fraunces', Georgia, serif;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  /* Grain papier global */
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: var(--font-body);
+    padding: 60px 40px;
+    min-height: 100vh;
+    position: relative;
+  }
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      radial-gradient(circle at 20% 30%, rgba(0,0,0,0.015) 1px, transparent 1px),
+      radial-gradient(circle at 70% 80%, rgba(0,0,0,0.02) 1px, transparent 1px);
+    background-size: 4px 4px, 7px 7px;
+    pointer-events: none;
+    z-index: 1;
+  }
+  body > * { position: relative; z-index: 2; }
+
+  .nav {
+    max-width: 1200px;
+    margin: 0 auto 40px;
+  }
+  .nav a {
+    color: var(--blue);
+    text-decoration: none;
+    font-size: 13px;
+    font-family: var(--font-mono);
+  }
+  .nav a:hover { text-decoration: underline; }
+
+  h1 {
+    font-family: var(--font-display);
+    font-size: 68px;
+    font-weight: 900;
+    font-style: italic;
+    font-variation-settings: "opsz" 144;
+    letter-spacing: -0.03em;
+    max-width: 1200px;
+    margin: 0 auto 12px;
+    line-height: 0.95;
+    color: var(--blue);
+  }
+  h1 .coral { color: var(--coral); font-style: normal; font-weight: 700; }
+
+  .sub {
+    max-width: 720px;
+    margin: 0 auto 60px;
+    font-size: 19px;
+    line-height: 1.5;
+    color: var(--ink);
+    max-width: 680px;
+    margin-left: max(40px, calc((100vw - 1200px) / 2));
+  }
+
+  .section {
+    max-width: 1200px;
+    margin: 0 auto 70px;
+    padding-top: 40px;
+    border-top: 2px solid var(--ink);
+  }
+  .section-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--coral);
+    margin-bottom: 24px;
+  }
+
+  /* Palette */
+  .palette {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+  .swatch {
+    aspect-ratio: 1;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border: 1.5px solid var(--ink);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    position: relative;
+    overflow: hidden;
+  }
+  .swatch::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle at center, transparent 0%, transparent 95%, rgba(0,0,0,0.1) 100%);
+    mix-blend-mode: multiply;
+    pointer-events: none;
+  }
+  .swatch-name { font-weight: 700; font-size: 13px; }
+  .swatch-hex { opacity: 0.8; }
+
+  /* Typo */
+  .typo-demo { display: grid; gap: 28px; }
+  .type-h {
+    font-family: var(--font-display);
+    font-size: 88px;
+    font-weight: 900;
+    font-style: italic;
+    letter-spacing: -0.04em;
+    color: var(--blue);
+    line-height: 0.9;
+  }
+  .type-m {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--coral);
+    letter-spacing: 0.05em;
+  }
+  .type-b {
+    font-family: var(--font-body);
+    font-size: 18px;
+    line-height: 1.5;
+    max-width: 600px;
+  }
+
+  /* Cartes */
+  .cards-demo {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+  }
+  .card {
+    aspect-ratio: 148/105;
+    background: var(--cream);
+    border: 2px solid var(--ink);
+    padding: 22px 24px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 6px 6px 0 var(--ink);
+  }
+  /* effet riso : mauvais calage imprimé */
+  .card::before {
+    content: '';
+    position: absolute;
+    width: 90px;
+    height: 90px;
+    background: var(--coral);
+    border-radius: 50%;
+    top: -20px;
+    right: -20px;
+    mix-blend-mode: multiply;
+    opacity: 0.85;
+  }
+  .card-head {
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--ink);
+    margin-bottom: 16px;
+    position: relative;
+    z-index: 2;
+  }
+  .card-theme-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--blue);
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 6px;
+  }
+  .card-number {
+    font-family: var(--font-display);
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--ink);
+  }
+  .card-title {
+    font-family: var(--font-display);
+    font-size: 36px;
+    font-weight: 900;
+    font-style: italic;
+    font-variation-settings: "opsz" 144;
+    letter-spacing: -0.02em;
+    line-height: 0.95;
+    color: var(--blue);
+    margin-bottom: auto;
+    position: relative;
+    z-index: 2;
+  }
+  .card-foot {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--grey);
+    position: relative;
+    z-index: 2;
+  }
+  .card-sig {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .card-sig .logo {
+    width: 16px;
+    height: 16px;
+    background: var(--blue);
+    mask: url('assets/logo/bleen-icone.svg') center/contain no-repeat;
+    -webkit-mask: url('assets/logo/bleen-icone.svg') center/contain no-repeat;
+  }
+
+  /* Verso */
+  .card-verso {
+    background: var(--blue);
+    color: var(--cream);
+    border-color: var(--ink);
+  }
+  .card-verso::before {
+    background: var(--coral);
+    width: 140px;
+    height: 140px;
+    top: auto;
+    right: auto;
+    bottom: -40px;
+    left: -40px;
+    opacity: 0.9;
+  }
+  .verso-head { color: var(--cream); }
+  .verso-year {
+    font-family: var(--font-display);
+    font-size: 72px;
+    font-weight: 900;
+    font-style: italic;
+    letter-spacing: -0.04em;
+    line-height: 0.9;
+    color: var(--cream);
+    margin-bottom: 10px;
+    position: relative;
+    z-index: 2;
+  }
+  .verso-context {
+    font-family: var(--font-body);
+    font-size: 13px;
+    line-height: 1.4;
+    color: var(--cream);
+    margin-bottom: auto;
+    max-width: 70%;
+    margin-left: auto;
+    position: relative;
+    z-index: 2;
+    text-align: right;
+  }
+  .verso-foot {
+    color: var(--cream);
+    font-family: var(--font-mono);
+    font-size: 10px;
+  }
+  .card-verso .card-sig .logo {
+    background: var(--cream);
+  }
+
+  /* Icons */
+  .icon-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 12px;
+  }
+  .mini-icon {
+    aspect-ratio: 1;
+    border: 2px solid var(--ink);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--blue);
+    font-family: var(--font-display);
+    font-size: 28px;
+    font-weight: 900;
+    font-style: italic;
+    background: var(--cream);
+    position: relative;
+  }
+  .mini-icon:nth-child(2n) {
+    color: var(--coral);
+  }
+  .mini-icon::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: var(--coral);
+    border-radius: 50%;
+    top: 4px;
+    right: 4px;
+    mix-blend-mode: multiply;
+    opacity: 0.7;
+  }
+  .mini-icon:nth-child(2n)::after {
+    background: var(--blue);
+  }
+
+  /* Signature */
+  .sig-demo {
+    display: flex;
+    gap: 60px;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 32px 28px;
+    background: var(--cream-dark);
+    border: 2px solid var(--ink);
+  }
+  .sig-block {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-family: var(--font-body);
+    font-size: 16px;
+    font-style: italic;
+    color: var(--ink);
+  }
+  .sig-block .bleen {
+    width: 70px;
+    height: 22px;
+    background: var(--blue);
+    mask: url('assets/logo/bleen-texte.svg') center/contain no-repeat;
+    -webkit-mask: url('assets/logo/bleen-texte.svg') center/contain no-repeat;
+  }
+
+  .note {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--grey);
+    margin-top: 18px;
+    font-style: italic;
+    max-width: 700px;
+  }
+
+  /* Themes 6 couleurs */
+  .themes {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 10px;
+  }
+  .theme {
+    padding: 14px 12px;
+    border: 1.5px solid var(--ink);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    text-align: center;
+    background: var(--cream);
+  }
+  .theme-dot {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    margin: 0 auto 8px;
+    border: 1.5px solid var(--ink);
+  }
+</style>
+</head>
+<body>
+  <nav class="nav"><a href="index.html">← retour aux 3 directions</a></nav>
+
+  <h1>Direction 02<br><span class="coral">Risographie</span> / Papier</h1>
+  <p class="sub">L'atelier collaboratif dans toute sa chaleur. Esthétique riso, grain de papier, 2-3 encres qui se superposent. Ça dédramatise la tech, ça rappelle qu'on fait un atelier humain. Esprit fanzine pédago, pas démo de startup.</p>
+
+  <!-- PALETTE -->
+  <section class="section">
+    <div class="section-label">palette — 3 encres + papier</div>
+    <div class="palette">
+      <div class="swatch" style="background:#f4e8d6; color:#1a1612;">
+        <div class="swatch-name">Papier</div>
+        <div class="swatch-hex">#F4E8D6</div>
+      </div>
+      <div class="swatch" style="background:#1e3a8a; color:#f4e8d6;">
+        <div class="swatch-name">Bleu Riso</div>
+        <div class="swatch-hex">#1E3A8A</div>
+      </div>
+      <div class="swatch" style="background:#ff6b5c; color:#1a1612;">
+        <div class="swatch-name">Corail</div>
+        <div class="swatch-hex">#FF6B5C</div>
+      </div>
+      <div class="swatch" style="background:#1a1612; color:#f4e8d6;">
+        <div class="swatch-name">Encre</div>
+        <div class="swatch-hex">#1A1612</div>
+      </div>
+    </div>
+    <p class="note">Trois encres qui se superposent en multiply pour créer des nuances (bleu+corail=violet, etc.). Le papier crème apporte chaleur. Les cartes vivent avec leur texture, leurs petits défauts d'impression.</p>
+  </section>
+
+  <!-- TYPO -->
+  <section class="section">
+    <div class="section-label">typographie</div>
+    <div class="typo-demo">
+      <div class="type-m">— display — Fraunces 900 italic</div>
+      <div class="type-h">Data centers.</div>
+      <div class="type-m">— mono — DM Mono 500 — métadonnées</div>
+      <div class="type-b" style="font-family:var(--font-mono); color:var(--coral); font-size:14px">LOT 02 / N° 14 / IMPACT-ÉNERGIE</div>
+      <div class="type-m">— body — Fraunces 500 regular</div>
+      <div class="type-b">Les data centers consomment environ 1 % de l'électricité mondiale. Un chiffre qui double tous les 4 ans, porté par l'explosion de l'IA générative et du streaming.</div>
+    </div>
+  </section>
+
+  <!-- THÈMES 6 couleurs -->
+  <section class="section">
+    <div class="section-label">6 thèmes — code couleur</div>
+    <div class="themes">
+      <div class="theme">
+        <div class="theme-dot" style="background:#6b46c1"></div>
+        Sécurité / vie privée
+      </div>
+      <div class="theme">
+        <div class="theme-dot" style="background:#f59e0b"></div>
+        Économie / emploi
+      </div>
+      <div class="theme">
+        <div class="theme-dot" style="background:#84cc16"></div>
+        Santé
+      </div>
+      <div class="theme">
+        <div class="theme-dot" style="background:#ff6b5c"></div>
+        Propagande
+      </div>
+      <div class="theme">
+        <div class="theme-dot" style="background:#0d9488"></div>
+        Mondialisation
+      </div>
+      <div class="theme">
+        <div class="theme-dot" style="background:#166534"></div>
+        Frontières planétaires
+      </div>
+    </div>
+    <p class="note">On reprend les 6 thèmes du support atelier existant. Chaque carte a son point de couleur visible — devient un outil de tri en atelier.</p>
+  </section>
+
+  <!-- CARTES -->
+  <section class="section">
+    <div class="section-label">cartes — recto / verso</div>
+    <div class="cards-demo">
+      <div class="card">
+        <div class="card-head">
+          <span><span class="card-theme-dot" style="background:#f59e0b"></span>Économie</span>
+          <span>N° 14 / LOT 02</span>
+        </div>
+        <div class="card-number">14</div>
+        <div class="card-title">Data<br>centers</div>
+        <div class="card-foot">
+          <span>v.FR / 2026</span>
+          <span class="card-sig"><span class="logo"></span>Fresque Tech</span>
+        </div>
+      </div>
+
+      <div class="card card-verso">
+        <div class="card-head verso-head">
+          <span><span class="card-theme-dot" style="background:#f59e0b"></span>Économie</span>
+          <span>verso</span>
+        </div>
+        <div class="verso-year">2024</div>
+        <div class="verso-context">1 % de l'électricité mondiale. Doublement tous les 4 ans avec l'IA générative.</div>
+        <div class="card-foot verso-foot">
+          <span>Q : où tracer la limite ?</span>
+          <span class="card-sig"><span class="logo"></span></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CARTES INTRO 00 + 01 -->
+  <section class="section">
+    <div class="section-label">cartes 00 + 01 — couverture & introduction</div>
+    <div class="cards-demo">
+      <div class="card">
+        <div class="card-head">
+          <span><span class="card-theme-dot" style="background:var(--coral)"></span>Couverture</span>
+          <span>N° 00 / FR · 2026</span>
+        </div>
+        <div class="card-title" style="font-size: 32px;">fresque<br>de la tech.</div>
+        <div style="font-family: var(--font-display); font-style: italic; font-weight:700; font-size: 20px; color: var(--coral); margin-top: 8px; margin-bottom: auto;">une édition bleen</div>
+        <div class="card-foot">
+          <span style="font-family:var(--font-body); font-size:11px; line-height:1.4;">De l'imprimerie à l'IA,<br>une histoire du progrès technologique.</span>
+          <span class="card-sig"><span class="logo"></span>bleen.be</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-head">
+          <span><span class="card-theme-dot" style="background:var(--coral)"></span>Introduction</span>
+          <span>N° 01 / atelier</span>
+        </div>
+        <div class="card-title" style="font-size: 28px; margin-bottom: 10px;">Introduction<em>.</em></div>
+        <ul style="list-style: none; display: grid; gap: 4px; font-family: var(--font-body); font-size: 9px; line-height: 1.35; color: var(--ink); padding-left: 0; margin-bottom: auto;">
+          <li style="padding-left: 14px; position: relative;"><span style="position:absolute; left:0; color:var(--coral); font-size:11px;">◆</span>Tour de table : nom, rôle et que veut dire le progrès pour vous ?</li>
+          <li style="padding-left: 14px; position: relative;"><span style="position:absolute; left:0; color:var(--coral); font-size:11px;">◆</span>La fresque de la tech est un atelier de sensibilisation basé sur l'intelligence collective pour recontextualiser les innovations et relativiser la notion de progrès technique.</li>
+          <li style="padding-left: 14px; position: relative;"><span style="position:absolute; left:0; color:var(--coral); font-size:11px;">◆</span>Principes de l'intelligence collective et rôle de l'animateurice.</li>
+          <li style="padding-left: 14px; position: relative;"><span style="position:absolute; left:0; color:var(--coral); font-size:11px;">◆</span>Atelier créé par Bleen en 2025. Cabinet de conseil en transition écologique (Bruxelles).</li>
+          <li style="padding-left: 14px; position: relative;"><span style="position:absolute; left:0; color:var(--coral); font-size:11px;">◆</span>Déroulé V1 : 3 h, 2 parties — recontextualisation (6 lots) + projection (créatif).</li>
+        </ul>
+        <div class="card-foot">
+          <span style="font-family:var(--font-body); font-style:italic; font-size:11px;">www.bleen.be</span>
+          <span class="card-sig"><span class="logo"></span>CC BY-NC-ND</span>
+        </div>
+      </div>
+    </div>
+    <p class="note">Cartes 00 (couverture) et 01 (introduction), A6 paysage — même format que les 68 cartes de jeu. Version habillée en identité Riso : grain papier, pastille corail qui dépasse, Fraunces italique pour la voix, DM Mono pour les méta.</p>
+  </section>
+
+  <!-- ICONES -->
+  <section class="section">
+    <div class="section-label">système d'icônes — "tamponnées"</div>
+    <div class="icon-grid">
+      <div class="mini-icon">⚡</div>
+      <div class="mini-icon">⌘</div>
+      <div class="mini-icon">☉</div>
+      <div class="mini-icon">✦</div>
+      <div class="mini-icon">▲</div>
+      <div class="mini-icon">◐</div>
+      <div class="mini-icon">❋</div>
+      <div class="mini-icon">♦</div>
+      <div class="mini-icon">✚</div>
+      <div class="mini-icon">☾</div>
+      <div class="mini-icon">⚘</div>
+      <div class="mini-icon">✺</div>
+    </div>
+    <p class="note">Pictogrammes façon tampons encreurs. Symboles unicode mais traités comme de petites vignettes imprimées, avec leur "pastille" de couleur qui dépasse. Artisanal, pas digital-parfait.</p>
+  </section>
+
+  <!-- SIGNATURE -->
+  <section class="section">
+    <div class="section-label">signature bleen</div>
+    <div class="sig-demo">
+      <div class="sig-block">
+        <span>une fresque signée</span>
+        <span class="bleen"></span>
+      </div>
+      <div class="sig-block">
+        <span style="font-family:var(--font-mono); font-style:normal; font-size:12px; color:var(--coral)">bleen.be · fresque-tech</span>
+      </div>
+    </div>
+    <p class="note">Le logo Bleen vire en bleu riso, s'intègre comme une signature manuscrite. On n'écrase pas l'identité Fresque Tech.</p>
+  </section>
+
+  <!-- PRINCIPES -->
+  <section class="section">
+    <div class="section-label">principes</div>
+    <p class="type-b" style="color:var(--grey); font-style:italic">
+      · Trois encres maximum, jamais de CMJN photo<br>
+      · Toutes les images en duotone bleu/corail<br>
+      · Grain papier obligatoire (overlay subtil)<br>
+      · Pastilles circulaires qui dépassent = signature riso<br>
+      · Mix serif display + mono pour la tension visuelle<br>
+      · 6 thèmes matérialisés par un point de couleur unique
+    </p>
+  </section>
+
+</body>
+</html>

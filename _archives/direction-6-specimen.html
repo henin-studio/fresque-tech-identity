@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Direction 6 — Observatoire / Spécimen</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #EDEAE0;
+    --paper-bright: #F6F3E9;
+    --paper-dim: #D9D5C6;
+    --ink: #1B1A15;
+    --ink-soft: #4B4A45;
+    --ink-faint: #8A8879;
+    --sun: #E9B939;
+    --sun-burnt: #C38B12;
+    --blood: #8B2C1E;
+    --rule: #1B1A15;
+    --font-mono: 'IBM Plex Mono', 'Courier New', monospace;
+    --font-sans: 'IBM Plex Sans', system-ui, sans-serif;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-mono);
+    padding: 40px;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    position: relative;
+  }
+  /* Grid de spécimen en fond */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(27, 26, 21, 0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(27, 26, 21, 0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+    z-index: 1;
+  }
+  body > * { position: relative; z-index: 2; }
+
+  .nav {
+    max-width: 1240px;
+    margin: 0 auto 30px;
+  }
+  .nav a {
+    color: var(--blood);
+    text-decoration: none;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .nav a:hover { text-decoration: underline; }
+
+  /* Masthead */
+  .masthead {
+    max-width: 1240px;
+    margin: 0 auto 40px;
+    border-top: 3px solid var(--ink);
+    border-bottom: 1px solid var(--ink);
+    padding: 18px 0 14px;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 20px;
+  }
+  .masthead-left, .masthead-right {
+    font-size: 10px;
+    color: var(--ink-soft);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+  .masthead-right { text-align: right; }
+  .masthead-title {
+    font-family: var(--font-sans);
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    text-align: center;
+  }
+
+  h1 {
+    font-family: var(--font-sans);
+    font-size: 88px;
+    font-weight: 700;
+    letter-spacing: -0.035em;
+    max-width: 1240px;
+    margin: 0 auto 12px;
+    line-height: 0.95;
+  }
+  h1 .stamp {
+    display: inline-block;
+    background: var(--ink);
+    color: var(--sun);
+    padding: 0 14px 4px;
+    transform: rotate(-0.5deg);
+  }
+  .sub {
+    max-width: 700px;
+    margin: 0 auto 60px;
+    font-family: var(--font-sans);
+    font-size: 16px;
+    line-height: 1.5;
+    color: var(--ink-soft);
+    margin-left: max(40px, calc((100vw - 1240px) / 2));
+  }
+
+  .section {
+    max-width: 1240px;
+    margin: 0 auto 70px;
+    border: 1px solid var(--ink);
+    background: var(--paper-bright);
+  }
+  .section-head {
+    padding: 14px 22px;
+    border-bottom: 1px solid var(--ink);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--ink);
+    color: var(--paper-bright);
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+  .section-head .stamp {
+    background: var(--sun);
+    color: var(--ink);
+    padding: 3px 10px;
+    font-weight: 700;
+  }
+  .section-body {
+    padding: 32px;
+  }
+
+  /* Palette */
+  .palette {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 0;
+    border: 1px solid var(--ink);
+  }
+  .swatch {
+    aspect-ratio: 1;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    font-size: 10px;
+    border-right: 1px solid var(--ink);
+  }
+  .swatch:last-child { border-right: none; }
+  .swatch-name { font-weight: 700; font-size: 12px; font-family: var(--font-sans); }
+  .swatch-hex { opacity: 0.7; }
+  .swatch-id { font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; }
+
+  /* Typo */
+  .typo-demo {
+    display: grid;
+    gap: 0;
+  }
+  .typo-row {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 24px;
+    padding: 20px 0;
+    border-bottom: 1px solid rgba(27, 26, 21, 0.15);
+    align-items: baseline;
+  }
+  .typo-row:last-child { border-bottom: none; }
+  .typo-label {
+    font-size: 10px;
+    color: var(--ink-faint);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .typo-label::before {
+    content: '▸ ';
+    color: var(--blood);
+  }
+  .type-h {
+    font-family: var(--font-sans);
+    font-size: 88px;
+    font-weight: 700;
+    letter-spacing: -0.035em;
+    color: var(--ink);
+    line-height: 0.9;
+  }
+  .type-h .burnt { color: var(--blood); }
+  .type-m {
+    font-size: 14px;
+    color: var(--ink);
+    font-weight: 500;
+  }
+  .type-tag {
+    display: inline-block;
+    background: var(--sun);
+    color: var(--ink);
+    padding: 2px 8px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+  }
+  .type-b {
+    font-family: var(--font-sans);
+    font-size: 16px;
+    line-height: 1.55;
+    color: var(--ink-soft);
+    max-width: 600px;
+  }
+
+  /* Thèmes */
+  .themes {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 0;
+    border: 1px solid var(--ink);
+  }
+  .theme {
+    padding: 18px 14px;
+    border-right: 1px solid var(--ink);
+    font-size: 10px;
+    color: var(--ink);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-align: center;
+    position: relative;
+  }
+  .theme:last-child { border-right: none; }
+  .theme-num {
+    font-family: var(--font-sans);
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--ink);
+    display: block;
+    margin-bottom: 4px;
+    letter-spacing: -0.02em;
+  }
+  .theme-swatch {
+    width: 100%;
+    height: 8px;
+    margin-top: 14px;
+  }
+
+  /* Cartes */
+  .cards-demo {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+  .card {
+    aspect-ratio: 148/105;
+    background: var(--paper-bright);
+    border: 1.5px solid var(--ink);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  .card-strip {
+    height: 8px;
+    background: var(--sun);
+    flex-shrink: 0;
+  }
+  .card-head {
+    padding: 12px 20px 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--ink);
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .card-ref {
+    font-weight: 700;
+    color: var(--ink);
+  }
+  .card-tag {
+    background: var(--ink);
+    color: var(--paper-bright);
+    padding: 2px 8px;
+    font-size: 9px;
+  }
+  .card-body {
+    padding: 18px 20px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  .card-title {
+    font-family: var(--font-sans);
+    font-size: 34px;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    line-height: 1;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+  .card-sub {
+    font-family: var(--font-sans);
+    font-size: 12px;
+    color: var(--ink-faint);
+    margin-bottom: auto;
+  }
+  .card-foot {
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--ink);
+    font-size: 9px;
+    color: var(--ink-faint);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+  .card-sig {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--ink);
+    font-weight: 700;
+  }
+  .card-sig .logo {
+    width: 14px;
+    height: 14px;
+    background: var(--ink);
+    mask: url('assets/logo/bleen-icone.svg') center/contain no-repeat;
+    -webkit-mask: url('assets/logo/bleen-icone.svg') center/contain no-repeat;
+  }
+
+  /* Verso */
+  .card-verso { background: var(--ink); color: var(--paper-bright); }
+  .card-verso .card-strip { background: var(--blood); }
+  .card-verso .card-head {
+    border-bottom-color: var(--paper-bright);
+    color: rgba(237, 234, 224, 0.6);
+  }
+  .card-verso .card-ref { color: var(--sun); }
+  .card-verso .card-tag { background: var(--sun); color: var(--ink); }
+  .verso-year {
+    font-family: var(--font-sans);
+    font-size: 64px;
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    line-height: 0.9;
+    color: var(--sun);
+    margin-bottom: 8px;
+  }
+  .verso-context {
+    font-family: var(--font-sans);
+    font-size: 13px;
+    line-height: 1.45;
+    color: var(--paper-bright);
+    max-width: 90%;
+    margin-bottom: auto;
+  }
+  .card-verso .card-foot {
+    border-top-color: var(--paper-bright);
+    color: rgba(237, 234, 224, 0.6);
+  }
+  .card-verso .card-sig { color: var(--sun); }
+  .card-verso .card-sig .logo { background: var(--sun); }
+
+  /* Icons */
+  .icon-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 0;
+    border: 1px solid var(--ink);
+  }
+  .mini-icon {
+    aspect-ratio: 1;
+    border-right: 1px solid var(--ink);
+    border-bottom: 1px solid var(--ink);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--paper-bright);
+    position: relative;
+  }
+  .mini-icon:nth-child(6n) { border-right: none; }
+  .mini-icon:nth-last-child(-n+6) { border-bottom: none; }
+  .mini-icon svg {
+    width: 46%;
+    height: 46%;
+    stroke: var(--ink);
+    fill: none;
+    stroke-width: 1.25;
+  }
+  .mini-icon.stamp { background: var(--sun); }
+  .mini-icon.alert svg { stroke: var(--blood); }
+  .mini-icon .label {
+    position: absolute;
+    bottom: 4px;
+    left: 6px;
+    font-size: 8px;
+    color: var(--ink-faint);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  /* Signature */
+  .sig-demo {
+    border: 1px solid var(--ink);
+    padding: 0;
+  }
+  .sig-row {
+    padding: 14px 22px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--ink);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+  }
+  .sig-row:last-child { border-bottom: none; }
+  .sig-row .label {
+    color: var(--ink-faint);
+    text-transform: uppercase;
+  }
+  .sig-row .value {
+    font-family: var(--font-sans);
+    font-weight: 600;
+    color: var(--ink);
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .sig-row .bleen {
+    width: 70px;
+    height: 22px;
+    background: var(--ink);
+    mask: url('assets/logo/bleen-texte.svg') center/contain no-repeat;
+    -webkit-mask: url('assets/logo/bleen-texte.svg') center/contain no-repeat;
+  }
+  .sig-row.stamp-row {
+    background: var(--sun);
+  }
+  .sig-row.stamp-row .label { color: var(--ink); font-weight: 700; }
+
+  .note {
+    font-family: var(--font-sans);
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--ink-soft);
+    margin-top: 24px;
+    max-width: 720px;
+  }
+  .note mark {
+    background: var(--sun);
+    color: var(--ink);
+    padding: 0 4px;
+  }
+</style>
+</head>
+<body>
+  <nav class="nav"><a href="index.html">← retour aux directions</a></nav>
+
+  <div class="masthead">
+    <div class="masthead-left">Direction · 06 / Observatoire</div>
+    <div class="masthead-title">La Fresque Tech · Spécimen Book</div>
+    <div class="masthead-right">Avril 2026 · V1</div>
+  </div>
+
+  <h1><span class="stamp">Spécimen</span><br>d'une tech<br>documentée.</h1>
+  <p class="sub">Esthétique "specimen book" / archives scientifiques / magazine éditorial engagé (The Markup, MIT Press, Pentagram). Grilles apparentes, tampons, typos IBM Plex, ocre jaune signal. Une identité qui traite la tech comme un objet d'observation — pas comme une promesse.</p>
+
+  <!-- PALETTE -->
+  <section class="section">
+    <div class="section-head">
+      <span>§01 — Palette chromatique</span>
+      <span class="stamp">Référence</span>
+    </div>
+    <div class="section-body">
+      <div class="palette">
+        <div class="swatch" style="background:#EDEAE0; color:#1B1A15;">
+          <div class="swatch-id">P/01</div>
+          <div>
+            <div class="swatch-name">Paper</div>
+            <div class="swatch-hex">#EDEAE0</div>
+          </div>
+        </div>
+        <div class="swatch" style="background:#F6F3E9; color:#1B1A15;">
+          <div class="swatch-id">P/02</div>
+          <div>
+            <div class="swatch-name">Paper bright</div>
+            <div class="swatch-hex">#F6F3E9</div>
+          </div>
+        </div>
+        <div class="swatch" style="background:#1B1A15; color:#EDEAE0;">
+          <div class="swatch-id">I/01</div>
+          <div>
+            <div class="swatch-name">Ink</div>
+            <div class="swatch-hex">#1B1A15</div>
+          </div>
+        </div>
+        <div class="swatch" style="background:#E9B939; color:#1B1A15;">
+          <div class="swatch-id">S/01</div>
+          <div>
+            <div class="swatch-name">Sun</div>
+            <div class="swatch-hex">#E9B939</div>
+          </div>
+        </div>
+        <div class="swatch" style="background:#8B2C1E; color:#EDEAE0;">
+          <div class="swatch-id">B/01</div>
+          <div>
+            <div class="swatch-name">Blood</div>
+            <div class="swatch-hex">#8B2C1E</div>
+          </div>
+        </div>
+        <div class="swatch" style="background:#8A8879; color:#1B1A15;">
+          <div class="swatch-id">N/01</div>
+          <div>
+            <div class="swatch-name">Faint</div>
+            <div class="swatch-hex">#8A8879</div>
+          </div>
+        </div>
+      </div>
+      <p class="note">Palette <mark>archivage scientifique</mark> — papier jauni, encre profonde, jaune "safety signage", rouge terreux pour l'alerte. L'esprit "document classifié" ou "rapport technique d'observatoire" plutôt que "appli tech cool".</p>
+    </div>
+  </section>
+
+  <!-- TYPO -->
+  <section class="section">
+    <div class="section-head">
+      <span>§02 — Typographie</span>
+      <span class="stamp">IBM Plex</span>
+    </div>
+    <div class="section-body">
+      <div class="typo-demo">
+        <div class="typo-row">
+          <div class="typo-label">Display · Plex Sans 700</div>
+          <div class="type-h">Data <span class="burnt">centers.</span></div>
+        </div>
+        <div class="typo-row">
+          <div class="typo-label">Tag · Plex Sans 700 uppercase</div>
+          <div><span class="type-tag">LOT.02 · 14</span></div>
+        </div>
+        <div class="typo-row">
+          <div class="typo-label">Meta · Plex Mono 500</div>
+          <div class="type-m">FR / 2026 / IMPACT·ÉNERGIE</div>
+        </div>
+        <div class="typo-row">
+          <div class="typo-label">Body · Plex Sans 400</div>
+          <div class="type-b">Les data centers consomment environ 1 % de l'électricité mondiale. Un chiffre qui double tous les 4 ans, porté par l'IA générative et le streaming 4K.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- THÈMES -->
+  <section class="section">
+    <div class="section-head">
+      <span>§03 — Taxonomie des thèmes</span>
+      <span class="stamp">06 catégories</span>
+    </div>
+    <div class="section-body">
+      <div class="themes">
+        <div class="theme">
+          <span class="theme-num">01</span>
+          Sécurité<br>vie privée
+          <div class="theme-swatch" style="background:#6E5595"></div>
+        </div>
+        <div class="theme">
+          <span class="theme-num">02</span>
+          Économie<br>emploi
+          <div class="theme-swatch" style="background:#E9B939"></div>
+        </div>
+        <div class="theme">
+          <span class="theme-num">03</span>
+          Santé<br>physique
+          <div class="theme-swatch" style="background:#6B8E3D"></div>
+        </div>
+        <div class="theme">
+          <span class="theme-num">04</span>
+          Propagande<br>mobilisation
+          <div class="theme-swatch" style="background:#8B2C1E"></div>
+        </div>
+        <div class="theme">
+          <span class="theme-num">05</span>
+          Mondialisation
+          <div class="theme-swatch" style="background:#2F6B68"></div>
+        </div>
+        <div class="theme">
+          <span class="theme-num">06</span>
+          Frontières<br>planétaires
+          <div class="theme-swatch" style="background:#1F4A2E"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CARTES -->
+  <section class="section">
+    <div class="section-head">
+      <span>§04 — Carte type · recto / verso</span>
+      <span class="stamp">A6 · 148×105mm</span>
+    </div>
+    <div class="section-body">
+      <div class="cards-demo">
+        <div class="card">
+          <div class="card-strip"></div>
+          <div class="card-head">
+            <span class="card-ref">LOT.02 · 14</span>
+            <span class="card-tag">ÉCONOMIE</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">Data centers</div>
+            <div class="card-sub">Infrastructure · 1950—</div>
+          </div>
+          <div class="card-foot">
+            <span>FR · 2026 · V1</span>
+            <span class="card-sig"><span class="logo"></span>Fresque·Tech</span>
+          </div>
+        </div>
+
+        <div class="card card-verso">
+          <div class="card-strip"></div>
+          <div class="card-head">
+            <span class="card-ref">LOT.02 · 14</span>
+            <span class="card-tag">VERSO</span>
+          </div>
+          <div class="card-body">
+            <div class="verso-year">2024</div>
+            <div class="verso-context">1 % de l'électricité mondiale. Doublement tous les 4 ans (IA, streaming 4K).</div>
+          </div>
+          <div class="card-foot">
+            <span>Q : OÙ TRACER LA LIMITE ?</span>
+            <span class="card-sig"><span class="logo"></span>→ LOT.03</span>
+          </div>
+        </div>
+      </div>
+      <p class="note">Chaque carte a sa <mark>bande de thème</mark> en haut (8px, pleine couleur). Meta en Plex Mono sur bordures supérieure et inférieure. Le verso inverse totalement — fond encre, jaune signal pour l'année-clé, rouge pour la bande du haut (signal d'attention).</p>
+    </div>
+  </section>
+
+  <!-- ICONES -->
+  <section class="section">
+    <div class="section-head">
+      <span>§05 — Planche de pictogrammes</span>
+      <span class="stamp">spécimens</span>
+    </div>
+    <div class="section-body">
+      <div class="icon-grid">
+        <div class="mini-icon"><svg viewBox="0 0 24 24"><rect x="5" y="9" width="14" height="9"/><line x1="5" y1="13" x2="19" y2="13"/><circle cx="8" cy="11" r="0.8" fill="currentColor"/></svg><span class="label">01</span></div>
+        <div class="mini-icon stamp"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><line x1="4" y1="12" x2="20" y2="12"/><ellipse cx="12" cy="12" rx="3" ry="8"/></svg><span class="label">02</span></div>
+        <div class="mini-icon"><svg viewBox="0 0 24 24"><path d="M12 3 L20 8 L20 16 L12 21 L4 16 L4 8 Z"/></svg><span class="label">03</span></div>
+        <div class="mini-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 3 V6 M12 18 V21 M3 12 H6 M18 12 H21"/></svg><span class="label">04</span></div>
+        <div class="mini-icon alert"><svg viewBox="0 0 24 24"><path d="M12 3 L21 20 L3 20 Z"/><line x1="12" y1="10" x2="12" y2="15"/><circle cx="12" cy="17.5" r="0.8" fill="currentColor"/></svg><span class="label">05</span></div>
+        <div class="mini-icon"><svg viewBox="0 0 24 24"><path d="M4 20 L4 14 L10 14 L10 8 L16 8 L16 4 L22 4"/></svg><span class="label">06</span></div>
+        <div class="mini-icon"><svg viewBox="0 0 24 24"><polygon points="12,3 21,12 12,21 3,12"/><circle cx="12" cy="12" r="2"/></svg><span class="label">07</span></div>
+        <div class="mini-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20 Q4 14 12 14 Q20 14 20 20"/></svg><span class="label">08</span></div>
+        <div class="mini-icon stamp"><svg viewBox="0 0 24 24"><path d="M4 12 Q8 4 12 12 T20 12"/></svg><span class="label">09</span></div>
+        <div class="mini-icon"><svg viewBox="0 0 24 24"><circle cx="6" cy="6" r="2.5"/><circle cx="18" cy="6" r="2.5"/><circle cx="12" cy="18" r="2.5"/><path d="M8 8 L10 16 M16 8 L14 16 M9 6 H15"/></svg><span class="label">10</span></div>
+        <div class="mini-icon"><svg viewBox="0 0 24 24"><path d="M4 20 L12 4 L20 20 Z"/><line x1="8" y1="14" x2="16" y2="14"/></svg><span class="label">11</span></div>
+        <div class="mini-icon"><svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18"/><line x1="5" y1="8" x2="19" y2="8"/><line x1="8" y1="12" x2="14" y2="12"/></svg><span class="label">12</span></div>
+      </div>
+      <p class="note">Planche de 12 <em>spécimens</em> dans une grille encadrée. Deux icônes passent en <mark>jaune signal</mark> (thèmes clés), une en rouge (alerte). Chaque icône est numérotée comme dans un catalogue scientifique.</p>
+    </div>
+  </section>
+
+  <!-- SIGNATURE -->
+  <section class="section">
+    <div class="section-head">
+      <span>§06 — Signature et colophon</span>
+      <span class="stamp">édition V1</span>
+    </div>
+    <div class="section-body">
+      <div class="sig-demo">
+        <div class="sig-row stamp-row">
+          <span class="label">Édition</span>
+          <span class="value">Fresque Tech · V1 · Avril 2026</span>
+        </div>
+        <div class="sig-row">
+          <span class="label">Produite par</span>
+          <span class="value"><span class="bleen"></span></span>
+        </div>
+        <div class="sig-row">
+          <span class="label">Référence</span>
+          <span class="value" style="font-family:var(--font-mono); font-weight:500;">bleen.be/fresque-tech</span>
+        </div>
+        <div class="sig-row">
+          <span class="label">Specs</span>
+          <span class="value" style="font-family:var(--font-mono); font-weight:500;">68 cartes · 148×105mm · FR/EN</span>
+        </div>
+      </div>
+      <p class="note">Colophon traité comme la page de garde d'un ouvrage scientifique. Bandeau jaune pour l'édition, logo Bleen en encre (la vraie couleur, pas recolorée) au milieu du colophon.</p>
+    </div>
+  </section>
+
+  <!-- PRINCIPES -->
+  <section class="section">
+    <div class="section-head">
+      <span>§07 — Principes éditoriaux</span>
+      <span class="stamp">règles V1</span>
+    </div>
+    <div class="section-body">
+      <p class="type-b">
+        · Toutes les sections sont <em>encadrées</em> comme des planches documentaires<br>
+        · Bandeau noir avec titre + tampon jaune en en-tête de section<br>
+        · IBM Plex Sans pour les titres, Plex Mono pour tout le métadata<br>
+        · Jaune <mark>#E9B939</mark> uniquement en signal (tampons, cartes clés, alertes positives)<br>
+        · Rouge <span style="color:var(--blood); font-weight:700;">#8B2C1E</span> uniquement pour les alertes critiques<br>
+        · Grille 60×60 apparente en fond (papier millimétré discret)<br>
+        · Une bande de couleur de 8px en haut de chaque carte = son thème<br>
+        · Pas de gradient, pas d'ombre, pas d'arrondi (hormis cercles décoratifs)
+      </p>
+    </div>
+  </section>
+
+</body>
+</html>
