@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Fresque Tech — Logo Explorations (Sottsass × Memphis)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=DM+Sans:wght@400;500;700&family=VT323&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #FFF8EB;
+    --ink: #1A1A1A;
+    --ink-soft: #444;
+    --pink: #FF5CA8;
+    --blue: #3DB8F5;
+    --yellow: #FFCB2E;
+    --teal: #16C7A9;
+    --coral: #FF6B47;
+    --violet: #7B4BDC;
+    --font-display: 'Archivo Black', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+    --font-mono: 'VT323', monospace;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: var(--font-body);
+    padding: 60px 40px 100px;
+  }
+
+  .page-header {
+    text-align: center;
+    margin-bottom: 60px;
+    padding-bottom: 30px;
+    border-bottom: 4px dashed var(--ink);
+  }
+
+  .page-header h1 {
+    font-family: var(--font-display);
+    font-size: 56px;
+    letter-spacing: -1px;
+    margin-bottom: 10px;
+  }
+
+  .page-header h1 .pink { color: var(--pink); }
+  .page-header h1 .blue { color: var(--blue); }
+  .page-header h1 .violet { color: var(--violet); }
+
+  .page-header p {
+    font-family: var(--font-mono);
+    font-size: 22px;
+    color: var(--ink-soft);
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .logo-card {
+    background: var(--cream);
+    border: 4px solid var(--ink);
+    border-radius: 0;
+    padding: 50px 30px 30px;
+    position: relative;
+    box-shadow: 8px 8px 0 var(--ink);
+    min-height: 380px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .logo-card .label {
+    position: absolute;
+    top: -18px;
+    left: 30px;
+    background: var(--ink);
+    color: var(--cream);
+    font-family: var(--font-mono);
+    font-size: 18px;
+    padding: 4px 14px;
+    letter-spacing: 1px;
+  }
+
+  .logo-card .stage {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 0;
+    overflow: hidden;
+  }
+
+  .logo-card .desc {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 2px dotted var(--ink);
+    font-size: 13px;
+    color: var(--ink-soft);
+    line-height: 1.5;
+  }
+
+  .logo-card .desc strong {
+    font-family: var(--font-display);
+    color: var(--ink);
+    font-weight: normal;
+  }
+
+  /* ========================================
+     LOGO 1 — TYPOGRAPHIQUE PUR
+     "FRESQUE TECH" empilé avec rotations
+  ======================================== */
+  .logo-1 {
+    text-align: center;
+  }
+  .logo-1 .row-fresque {
+    font-family: var(--font-display);
+    font-size: 54px;
+    line-height: 0.9;
+    letter-spacing: -1px;
+    color: var(--ink);
+    transform: rotate(-2deg);
+    display: inline-block;
+    background: var(--yellow);
+    padding: 4px 14px 6px;
+    margin-bottom: 8px;
+  }
+  .logo-1 .row-tech {
+    font-family: var(--font-display);
+    font-size: 54px;
+    line-height: 0.9;
+    color: var(--cream);
+    background: var(--pink);
+    padding: 4px 14px 6px;
+    transform: rotate(1.5deg);
+    display: inline-block;
+    border: 3px solid var(--ink);
+  }
+
+  /* ========================================
+     LOGO 2 — SYMBOLE PIXEL + WORDMARK
+     Pixel art carré stylisé
+  ======================================== */
+  .logo-2 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+  }
+  .logo-2 .pixel-symbol {
+    display: grid;
+    grid-template-columns: repeat(5, 18px);
+    grid-template-rows: repeat(5, 18px);
+    gap: 2px;
+    transform: rotate(-3deg);
+    border: 3px solid var(--ink);
+    padding: 4px;
+    background: var(--cream);
+  }
+  .logo-2 .pixel-symbol span {
+    background: transparent;
+  }
+  .logo-2 .pixel-symbol .p { background: var(--pink); }
+  .logo-2 .pixel-symbol .b { background: var(--blue); }
+  .logo-2 .pixel-symbol .y { background: var(--yellow); }
+  .logo-2 .pixel-symbol .v { background: var(--violet); }
+  .logo-2 .pixel-symbol .k { background: var(--ink); }
+  .logo-2 .wordmark {
+    font-family: var(--font-display);
+    font-size: 32px;
+    color: var(--ink);
+    letter-spacing: 1px;
+  }
+  .logo-2 .wordmark .accent {
+    color: var(--pink);
+  }
+
+  /* ========================================
+     LOGO 3 — TERMINAL / CODE
+     Crochets > avec curseur clignotant
+  ======================================== */
+  .logo-3 {
+    background: var(--ink);
+    color: var(--yellow);
+    padding: 30px 36px;
+    border: 3px solid var(--ink);
+    box-shadow: 6px 6px 0 var(--pink);
+    transform: rotate(-1.5deg);
+    display: inline-block;
+  }
+  .logo-3 .prompt {
+    font-family: var(--font-mono);
+    font-size: 38px;
+    color: var(--teal);
+    margin-bottom: 6px;
+  }
+  .logo-3 .name {
+    font-family: var(--font-display);
+    font-size: 30px;
+    color: var(--cream);
+    letter-spacing: -0.5px;
+  }
+  .logo-3 .name .blue-acc { color: var(--blue); }
+  .logo-3 .cursor {
+    display: inline-block;
+    width: 14px;
+    height: 28px;
+    background: var(--yellow);
+    margin-left: 6px;
+    vertical-align: middle;
+    animation: blink 1s steps(2) infinite;
+  }
+  @keyframes blink { 50% { opacity: 0; } }
+
+  /* ========================================
+     LOGO 4 — COMPOSITION SOTTSASS
+     Formes géométriques + typo asymétrique
+  ======================================== */
+  .logo-4 {
+    position: relative;
+    width: 320px;
+    height: 240px;
+  }
+  .logo-4 .shape-bg {
+    position: absolute;
+    top: 10px; left: 10px;
+    width: 90px; height: 90px;
+    background: var(--blue);
+    transform: rotate(15deg);
+  }
+  .logo-4 .shape-circle {
+    position: absolute;
+    top: 0; right: 30px;
+    width: 70px; height: 70px;
+    border-radius: 50%;
+    background: var(--yellow);
+    border: 4px solid var(--ink);
+  }
+  .logo-4 .shape-zigzag {
+    position: absolute;
+    bottom: 50px; right: 0;
+    width: 80px; height: 14px;
+    background: repeating-linear-gradient(
+      90deg,
+      var(--violet), var(--violet) 10px,
+      transparent 10px, transparent 20px
+    );
+  }
+  .logo-4 .shape-triangle {
+    position: absolute;
+    bottom: 20px; left: 30px;
+    width: 0; height: 0;
+    border-left: 30px solid transparent;
+    border-right: 30px solid transparent;
+    border-bottom: 50px solid var(--coral);
+    transform: rotate(-10deg);
+  }
+  .logo-4 .text-fresque {
+    position: absolute;
+    top: 70px;
+    left: 50%;
+    transform: translateX(-50%) rotate(-2deg);
+    font-family: var(--font-display);
+    font-size: 38px;
+    background: var(--cream);
+    padding: 2px 10px;
+    border: 3px solid var(--ink);
+  }
+  .logo-4 .text-tech {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%) rotate(1deg);
+    font-family: var(--font-display);
+    font-size: 38px;
+    color: var(--cream);
+    background: var(--pink);
+    padding: 2px 14px;
+  }
+
+  /* ========================================
+     LOGO 5 — @ SYMBOLE TECH (postmoderne)
+     Le @ devient le cœur du logo
+  ======================================== */
+  .logo-5 {
+    text-align: center;
+  }
+  .logo-5 .at-wrapper {
+    display: inline-block;
+    background: var(--violet);
+    color: var(--yellow);
+    width: 110px; height: 110px;
+    line-height: 110px;
+    font-family: var(--font-display);
+    font-size: 90px;
+    border-radius: 50%;
+    border: 4px solid var(--ink);
+    box-shadow: 6px 6px 0 var(--ink);
+    margin-bottom: 14px;
+    transform: rotate(-5deg);
+  }
+  .logo-5 .name-line {
+    font-family: var(--font-display);
+    font-size: 28px;
+    letter-spacing: 1px;
+    color: var(--ink);
+  }
+  .logo-5 .name-line .underline {
+    background: linear-gradient(transparent 60%, var(--teal) 60%);
+    padding: 0 4px;
+  }
+  .logo-5 .tag {
+    font-family: var(--font-mono);
+    font-size: 16px;
+    color: var(--ink-soft);
+    margin-top: 4px;
+    letter-spacing: 2px;
+  }
+
+  /* ========================================
+     LOGO 6 — ÉCRAN / FRAME
+     Le logo est un écran rétro qui contient le texte
+  ======================================== */
+  .logo-6 {
+    background: var(--ink);
+    border: 3px solid var(--ink);
+    border-radius: 18px 18px 6px 6px;
+    padding: 16px;
+    width: 320px;
+    box-shadow: 8px 8px 0 var(--blue);
+    position: relative;
+    transform: rotate(-1deg);
+  }
+  .logo-6::before {
+    content: '';
+    position: absolute;
+    top: 6px; left: 50%;
+    transform: translateX(-50%);
+    width: 60px; height: 4px;
+    background: var(--cream);
+    opacity: 0.3;
+    border-radius: 2px;
+  }
+  .logo-6 .screen {
+    background: var(--cream);
+    padding: 20px 14px;
+    border-radius: 6px;
+    text-align: center;
+    margin-top: 12px;
+  }
+  .logo-6 .screen .top-line {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    color: var(--violet);
+    letter-spacing: 2px;
+    margin-bottom: 2px;
+  }
+  .logo-6 .screen .name {
+    font-family: var(--font-display);
+    font-size: 36px;
+    line-height: 0.95;
+  }
+  .logo-6 .screen .name .pink-acc { color: var(--pink); }
+  .logo-6 .screen .dots {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+  }
+  .logo-6 .screen .dots span {
+    width: 10px; height: 10px; border-radius: 50%;
+    border: 2px solid var(--ink);
+  }
+  .logo-6 .screen .dots span:nth-child(1) { background: var(--pink); }
+  .logo-6 .screen .dots span:nth-child(2) { background: var(--yellow); }
+  .logo-6 .screen .dots span:nth-child(3) { background: var(--teal); }
+  .logo-6 .stand {
+    width: 50px; height: 14px;
+    background: var(--ink);
+    margin: 6px auto 0;
+    border-radius: 0 0 4px 4px;
+  }
+
+  .footer-note {
+    margin-top: 70px;
+    text-align: center;
+    font-family: var(--font-mono);
+    font-size: 18px;
+    color: var(--ink-soft);
+  }
+  .footer-note strong {
+    color: var(--pink);
+    font-weight: normal;
+  }
+</style>
+</head>
+<body>
+
+<header class="page-header">
+  <h1>Logo <span class="pink">Fresque</span> <span class="violet">Tech</span></h1>
+  <p>// 6 explorations — Sottsass × Memphis × Postmoderne //</p>
+</header>
+
+<div class="grid">
+
+  <!-- LOGO 1 — TYPOGRAPHIQUE PUR -->
+  <div class="logo-card">
+    <span class="label">01 / TYPOGRAPHIQUE</span>
+    <div class="stage">
+      <div class="logo-1">
+        <div class="row-fresque">FRESQUE</div><br>
+        <div class="row-tech">TECH</div>
+      </div>
+    </div>
+    <div class="desc">
+      <strong>Concept :</strong> deux blocs typographiques empilés et inclinés, contraste jaune/rose. Pur Memphis, pas de symbole. Lisibilité maximale, fonctionne en très petit format.
+    </div>
+  </div>
+
+  <!-- LOGO 2 — PIXEL + WORDMARK -->
+  <div class="logo-card">
+    <span class="label">02 / PIXEL ART</span>
+    <div class="stage">
+      <div class="logo-2">
+        <div class="pixel-symbol">
+          <span class="k"></span><span class="p"></span><span class="p"></span><span class="b"></span><span></span>
+          <span class="p"></span><span class="y"></span><span class="y"></span><span class="b"></span><span class="v"></span>
+          <span class="p"></span><span class="y"></span><span class="k"></span><span class="b"></span><span class="v"></span>
+          <span class="p"></span><span class="y"></span><span class="y"></span><span class="b"></span><span class="v"></span>
+          <span></span><span class="p"></span><span class="p"></span><span class="b"></span><span class="k"></span>
+        </div>
+        <div class="wordmark">FRESQUE <span class="accent">TECH</span></div>
+      </div>
+    </div>
+    <div class="desc">
+      <strong>Concept :</strong> grille 5×5 pixels colorés (mosaïque = fresque, pixel = tech). Le symbole évoque la pixellisation et l'idée de "fresque numérique". Empilable seul ou avec wordmark.
+    </div>
+  </div>
+
+  <!-- LOGO 3 — TERMINAL -->
+  <div class="logo-card">
+    <span class="label">03 / TERMINAL</span>
+    <div class="stage">
+      <div class="logo-3">
+        <div class="prompt">&gt; fresque_tech</div>
+        <div class="name">FRESQUE<span class="blue-acc">.</span>TECH<span class="cursor"></span></div>
+      </div>
+    </div>
+    <div class="desc">
+      <strong>Concept :</strong> esthétique terminal/console rétro. VT323 + curseur clignotant. Très "tech" mais avec la touche postmoderne (rotation, ombre rose). Memorable, distinctif.
+    </div>
+  </div>
+
+  <!-- LOGO 4 — COMPOSITION SOTTSASS -->
+  <div class="logo-card">
+    <span class="label">04 / COMPOSITION SOTTSASS</span>
+    <div class="stage">
+      <div class="logo-4">
+        <div class="shape-bg"></div>
+        <div class="shape-circle"></div>
+        <div class="shape-zigzag"></div>
+        <div class="shape-triangle"></div>
+        <div class="text-fresque">FRESQUE</div>
+        <div class="text-tech">TECH</div>
+      </div>
+    </div>
+    <div class="desc">
+      <strong>Concept :</strong> composition asymétrique pure Sottsass — carré, cercle, triangle, zigzag autour des 2 mots. Hommage direct au mouvement Memphis 80s. Très expressif.
+    </div>
+  </div>
+
+  <!-- LOGO 5 — @ SYMBOLE -->
+  <div class="logo-card">
+    <span class="label">05 / @ POSTMODERNE</span>
+    <div class="stage">
+      <div class="logo-5">
+        <div class="at-wrapper">@</div>
+        <div class="name-line">FRESQUE <span class="underline">TECH</span></div>
+        <div class="tag">// HUMAN × MACHINE //</div>
+      </div>
+    </div>
+    <div class="desc">
+      <strong>Concept :</strong> le @ comme icône tech universelle, dans un cercle violet. Soulignement teal sur "TECH". Très iconique, fonctionne en avatar/favicon.
+    </div>
+  </div>
+
+  <!-- LOGO 6 — ÉCRAN -->
+  <div class="logo-card">
+    <span class="label">06 / ÉCRAN RÉTRO</span>
+    <div class="stage">
+      <div class="logo-6">
+        <div class="screen">
+          <div class="top-line">// LOADING //</div>
+          <div class="name">FRESQUE<br><span class="pink-acc">TECH</span></div>
+          <div class="dots"><span></span><span></span><span></span></div>
+        </div>
+        <div class="stand"></div>
+      </div>
+    </div>
+    <div class="desc">
+      <strong>Concept :</strong> mini-écran/moniteur rétro qui contient le wordmark. Évoque l'ordinateur années 80 (Macintosh, Sottsass design Olivetti). Très narratif, "la fresque s'affiche".
+    </div>
+  </div>
+
+</div>
+
+<div class="footer-note">
+  <strong>→</strong> choisis 1 ou 2 pistes, on raffine puis on extrait en SVG <strong>←</strong>
+</div>
+
+</body>
+</html>
