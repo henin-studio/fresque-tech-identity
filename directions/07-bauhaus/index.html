@@ -1140,19 +1140,31 @@
       .bl4 .wm { position: absolute; bottom: 10px; left: 0; font-family: var(--font-sans); font-weight: 900; font-size: 26px; letter-spacing: -0.04em; text-transform: lowercase; }
       .bl4 .wm .dot { color: var(--bauhaus-red); }
 
-      /* 05 — F.T MONOGRAMME GÉOMÉTRIQUE */
-      .bl5 { display: flex; flex-direction: column; align-items: center; gap: 12px; }
-      .bl5 .mono {
+      /* 05 — CERCLE + POINT (inclusion symbolique) */
+      .bl5 { display: flex; flex-direction: column; align-items: center; gap: 16px; }
+      .bl5 .ring-symbol {
+        width: 130px; height: 130px;
+        border-radius: 50%;
+        background: var(--bauhaus-blue);
+        display: flex;
+        align-items: center;
+        justify-content: center;
         position: relative;
-        width: 140px; height: 100px;
       }
-      .bl5 .mono .f-bar1 { position: absolute; top: 0; left: 0; width: 60px; height: 16px; background: var(--bauhaus-red); }
-      .bl5 .mono .f-bar2 { position: absolute; top: 0; left: 0; width: 16px; height: 100px; background: var(--bauhaus-red); }
-      .bl5 .mono .f-bar3 { position: absolute; top: 42px; left: 0; width: 44px; height: 16px; background: var(--bauhaus-red); }
-      .bl5 .mono .t-bar1 { position: absolute; top: 0; right: 0; width: 64px; height: 16px; background: var(--bauhaus-blue); }
-      .bl5 .mono .t-bar2 { position: absolute; top: 0; right: 24px; width: 16px; height: 100px; background: var(--bauhaus-blue); }
-      .bl5 .mono .dot { position: absolute; bottom: -6px; right: 0; width: 16px; height: 16px; border-radius: 50%; background: var(--bauhaus-yellow); border: 2px solid var(--ink); }
-      .bl5 .wm { font-family: var(--font-sans); font-weight: 900; font-size: 18px; letter-spacing: -0.02em; text-transform: lowercase; }
+      .bl5 .ring-symbol::before {
+        content: '';
+        width: 78px; height: 78px;
+        border-radius: 50%;
+        background: var(--paper);
+      }
+      .bl5 .ring-symbol::after {
+        content: '';
+        position: absolute;
+        width: 32px; height: 32px;
+        border-radius: 50%;
+        background: var(--bauhaus-red);
+      }
+      .bl5 .wm { font-family: var(--font-sans); font-weight: 900; font-size: 22px; letter-spacing: -0.03em; text-transform: lowercase; }
 
       /* 06 — CERCLE BAYER (typo dans cercle) */
       .bl6 { display: flex; flex-direction: column; align-items: center; gap: 14px; }
@@ -1235,21 +1247,14 @@
       </div>
 
       <div class="b-logo-box">
-        <span class="lbl">05 / monogramme f.t</span>
+        <span class="lbl">05 / cercle inclusif</span>
         <div class="stage">
           <div class="bl5">
-            <div class="mono">
-              <div class="f-bar1"></div>
-              <div class="f-bar2"></div>
-              <div class="f-bar3"></div>
-              <div class="t-bar1"></div>
-              <div class="t-bar2"></div>
-              <div class="dot"></div>
-            </div>
+            <div class="ring-symbol"></div>
             <div class="wm">fresque inclusion</div>
           </div>
         </div>
-        <div class="desc">F+T construits comme des modules typographiques Bauhaus. Lettres réduites à leur structure géométrique — héritage Bayer/universal.</div>
+        <div class="desc">Cercle bleu (le groupe) + point rouge central (la personne accueillie). Symbole pur d'inclusion réduit à 2 formes Kandinsky. Lisible en favicon.</div>
       </div>
 
       <div class="b-logo-box">
